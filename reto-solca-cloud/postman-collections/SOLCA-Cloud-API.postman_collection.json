@@ -1,0 +1,322 @@
+{
+  "info": {
+    "name": "SOLCA Cloud - API REST",
+    "description": "Colección completa para probar todos los microservicios del Repositorio Clínico Regional SOLCA.\n\n## Flujo de prueba recomendado:\n1. Crear un paciente (Pacientes → POST Registrar)\n2. Registrar consulta (Consultas → POST Registrar)\n3. Registrar laboratorio (Laboratorio → POST Registrar)\n4. Registrar imagen (Imagenología → POST Registrar)\n5. Consultar repositorio consolidado (Repositorio → GET Consultar)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081/api", "type": "string" },
+    { "key": "consultasUrl", "value": "http://localhost:8082/api", "type": "string" },
+    { "key": "laboratorioUrl", "value": "http://localhost:8083/api", "type": "string" },
+    { "key": "imagenologiaUrl", "value": "http://localhost:8084/api", "type": "string" },
+    { "key": "repositorioUrl", "value": "http://localhost:8085/api", "type": "string" },
+    { "key": "pacienteId", "value": "PAC-00001", "type": "string" },
+    { "key": "cedula", "value": "0102030405", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1. PACIENTES",
+      "description": "Microservicio de gestión de pacientes. CRUD básico con ID regional auto-generado.",
+      "item": [
+        {
+          "name": "1.1 Registrar Paciente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.idPacienteRegional) {",
+                  "    pm.collectionVariables.set('pacienteId', jsonData.data.idPacienteRegional);",
+                  "    console.log('Paciente creado con ID: ' + jsonData.data.idPacienteRegional);",
+                  "}",
+                  "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response tiene status success', () => pm.expect(jsonData.status).to.eql('success'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cedula\": \"0102030405\",\n  \"nombres\": \"Juan Carlos\",\n  \"apellidos\": \"Pérez González\",\n  \"fechaNacimiento\": \"1990-05-15\",\n  \"genero\": \"M\",\n  \"telefono\": \"0999123456\",\n  \"email\": \"juan.perez@email.com\",\n  \"direccion\": \"Av. 12 de Abril y Loja, Cuenca\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pacientes",
+              "host": ["{{baseUrl}}"],
+              "path": ["pacientes"]
+            }
+          }
+        },
+        {
+          "name": "1.2 Buscar por Cédula",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/pacientes/cedula/{{cedula}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["pacientes", "cedula", "{{cedula}}"]
+            }
+          }
+        },
+        {
+          "name": "1.3 Buscar por ID Regional",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/pacientes/{{pacienteId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["pacientes", "{{pacienteId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. CONSULTAS",
+      "description": "Microservicio de consultas clínicas. Registro y consulta de historial de consultas por paciente.",
+      "item": [
+        {
+          "name": "2.1 Registrar Consulta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response tiene status success', () => pm.expect(pm.response.json().status).to.eql('success'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idPacienteRegional\": \"{{pacienteId}}\",\n  \"sede\": \"SOLCA-CUENCA\",\n  \"fechaConsulta\": \"2026-06-25\",\n  \"especialidad\": \"MEDICINA GENERAL\",\n  \"diagnostico\": \"Paciente presenta cefalea tensional\",\n  \"tratamiento\": \"Reposo, AINEs por 5 días\",\n  \"medico\": \"Dr. Andrés Rivera\",\n  \"notas\": \"Paciente refiere dolor de cabeza persistente\"\n}"
+            },
+            "url": {
+              "raw": "{{consultasUrl}}/consultas",
+              "host": ["{{consultasUrl}}"],
+              "path": ["consultas"]
+            }
+          }
+        },
+        {
+          "name": "2.2 Buscar Consultas por Paciente",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{consultasUrl}}/consultas/paciente/{{pacienteId}}",
+              "host": ["{{consultasUrl}}"],
+              "path": ["consultas", "paciente", "{{pacienteId}}"]
+            }
+          }
+        },
+        {
+          "name": "2.3 Buscar Consulta por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{consultasUrl}}/consultas/1",
+              "host": ["{{consultasUrl}}"],
+              "path": ["consultas", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. LABORATORIO",
+      "description": "Microservicio de resultados de laboratorio clínico.",
+      "item": [
+        {
+          "name": "3.1 Registrar Resultado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response tiene status success', () => pm.expect(pm.response.json().status).to.eql('success'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idPacienteRegional\": \"{{pacienteId}}\",\n  \"sede\": \"SOLCA-CUENCA\",\n  \"fechaEjecucion\": \"2026-06-25\",\n  \"tipoExamen\": \"HEMOGRAMA COMPLETO\",\n  \"resultado\": \"Glóbulos Rojos: 5.2M/uL, Hemoglobina: 15.3 g/dL, Hematocrito: 45%\",\n  \"valoresReferencia\": \"Hb: 13.5-17.5 g/dL, Hto: 39-49%\",\n  \"medicoSolicitante\": \"Dra. María Torres\",\n  \"area\": \"HEMATOLOGÍA\",\n  \"metodo\": \"CITOMETRÍA DE FLUJO\",\n  \"observaciones\": \"Resultados dentro de parámetros normales\",\n  \"fechaResultado\": \"2026-06-25\",\n  \"anormal\": false\n}"
+            },
+            "url": {
+              "raw": "{{laboratorioUrl}}/laboratorio",
+              "host": ["{{laboratorioUrl}}"],
+              "path": ["laboratorio"]
+            }
+          }
+        },
+        {
+          "name": "3.2 Buscar Resultados por Paciente",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{laboratorioUrl}}/laboratorio/paciente/{{pacienteId}}",
+              "host": ["{{laboratorioUrl}}"],
+              "path": ["laboratorio", "paciente", "{{pacienteId}}"]
+            }
+          }
+        },
+        {
+          "name": "3.3 Buscar Resultado por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{laboratorioUrl}}/laboratorio/1",
+              "host": ["{{laboratorioUrl}}"],
+              "path": ["laboratorio", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. IMAGENOLOGÍA",
+      "description": "Microservicio de estudios de imagenología (PACS simulado).",
+      "item": [
+        {
+          "name": "4.1 Registrar Estudio",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Response tiene status success', () => pm.expect(pm.response.json().status).to.eql('success'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idPacienteRegional\": \"{{pacienteId}}\",\n  \"sede\": \"SOLCA-CUENCA\",\n  \"fechaEstudio\": \"2026-06-25\",\n  \"tipoEstudio\": \"RX TÓRAX\",\n  \"formato\": \"DICOM\",\n  \"urlArchivo\": \"https://pacs.solca.ec/estudios/2026/06/rx-torax-001.dcm\",\n  \"nombreArchivo\": \"rx-torax-001.dcm\",\n  \"medicoSolicitante\": \"Dr. Andrés Rivera\",\n  \"modalidad\": \"RADIOGRAFÍA DIGITAL\",\n  \"descripcion\": \"Radiografía de tórax AP y lateral\",\n  \"hallazgos\": \"Campos pulmonares sin alteraciones. Senos costofrénicos libres.\",\n  \"tamanoBytes\": 5242880\n}"
+            },
+            "url": {
+              "raw": "{{imagenologiaUrl}}/imagenes",
+              "host": ["{{imagenologiaUrl}}"],
+              "path": ["imagenes"]
+            }
+          }
+        },
+        {
+          "name": "4.2 Buscar Estudios por Paciente",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{imagenologiaUrl}}/imagenes/paciente/{{pacienteId}}",
+              "host": ["{{imagenologiaUrl}}"],
+              "path": ["imagenes", "paciente", "{{pacienteId}}"]
+            }
+          }
+        },
+        {
+          "name": "4.3 Buscar Estudio por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{imagenologiaUrl}}/imagenes/1",
+              "host": ["{{imagenologiaUrl}}"],
+              "path": ["imagenes", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. REPOSITORIO CLÍNICO",
+      "description": "Microservicio de agregación que consolida la información del paciente desde todos los microservicios.",
+      "item": [
+        {
+          "name": "5.1 Consultar Expediente Consolidado",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{repositorioUrl}}/repositorio/paciente/{{pacienteId}}",
+              "host": ["{{repositorioUrl}}"],
+              "path": ["repositorio", "paciente", "{{pacienteId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. HEALTH CHECKS",
+      "description": "Endpoints de salud (actuator) para verificar el estado de cada microservicio.",
+      "item": [
+        {
+          "name": "6.1 Health - Pacientes",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/actuator/health" }
+          }
+        },
+        {
+          "name": "6.2 Health - Consultas",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{consultasUrl}}/actuator/health" }
+          }
+        },
+        {
+          "name": "6.3 Health - Laboratorio",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{laboratorioUrl}}/actuator/health" }
+          }
+        },
+        {
+          "name": "6.4 Health - Imagenología",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{imagenologiaUrl}}/actuator/health" }
+          }
+        },
+        {
+          "name": "6.5 Health - Repositorio",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{repositorioUrl}}/actuator/health" }
+          }
+        }
+      ]
+    }
+  ]
+}

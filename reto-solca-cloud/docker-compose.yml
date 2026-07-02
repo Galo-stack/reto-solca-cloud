@@ -1,0 +1,196 @@
+services:
+  mysql-pacientes:
+    image: mysql:8.0
+    container_name: mysql-pacientes
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_pacientes
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-pacientes-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mysql-consultas:
+    image: mysql:8.0
+    container_name: mysql-consultas
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_consultas
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-consultas-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mysql-laboratorio:
+    image: mysql:8.0
+    container_name: mysql-laboratorio
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_laboratorio
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-laboratorio-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mysql-imagenologia:
+    image: mysql:8.0
+    container_name: mysql-imagenologia
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_imagenologia
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-imagenologia-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  paciente-service:
+    build:
+      context: ./microservicio-pacientes
+      dockerfile: Dockerfile
+    container_name: paciente-service
+    environment:
+      DB_URL: jdbc:mysql://mysql-pacientes:3306/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: root123
+    ports:
+      - "8081:8081"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-pacientes:
+        condition: service_healthy
+    restart: unless-stopped
+
+  consulta-service:
+    build:
+      context: ./microservicio-consultas
+      dockerfile: Dockerfile
+    container_name: consulta-service
+    environment:
+      DB_URL: jdbc:mysql://mysql-consultas:3306/db_consultas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: root123
+    ports:
+      - "8082:8082"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-consultas:
+        condition: service_healthy
+    restart: unless-stopped
+
+  laboratorio-service:
+    build:
+      context: ./microservicio-laboratorio
+      dockerfile: Dockerfile
+    container_name: laboratorio-service
+    environment:
+      DB_URL: jdbc:mysql://mysql-laboratorio:3306/db_laboratorio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: root123
+    ports:
+      - "8083:8083"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-laboratorio:
+        condition: service_healthy
+    restart: unless-stopped
+
+  imagenologia-service:
+    build:
+      context: ./microservicio-imagenologia
+      dockerfile: Dockerfile
+    container_name: imagenologia-service
+    environment:
+      DB_URL: jdbc:mysql://mysql-imagenologia:3306/db_imagenologia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
+      DB_PASSWORD: root123
+    ports:
+      - "8084:8084"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-imagenologia:
+        condition: service_healthy
+    restart: unless-stopped
+
+  repositorio-service:
+    build:
+      context: ./microservicio-repositorio
+      dockerfile: Dockerfile
+    container_name: repositorio-service
+    environment:
+      SERVICES_PACIENTES_URL: http://paciente-service:8081
+      SERVICES_CONSULTAS_URL: http://consulta-service:8082
+      SERVICES_LABORATORIO_URL: http://laboratorio-service:8083
+      SERVICES_IMAGENOLOGIA_URL: http://imagenologia-service:8084
+    ports:
+      - "8085:8085"
+    networks:
+      - solca-network
+    depends_on:
+      - paciente-service
+      - consulta-service
+      - laboratorio-service
+      - imagenologia-service
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-solca
+    environment:
+      PMA_HOSTS: mysql-pacientes,mysql-consultas,mysql-laboratorio,mysql-imagenologia
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    networks:
+      - solca-network
+    depends_on:
+      - mysql-pacientes
+      - mysql-consultas
+      - mysql-laboratorio
+      - mysql-imagenologia
+    restart: unless-stopped
+
+volumes:
+  mysql-pacientes-data:
+  mysql-consultas-data:
+  mysql-laboratorio-data:
+  mysql-imagenologia-data:
+
+networks:
+  solca-network:
+    driver: bridge

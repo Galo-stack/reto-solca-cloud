@@ -1,0 +1,36 @@
+server:
+  port: 8084
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: imagenologia-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_imagenologia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: galito2002
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    com.solca.imagenologia: DEBUG
+    org.springframework.web: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

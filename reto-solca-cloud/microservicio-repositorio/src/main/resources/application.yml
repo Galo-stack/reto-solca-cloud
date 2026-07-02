@@ -1,0 +1,29 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: repositorio-service
+
+services:
+  pacientes:
+    url: ${SERVICES_PACIENTES_URL:http://localhost:8081}
+  consultas:
+    url: ${SERVICES_CONSULTAS_URL:http://localhost:8082}
+  laboratorio:
+    url: ${SERVICES_LABORATORIO_URL:http://localhost:8083}
+  imagenologia:
+    url: ${SERVICES_IMAGENOLOGIA_URL:http://localhost:8084}
+
+logging:
+  level:
+    com.solca.repositorio: DEBUG
+    org.springframework.web: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
