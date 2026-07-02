@@ -3,6 +3,7 @@ package com.solca.repositorio.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import io.netty.channel.ChannelOption;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
@@ -12,7 +13,6 @@ import java.time.Duration;
 @Configuration
 public class WebClientConfig {
 
-    private static final int CONNECT_TIMEOUT_SEC = 5;
     private static final int READ_TIMEOUT_SEC = 10;
     private static final int MAX_MEMORY_SIZE = 2 * 1024 * 1024;
 
@@ -35,7 +35,8 @@ public class WebClientConfig {
                         .maxConnections(50)
                         .pendingAcquireTimeout(Duration.ofSeconds(10))
                         .build())
-                .responseTimeout(Duration.ofSeconds(READ_TIMEOUT_SEC));
+                .responseTimeout(Duration.ofSeconds(READ_TIMEOUT_SEC))
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
     }
 
     @Bean

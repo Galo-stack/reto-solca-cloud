@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLCA Cloud - Sistema de Gestion Clinica Regional</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --primary: #0a6c75;
+  --primary-dark: #08545c;
+  --primary-light: #e8f4f5;
+  --accent: #00b4d8;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --info: #3498db;
+  --gray-50: #f8f9fa;
+  --gray-100: #e9ecef;
+  --gray-200: #dee2e6;
+  --gray-600: #6c757d;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius: 10px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--gray-50); min-height: 100vh; }
+.navbar { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 0.75rem 1.5rem; box-shadow: 0 2px 15px rgba(0,0,0,0.15); }
+.navbar-brand { font-size: 1.5rem; font-weight: 700; color: #fff !important; letter-spacing: 0.5px; }
+.navbar-brand small { font-size: 0.7rem; font-weight: 300; opacity: 0.8; display: block; letter-spacing: 2px; }
+.nav-tabs-custom { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 0 1rem; display: flex; gap: 0; overflow-x: auto; }
+.nav-tabs-custom .nav-btn { border: none; background: none; padding: 0.85rem 1.25rem; color: var(--gray-600); font-weight: 500; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; border-bottom: 3px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 0.5rem; }
+.nav-tabs-custom .nav-btn:hover { color: var(--primary); background: var(--gray-50); }
+.nav-tabs-custom .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: transparent; }
+.tab-content { display: none; padding: 1.5rem; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.card { border: none; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1.25rem; }
+.card-header { padding: 1rem 1.25rem; font-weight: 600; border-radius: var(--radius) var(--radius) 0 0 !important; display: flex; align-items: center; gap: 0.5rem; }
+.card-body { padding: 1.25rem; }
+.metric-card { padding: 1.25rem; border-radius: var(--radius); color: #fff; text-align: center; }
+.metric-card .icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.9; }
+.metric-card .value { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+.metric-card .label { font-size: 0.85rem; opacity: 0.85; margin-top: 0.25rem; }
+.bg-primary-gradient { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); }
+.bg-success-gradient { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); }
+.bg-warning-gradient { background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%); }
+.bg-info-gradient { background: linear-gradient(135deg, #2980b9 0%, #3498db 100%); }
+.bg-danger-gradient { background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%); }
+.btn-primary { background: var(--primary); border: none; padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 500; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,108,117,0.3); }
+.btn-outline-primary { border-color: var(--primary); color: var(--primary); }
+.btn-outline-primary:hover { background: var(--primary); color: #fff; }
+.status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+.status-ACTIVO { background: #d4edda; color: #155724; }
+.status-ALERTA { background: #fff3cd; color: #856404; }
+.status-CRITICO { background: #f8d7da; color: #721c24; }
+.table th { background: var(--gray-50); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); border-bottom: 2px solid var(--gray-200); }
+.table td { vertical-align: middle; }
+.form-label { font-weight: 500; font-size: 0.85rem; margin-bottom: 0.3rem; color: #444; }
+.form-control, .form-select { border-radius: 8px; border: 1.5px solid var(--gray-200); padding: 0.55rem 0.85rem; font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(10,108,117,0.12); }
+.login-container { max-width: 420px; margin: 60px auto; }
+.loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
+.loading-spinner { width: 48px; height: 48px; border: 4px solid var(--gray-100); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem; }
+.toast-msg { padding: 0.75rem 1.25rem; border-radius: 8px; color: #fff; font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: slideIn 0.3s ease; display: flex; align-items: center; gap: 0.5rem; min-width: 280px; }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.toast-success { background: #27ae60; }
+.toast-error { background: #e74c3c; }
+.toast-info { background: #2980b9; }
+.toast-warning { background: #e67e22; }
+.user-info { display: flex; align-items: center; gap: 1rem; color: #fff; }
+.user-avatar { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+.vital-sign { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1rem; text-align: center; }
+.vital-sign .v-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+.vital-sign .v-label { font-size: 0.8rem; color: var(--gray-600); margin-top: 0.25rem; }
+.patient-search { position: relative; }
+.patient-search .results-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--gray-200); border-radius: 0 0 var(--radius) var(--radius); max-height: 250px; overflow-y: auto; z-index: 100; display: none; box-shadow: var(--shadow-lg); }
+.patient-search .result-item { padding: 0.75rem 1rem; cursor: pointer; border-bottom: 1px solid var(--gray-100); transition: background 0.15s; }
+.patient-search .result-item:hover { background: var(--primary-light); }
+.patient-search .result-item .name { font-weight: 600; }
+.patient-search .result-item .detail { font-size: 0.8rem; color: var(--gray-600); }
+.selected-patient-badge { display: none; background: var(--primary-light); border: 1px solid var(--primary); border-radius: var(--radius); padding: 0.75rem 1rem; margin-top: 0.75rem; align-items: center; justify-content: space-between; }
+.selected-patient-badge.show { display: flex; }
+.cie10-suggestions { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--gray-200); border-radius: 0 0 var(--radius) var(--radius); max-height: 220px; overflow-y: auto; z-index: 100; display: none; box-shadow: var(--shadow-lg); }
+.cie10-suggestions.show { display: block; }
+.cie10-item { padding: 0.6rem 0.85rem; cursor: pointer; border-bottom: 1px solid var(--gray-100); font-size: 0.85rem; }
+.cie10-item:hover, .cie10-item.active { background: var(--primary-light); }
+.cie10-item .code { font-weight: 700; color: var(--primary); }
+.cie10-item .desc { color: var(--gray-600); font-size: 0.8rem; }
+pre.json-view { background: #2d2d2d; color: #f8f8f2; border-radius: var(--radius); padding: 1rem; font-size: 0.8rem; max-height: 350px; overflow: auto; }
+.history-section { border: 1px solid var(--gray-200); border-radius: var(--radius); margin-bottom: 1rem; overflow: hidden; }
+.history-section .hs-header { background: var(--gray-50); padding: 0.85rem 1rem; border-bottom: 2px solid var(--primary); font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 0.5rem; }
+.history-section .hs-body { padding: 1rem; }
+.history-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+.history-item .h-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); font-weight: 600; }
+.history-item .h-value { font-size: 0.95rem; color: #222; margin-top: 0.15rem; }
+.consult-table th { background: var(--gray-50); padding: 0.8rem 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
+.consult-table td { padding: 0.75rem; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+.examen-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--gray-50); border-radius: 6px; margin-bottom: 0.4rem; }
+.examen-item .e-type { font-weight: 600; color: var(--primary); }
+.hidden { display: none !important; }
+.section-title { font-size: 1rem; font-weight: 600; color: #333; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 0.5rem; }
+footer { text-align: center; padding: 1rem; color: var(--gray-600); font-size: 0.8rem; border-top: 1px solid var(--gray-200); margin-top: 2rem; }
+@media (max-width: 768px) { .nav-tabs-custom { padding: 0; } .nav-tabs-custom .nav-btn { padding: 0.7rem 0.9rem; font-size: 0.8rem; } .tab-content { padding: 1rem; } .history-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container-fluid px-3">
+    <span class="navbar-brand">
+      <i class="bi bi-hospital"></i> SOLCA Cloud
+      <small>SISTEMA DE GESTION CLINICA REGIONAL</small>
+    </span>
+    <div class="user-info">
+      <div class="user-avatar"><i class="bi bi-person"></i></div>
+      <span id="userDisplay"><i class="bi bi-shield-lock"></i> No autenticado</span>
+      <button class="btn btn-sm btn-outline-light d-none" id="logoutBtn" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Salir</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid px-0">
+  <div class="nav-tabs-custom" id="mainTabs">
+    <button class="nav-btn active" data-tab="login"><i class="bi bi-key"></i> Acceso</button>
+    <button class="nav-btn protected" data-tab="dashboard"><i class="bi bi-grid-1x2"></i> Dashboard</button>
+    <button class="nav-btn protected" data-tab="patients"><i class="bi bi-people"></i> Pacientes</button>
+    <button class="nav-btn protected" data-tab="history"><i class="bi bi-file-medical"></i> Historia Clinica</button>
+    <button class="nav-btn protected" data-tab="consultation"><i class="bi bi-chat-dots"></i> Consulta Medica</button>
+    <button class="nav-btn protected" data-tab="laboratorio"><i class="bi bi-droplet"></i> Laboratorio</button>
+    <button class="nav-btn protected" data-tab="imagenes"><i class="bi bi-image"></i> Imagenologia</button>
+  </div>
+
+  <!-- TAB: LOGIN -->
+  <div class="tab-content active" id="tab-login">
+    <div class="login-container">
+      <div class="card">
+        <div class="card-header" style="background: var(--primary); color: #fff; font-size: 1.1rem;"><i class="bi bi-shield-lock"></i> Acceso al Sistema</div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-person"></i> Usuario</label>
+            <input type="text" id="loginUser" class="form-control" placeholder="Ingrese su usuario" value="admin">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-lock"></i> Contrasena</label>
+            <input type="password" id="loginPass" class="form-control" placeholder="Ingrese su contrasena" value="admin123">
+          </div>
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-tag"></i> Rol</label>
+            <select id="loginRole" class="form-select">
+              <option value="MEDICO">Medico</option>
+              <option value="ENFERMERO">Enfermero</option>
+              <option value="LABORATORIO">Laboratorista</option>
+              <option value="ADMIN">Administrador</option>
+            </select>
+          </div>
+          <button class="btn btn-primary w-100" onclick="doLogin()"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
+          <div id="loginError" class="alert alert-danger mt-3 d-none"><i class="bi bi-exclamation-triangle"></i> <span id="loginErrorMsg"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: DASHBOARD -->
+  <div class="tab-content" id="tab-dashboard">
+    <div class="row g-3">
+      <div class="col-md-3 col-6"><div class="metric-card bg-primary-gradient"><div class="icon"><i class="bi bi-people"></i></div><div class="value" id="dashTotalPacientes">0</div><div class="label">Total Pacientes</div></div></div>
+      <div class="col-md-3 col-6"><div class="metric-card bg-success-gradient"><div class="icon"><i class="bi bi-chat-dots"></i></div><div class="value" id="dashTotalConsultas">0</div><div class="label">Consultas</div></div></div>
+      <div class="col-md-3 col-6"><div class="metric-card bg-warning-gradient"><div class="icon"><i class="bi bi-droplet"></i></div><div class="value" id="dashTotalLab">0</div><div class="label">Laboratorios</div></div></div>
+      <div class="col-md-3 col-6"><div class="metric-card bg-info-gradient"><div class="icon"><i class="bi bi-image"></i></div><div class="value" id="dashTotalImg">0</div><div class="label">Imagenes</div></div></div>
+    </div>
+    <div class="row g-3 mt-2">
+      <div class="col-md-8"><div class="card"><div class="card-header">Distribucion de Actividad Clinica</div><div class="card-body"><canvas id="activityChart" height="220"></canvas></div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-header">Pacientes por Estado</div><div class="card-body"><canvas id="statusPieChart" height="220"></canvas></div></div></div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header">Ultimos Pacientes Registrados</div>
+      <div class="card-body p-0">
+        <div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>ID Regional</th><th>Nombre</th><th>Cedula</th><th>Genero</th><th>Estado</th></tr></thead><tbody id="dashRecentPatients"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PATIENTS -->
+  <div class="tab-content" id="tab-patients">
+    <div class="card">
+      <div class="card-header" style="background: var(--primary); color: #fff;">
+        <i class="bi bi-people-fill"></i> Gestion de Pacientes
+        <button class="btn btn-light btn-sm ms-auto" onclick="openPatientModal()"><i class="bi bi-person-plus"></i> Nuevo Paciente</button>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6"><input type="text" id="patientSearch" class="form-control" placeholder="Buscar por nombre, cedula o ID..."></div>
+          <div class="col-md-3"><button class="btn btn-outline-primary w-100" onclick="loadPatients()"><i class="bi bi-arrow-repeat"></i> Actualizar</button></div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover"><thead><tr><th>ID Regional</th><th>Nombres</th><th>Apellidos</th><th>Cedula</th><th>Genero</th><th>Estado</th><th style="width:130px">Acciones</th></tr></thead><tbody id="patientsTable"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: HISTORY -->
+  <div class="tab-content" id="tab-history">
+    <div class="card">
+      <div class="card-header" style="background: var(--primary); color: #fff;"><i class="bi bi-file-medical"></i> Historia Clinica Consolidada</div>
+      <div class="card-body">
+        <div class="patient-search mb-3">
+          <input type="text" id="historySearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
+          <div class="results-dropdown" id="historyResults"></div>
+        </div>
+        <div class="selected-patient-badge" id="historySelected">
+          <span><i class="bi bi-person-check-fill text-success"></i> <span id="historyPatientName">-</span> <span class="text-muted" id="historyPatientId"></span></span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="clearHistory()"><i class="bi bi-x"></i> Cambiar</button>
+        </div>
+        <div id="historyContent" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CONSULTATION -->
+  <div class="tab-content" id="tab-consultation">
+    <div class="card">
+      <div class="card-header" style="background: var(--primary); color: #fff;"><i class="bi bi-chat-dots"></i> Registro de Consulta Medica</div>
+      <div class="card-body">
+        <div class="patient-search mb-3">
+          <input type="text" id="consultSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
+          <div class="results-dropdown" id="consultResults"></div>
+        </div>
+        <div class="selected-patient-badge" id="consultSelected">
+          <span><i class="bi bi-person-check-fill text-success"></i> <span id="consultPatientName">-</span> <span class="text-muted" id="consultPatientId"></span></span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="clearConsult()"><i class="bi bi-x"></i> Cambiar</button>
+        </div>
+        <input type="hidden" id="consultPatientRegionalId">
+
+        <div class="card mt-3">
+          <div class="card-header" style="background: #17a2b8; color: #fff;"><i class="bi bi-clipboard-data"></i> Datos de la Consulta</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 mb-3"><label class="form-label">Sede</label><select id="consSede" class="form-select"><option value="SOLCA-CUENCA">SOLCA Cuenca</option><option value="SOLCA-QUITO">SOLCA Quito</option><option value="SOLCA-MANABI">SOLCA Manabi</option></select></div>
+              <div class="col-md-4 mb-3"><label class="form-label">Especialidad</label><select id="consEspecialidad" class="form-select"><option value="MEDICINA GENERAL">Medicina General</option><option value="ONCOLOGIA">Oncologia</option><option value="CARDIOLOGIA">Cardiologia</option><option value="NEUROLOGIA">Neurologia</option><option value="GINECOLOGIA">Ginecologia</option><option value="PEDIATRIA">Pediatria</option><option value="TRAUMATOLOGIA">Traumatologia</option></select></div>
+              <div class="col-md-4 mb-3"><label class="form-label">Medico Tratante</label><input type="text" id="consMedico" class="form-control" placeholder="Dr. Apellido"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3"><label class="form-label">Diagnostico (CIE-10)</label>
+                <div style="position:relative"><input type="text" id="consCie10" class="form-control" placeholder="Ej: C00-D48"><div class="cie10-suggestions" id="consCie10Sug"></div></div>
+              </div>
+              <div class="col-md-6 mb-3"><label class="form-label">Descripcion del Diagnostico</label><input type="text" id="consDiagnostico" class="form-control" readonly></div>
+            </div>
+            <div class="mb-3"><label class="form-label">Sintomas / Motivo</label><textarea id="consSintomas" class="form-control" rows="2" placeholder="Describa los sintomas del paciente..."></textarea></div>
+            <div class="mb-3"><label class="form-label">Tratamiento</label><textarea id="consTratamiento" class="form-control" rows="2" placeholder="Indique el tratamiento recetado..."></textarea></div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header" style="background: #28a745; color: #fff;"><i class="bi bi-heart-pulse"></i> Signos Vitales</div>
+          <div class="card-body">
+            <div class="row g-2 mb-3">
+              <div class="col-md-3"><div class="vital-sign"><div class="v-value" id="vitalHR">--</div><div class="v-label">FC (bpm)</div></div></div>
+              <div class="col-md-3"><div class="vital-sign"><div class="v-value" id="vitalSpO2">--</div><div class="v-label">SpO2 (%)</div></div></div>
+              <div class="col-md-3"><div class="vital-sign"><div class="v-value" id="vitalTemp">--</div><div class="v-label">Temperatura (C)</div></div></div>
+              <div class="col-md-3"><div class="vital-sign"><div class="v-value" id="vitalPA">--</div><div class="v-label">Presion Arterial</div></div></div>
+            </div>
+            <div class="row g-2 align-items-end">
+              <div class="col-md-3"><label class="form-label">Escenario</label><select id="consEscenario" class="form-select"><option value="estable">Estable</option><option value="observacion">Observacion</option><option value="critico">Critico</option></select></div>
+              <div class="col-md-3"><button class="btn btn-success w-100" id="startMonitorBtn" onclick="startMonitor()"><i class="bi bi-play-fill"></i> Iniciar Monitoreo</button><button class="btn btn-danger w-100 hidden" id="stopMonitorBtn" onclick="stopMonitor()"><i class="bi bi-stop-fill"></i> Detener</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header" style="background: #6c757d; color: #fff;"><i class="bi bi-plus-circle"></i> Examenes Solicitados</div>
+          <div class="card-body">
+            <div class="row g-2">
+              <div class="col-md-4"><select id="examenTipo" class="form-select"><option value="">Tipo...</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGEN">Imagenologia</option></select></div>
+              <div class="col-md-6"><input type="text" id="examenNombre" class="form-control" placeholder="Nombre del examen"></div>
+              <div class="col-md-2"><button class="btn btn-outline-success w-100" onclick="addExamen()"><i class="bi bi-plus"></i></button></div>
+            </div>
+            <div id="examenesList" class="mt-2"></div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header" style="background: #dc3545; color: #fff;"><i class="bi bi-telephone"></i> Contacto de Emergencia</div>
+          <div class="card-body">
+            <div class="row g-2">
+              <div class="col-md-4"><input type="text" id="consEmergNombre" class="form-control" placeholder="Nombre del contacto"></div>
+              <div class="col-md-4"><input type="text" id="consEmergTelefono" class="form-control" placeholder="Telefono"></div>
+              <div class="col-md-4"><select id="consEmergParentesco" class="form-select"><option value="">Parentesco</option><option value="Padre">Padre</option><option value="Madre">Madre</option><option value="Conyuge">Conyuge</option><option value="Hijo/a">Hijo/a</option><option value="Hermano/a">Hermano/a</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-3" onclick="saveConsulta()"><i class="bi bi-save"></i> Guardar Consulta</button>
+        <div id="consResult" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: LABORATORIO -->
+  <div class="tab-content" id="tab-laboratorio">
+    <div class="card">
+      <div class="card-header" style="background: var(--primary); color: #fff;"><i class="bi bi-droplet"></i> Resultados de Laboratorio</div>
+      <div class="card-body">
+        <div class="patient-search mb-3">
+          <input type="text" id="labSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
+          <div class="results-dropdown" id="labResults"></div>
+        </div>
+        <div class="selected-patient-badge" id="labSelected">
+          <span><i class="bi bi-person-check-fill text-success"></i> <span id="labPatientName">-</span> <span class="text-muted" id="labPatientId"></span></span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="clearLab()"><i class="bi bi-x"></i> Cambiar</button>
+        </div>
+        <input type="hidden" id="labPatientRegionalId">
+        <div class="row g-2 mb-3">
+          <div class="col-md-3"><input type="text" id="labTipoExamen" class="form-control" placeholder="Tipo de examen"></div>
+          <div class="col-md-3"><input type="text" id="labResultado" class="form-control" placeholder="Resultado"></div>
+          <div class="col-md-2"><input type="text" id="labValoresRef" class="form-control" placeholder="Valores ref."></div>
+          <div class="col-md-2"><input type="text" id="labArea" class="form-control" placeholder="Area"></div>
+          <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveLab()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+        </div>
+        <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th></tr></thead><tbody id="labTable"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: IMAGENES -->
+  <div class="tab-content" id="tab-imagenes">
+    <div class="card">
+      <div class="card-header" style="background: var(--primary); color: #fff;"><i class="bi bi-image"></i> Estudios de Imagenologia</div>
+      <div class="card-body">
+        <div class="patient-search mb-3">
+          <input type="text" id="imgSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
+          <div class="results-dropdown" id="imgResults"></div>
+        </div>
+        <div class="selected-patient-badge" id="imgSelected">
+          <span><i class="bi bi-person-check-fill text-success"></i> <span id="imgPatientName">-</span> <span class="text-muted" id="imgPatientId"></span></span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="clearImg()"><i class="bi bi-x"></i> Cambiar</button>
+        </div>
+        <input type="hidden" id="imgPatientRegionalId">
+        <div class="row g-2 mb-3">
+          <div class="col-md-3"><input type="text" id="imgTipoEstudio" class="form-control" placeholder="Tipo de estudio"></div>
+          <div class="col-md-3"><input type="text" id="imgHallazgos" class="form-control" placeholder="Hallazgos"></div>
+          <div class="col-md-2"><input type="text" id="imgModalidad" class="form-control" placeholder="Modalidad"></div>
+          <div class="col-md-2"><input type="text" id="imgUrl" class="form-control" placeholder="URL del archivo"></div>
+          <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveImg()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+        </div>
+        <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Archivo</th><th>Fecha</th></tr></thead><tbody id="imgTable"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>SOLCA Cloud - Sistema de Gestion Clinica Regional v2.0 | Desarrollado para interoperabilidad hospitalaria</footer>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ================== CONFIG ==================
+const API = {
+  pacientes: 'http://localhost:8081/api',
+  consultas: 'http://localhost:8082/api',
+  laboratorio: 'http://localhost:8083/api',
+  imagenes: 'http://localhost:8084/api',
+  repositorio: 'http://localhost:8085/api'
+};
+
+const CIE10_CODES = [
+  {code:'A00-B99',desc:'Enfermedades infecciosas y parasitarias'},
+  {code:'C00-D48',desc:'Neoplasias'},{code:'C50',desc:'Tumor maligno de mama'},
+  {code:'C61',desc:'Tumor maligno de prostata'},{code:'C16',desc:'Tumor maligno de estomago'},
+  {code:'C18',desc:'Tumor maligno de colon'},{code:'D50-D89',desc:'Enfermedades de la sangre'},
+  {code:'E00-E90',desc:'Enfermedades endocrinas'},{code:'E10-E14',desc:'Diabetes mellitus'},
+  {code:'E78',desc:'Trastornos del metabolismo'},{code:'I00-I99',desc:'Enfermedades circulatorias'},
+  {code:'I10',desc:'Hipertension esencial'},{code:'I25',desc:'Enfermedad isquemica del corazon'},
+  {code:'I48',desc:'Fibrilacion auricular'},{code:'I50',desc:'Insuficiencia cardiaca'},
+  {code:'J00-J99',desc:'Enfermedades respiratorias'},{code:'J45',desc:'Asma'},
+  {code:'K00-K93',desc:'Enfermedades digestivas'},{code:'M00-M99',desc:'Enfermedades osteomusculares'},
+  {code:'N00-N99',desc:'Enfermedades genitourinarias'},{code:'R00-R99',desc:'Sintomas no clasificados'},
+  {code:'S00-T98',desc:'Traumatismos'},{code:'Z00-Z99',desc:'Factores que influyen en salud'}
+];
+
+let pacientesList = [];
+let monitoreoInterval = null;
+let examenesSolicitados = [];
+let activityChart = null;
+let statusPieChart = null;
+
+function $(id) { return document.getElementById(id); }
+function showToast(msg, type) {
+  const c = $('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast-msg toast-' + type;
+  const icons = {success:'check-circle-fill',error:'x-circle-fill',info:'info-circle-fill',warning:'exclamation-triangle-fill'};
+  t.innerHTML = '<i class="bi bi-' + (icons[type]||'info-circle-fill') + '"></i> ' + msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+function showLoading() { $('loadingOverlay').style.display = 'flex'; }
+function hideLoading() { $('loadingOverlay').style.display = 'none'; }
+
+// TABS
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    $('tab-' + this.dataset.tab).classList.add('active');
+  });
+});
+
+// LOGIN
+function doLogin() {
+  const user = $('loginUser').value.trim();
+  const pass = $('loginPass').value;
+  if (!user || !pass) { showToast('Ingrese usuario y contrasena', 'warning'); return; }
+  showLoading();
+  setTimeout(() => {
+    $('userDisplay').innerHTML = '<i class="bi bi-person-check"></i> ' + user + ' (' + $('loginRole').value + ')';
+    $('logoutBtn').classList.remove('d-none');
+    document.querySelectorAll('.protected').forEach(b => b.style.display = 'flex');
+    document.querySelector('[data-tab="dashboard"]').click();
+    loadAllData();
+    showToast('Bienvenido al sistema SOLCA Cloud', 'success');
+    hideLoading();
+  }, 500);
+}
+function logout() {
+  if (monitoreoInterval) { clearInterval(monitoreoInterval); monitoreoInterval = null; }
+  $('userDisplay').innerHTML = '<i class="bi bi-shield-lock"></i> No autenticado';
+  $('logoutBtn').classList.add('d-none');
+  document.querySelectorAll('.protected').forEach(b => b.style.display = 'none');
+  document.querySelector('[data-tab="login"]').click();
+}
+document.querySelectorAll('.protected').forEach(b => b.style.display = 'none');
+
+// PATIENT SEARCH
+function setupPatientSearch(inputId, resultsId, selectCallback) {
+  const input = $(inputId);
+  const results = $(resultsId);
+  if (!input) return;
+  input.addEventListener('input', function() {
+    const term = this.value.trim().toLowerCase();
+    if (term.length < 2) { results.style.display = 'none'; return; }
+    const filtered = pacientesList.filter(p =>
+      (p.idPacienteRegional && p.idPacienteRegional.toLowerCase().includes(term)) ||
+      (p.cedula && p.cedula.includes(term)) ||
+      (p.nombres && p.nombres.toLowerCase().includes(term)) ||
+      (p.apellidos && p.apellidos.toLowerCase().includes(term))
+    );
+    if (!filtered.length) { results.style.display = 'none'; return; }
+    results.innerHTML = filtered.map(p =>
+      '<div class="result-item" onclick="selectPatient(\'' + p.idPacienteRegional + '\',\'' + inputId + '\',\'' + resultsId + '\',\'' + selectCallback + '\')">' +
+      '<div class="name">' + p.nombres + ' ' + p.apellidos + '</div>' +
+      '<div class="detail">' + p.idPacienteRegional + ' | Ced: ' + p.cedula + '</div></div>'
+    ).join('');
+    results.style.display = 'block';
+  });
+  document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !results.contains(e.target)) results.style.display = 'none';
+  });
+}
+function selectPatient(regionalId, inputId, resultsId, callback) {
+  $(resultsId).style.display = 'none';
+  $(inputId).value = '';
+  const p = pacientesList.find(x => x.idPacienteRegional === regionalId);
+  if (!p) return;
+  window[callback](p);
+}
+async function loadPatientsList() {
+  try { const r = await fetch(API.pacientes + '/pacientes'); const d = await r.json(); pacientesList = d.data || []; return pacientesList; }
+  catch(e) { console.error(e); return []; }
+}
+
+// INIT
+async function loadAllData() {
+  showLoading();
+  await loadPatientsList();
+  await loadDashboard();
+  renderPatientsTable();
+  setupSearch();
+  hideLoading();
+}
+function setupSearch() {
+  setupPatientSearch('historySearch','historyResults','selectHistoryPatient');
+  setupPatientSearch('consultSearch','consultResults','selectConsultPatient');
+  setupPatientSearch('labSearch','labResults','selectLabPatient');
+  setupPatientSearch('imgSearch','imgResults','selectImgPatient');
+  setupCie10('consCie10','consCie10Sug','consDiagnostico');
+  if ($('patientSearch')) $('patientSearch').oninput = function() {
+    const t = this.value.toLowerCase();
+    document.querySelectorAll('#patientsTable tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(t) ? '' : 'none'; });
+  };
+}
+
+// CIE-10
+function setupCie10(inputId, sugId, targetId) {
+  const input = $(inputId), sug = $(sugId);
+  if (!input) return; let idx = -1;
+  input.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (q.length < 1) { sug.classList.remove('show'); return; }
+    const filtered = CIE10_CODES.filter(c => c.code.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+    if (!filtered.length) { sug.classList.remove('show'); return; }
+    sug.innerHTML = filtered.map(c => '<div class="cie10-item" data-code="' + c.code + '" data-desc="' + c.desc + '"><div class="code">' + c.code + '</div><div class="desc">' + c.desc + '</div></div>').join('');
+    sug.classList.add('show'); idx = -1;
+    sug.querySelectorAll('.cie10-item').forEach(el => el.addEventListener('click', function() {
+      input.value = this.dataset.code; $(targetId).value = this.dataset.desc; sug.classList.remove('show');
+    }));
+  });
+  input.addEventListener('keydown', function(e) {
+    const items = sug.querySelectorAll('.cie10-item'); if (!items.length) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx + 1, items.length - 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, -1); }
+    else if (e.key === 'Enter' && idx >= 0) { e.preventDefault(); const s = items[idx]; input.value = s.dataset.code; $(targetId).value = s.dataset.desc; sug.classList.remove('show'); return; }
+    else return;
+    items.forEach((it,i) => it.classList.toggle('active', i === idx));
+    if (idx >= 0) items[idx].scrollIntoView({block:'nearest'});
+  });
+  document.addEventListener('click', function(e) { if (!input.contains(e.target) && !sug.contains(e.target)) sug.classList.remove('show'); });
+}
+
+// DASHBOARD
+async function loadDashboard() {
+  try {
+    const r = await fetch(API.pacientes + '/pacientes');
+    const d = await r.json();
+    const pts = d.data || [];
+    $('dashTotalPacientes').textContent = pts.length;
+    let m=0,f=0; pts.forEach(p => { if(p.genero==='M') m++; else f++; });
+    const recent = pts.slice(-5).reverse();
+    $('dashRecentPatients').innerHTML = recent.length ? recent.map(p => '<tr><td>' + p.idPacienteRegional + '</td><td>' + p.nombres+' '+p.apellidos + '</td><td>' + p.cedula + '</td><td>' + p.genero + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td></tr>').join('') : '<tr><td colspan="5" class="text-center text-muted">Sin pacientes</td></tr>';
+    if (activityChart) activityChart.destroy();
+    activityChart = new Chart($('activityChart'), { type:'bar', data:{ labels:['Pacientes'], datasets:[{ label:'Masculino', data:[m], backgroundColor:'#0a6c75' }, { label:'Femenino', data:[f], backgroundColor:'#00b4d8' }] }, options:{ responsive:true, maintainAspectRatio:false } });
+    if (statusPieChart) statusPieChart.destroy();
+    statusPieChart = new Chart($('statusPieChart'), { type:'doughnut', data:{ labels:['Activos'], datasets:[{ data:[pts.length||1], backgroundColor:['#2ecc71'] }] }, options:{ responsive:true, maintainAspectRatio:false } });
+  } catch(e) { console.error(e); }
+}
+
+// PATIENTS TABLE
+function renderPatientsTable() {
+  const tbody = $('patientsTable');
+  tbody.innerHTML = pacientesList.map(p => '<tr><td><code>' + p.idPacienteRegional + '</code></td><td>' + p.nombres + '</td><td>' + p.apellidos + '</td><td>' + p.cedula + '</td><td>' + (p.genero==='M'?'Masculino':'Femenino') + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td><td><button class="btn btn-sm btn-outline-primary" onclick="viewPatientHistory(\'' + p.idPacienteRegional + '\')"><i class="bi bi-eye"></i></button></td></tr>').join('') || '<tr><td colspan="7" class="text-center text-muted">No hay pacientes</td></tr>';
+}
+async function loadPatients() { await loadPatientsList(); renderPatientsTable(); }
+
+// PATIENT MODAL
+function openPatientModal() {
+  const html = '<div class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header" style="background:var(--primary);color:#fff"><h5 class="modal-title"><i class="bi bi-person-badge"></i> Registro de Paciente</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body">' +
+    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="pNombres" class="form-control" required></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="pApellidos" class="form-control" required></div></div>' +
+    '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">Cedula *</label><input type="text" id="pCedula" class="form-control" maxlength="10" required><small id="pCedulaHelp" class="text-muted">10 digitos</small></div>' +
+    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="pFechaNac" class="form-control" required></div><div class="col-md-2"><label class="form-label">Genero *</label><select id="pGenero" class="form-select"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>' +
+    '<div class="col-md-3"><label class="form-label">Telefono</label><input type="text" id="pTelefono" class="form-control" maxlength="10"></div></div>' +
+    '<div class="mt-2"><label class="form-label">Direccion</label><textarea id="pDireccion" class="form-control" rows="2"></textarea></div></div>' +
+    '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="savePatient()"><i class="bi bi-save"></i> Guardar</button></div></div></div>';
+  const div = document.createElement('div'); div.innerHTML = html;
+  document.body.appendChild(div);
+  const el = div.querySelector('.modal');
+  const m = new bootstrap.Modal(el);
+  m.show();
+  el.addEventListener('hidden.bs.modal', () => div.remove());
+  window._patientModal = m;
+}
+
+async function savePatient() {
+  const n=$('pNombres').value.trim(), a=$('pApellidos').value.trim(), c=$('pCedula').value.trim(), f=$('pFechaNac').value, g=$('pGenero').value;
+  if (!n||!a||!c||!f) { showToast('Complete campos obligatorios','warning'); return; }
+  if (!/^\d{10}$/.test(c)) { showToast('Cedula invalida','warning'); return; }
+  showLoading();
+  try {
+    const r = await fetch(API.pacientes+'/pacientes', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nombres:n,apellidos:a,cedula:c,fechaNacimiento:f,genero:g,telefono:$('pTelefono').value.trim(),direccion:$('pDireccion').value.trim()}) });
+    const d = await r.json();
+    if (r.ok) { showToast('Paciente: '+d.data.idPacienteRegional,'success'); window._patientModal&&window._patientModal.hide(); await loadPatientsList(); renderPatientsTable(); await loadDashboard(); }
+    else showToast(d.message||'Error','error');
+  } catch(e) { showToast('Error de conexion','error'); }
+  hideLoading();
+}
+
+// HISTORY
+function selectHistoryPatient(p) {
+  $('historySelected').classList.add('show');
+  $('historyPatientName').textContent = p.nombres+' '+p.apellidos;
+  $('historyPatientId').textContent = p.idPacienteRegional;
+  loadHistory(p.idPacienteRegional);
+}
+function clearHistory() { $('historySelected').classList.remove('show'); $('historyContent').innerHTML=''; }
+
+async function loadHistory(rid) {
+  showLoading();
+  $('historyContent').innerHTML = '<div class="text-center py-4"><div class="spinner-border text-primary"></div><p class="mt-2 text-muted">Cargando...</p></div>';
+  try {
+    const r = await fetch(API.repositorio+'/repositorio/paciente/'+rid);
+    const d = await r.json();
+    if (d.status==='ERROR'||!d.paciente) { $('historyContent').innerHTML='<div class="alert alert-danger">Paciente no encontrado</div>'; hideLoading(); return; }
+    const p=d.paciente||{}, consultas=d.consultas||[], lab=d.laboratorio||[], img=d.imagenes||[];
+    let html = '<div class="history-section"><div class="hs-header"><i class="bi bi-person-badge"></i> FICHA DEL PACIENTE</div><div class="hs-body"><div class="history-grid">' +
+      '<div class="history-item"><div class="h-label">Nombre</div><div class="h-value">'+(p.nombres||'')+' '+(p.apellidos||'')+'</div></div>' +
+      '<div class="history-item"><div class="h-label">ID Regional</div><div class="h-value">'+(p.idPacienteRegional||'-')+'</div></div>' +
+      '<div class="history-item"><div class="h-label">Cedula</div><div class="h-value">'+(p.cedula||'-')+'</div></div>' +
+      '<div class="history-item"><div class="h-label">Genero</div><div class="h-value">'+(p.genero==='M'?'Masculino':'Femenino')+'</div></div>' +
+      '<div class="history-item"><div class="h-label">Telefono</div><div class="h-value">'+(p.telefono||'-')+'</div></div>' +
+      '<div class="history-item"><div class="h-label">Direccion</div><div class="h-value">'+(p.direccion||'-')+'</div></div></div></div></div>';
+
+    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-chat-dots"></i> CONSULTAS</div><div class="hs-body">'+
+      (consultas.length ? '<table class="consult-table" style="width:100%"><thead><tr><th>Fecha</th><th>Especialidad</th><th>Diagnostico</th><th>Medico</th><th>Tratamiento</th></tr></thead><tbody>'+
+      consultas.map(c=>'<tr><td>'+(c.fechaConsulta||'-')+'</td><td>'+(c.especialidad||'-')+'</td><td>'+(c.diagnostico||'-')+'</td><td>'+(c.medico||'-')+'</td><td>'+(c.tratamiento||'-')+'</td></tr>').join('')+
+      '</tbody></table>' : '<div class="text-center text-muted py-3">Sin consultas</div>')+'</div></div>';
+
+    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-droplet"></i> LABORATORIO</div><div class="hs-body">'+
+      (lab.length ? '<table class="consult-table" style="width:100%"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th></tr></thead><tbody>'+
+      lab.map(l=>'<tr><td>'+(l.tipoExamen||'-')+'</td><td>'+(l.resultado||'-')+'</td><td>'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td></tr>').join('')+
+      '</tbody></table>' : '<div class="text-center text-muted py-3">Sin resultados</div>')+'</div></div>';
+
+    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-image"></i> IMAGENOLOGIA</div><div class="hs-body">'+
+      (img.length ? '<table class="consult-table" style="width:100%"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Fecha</th></tr></thead><tbody>'+
+      img.map(i=>'<tr><td>'+(i.tipoEstudio||'-')+'</td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td>'+(i.fechaEstudio||'-')+'</td></tr>').join('')+
+      '</tbody></table>' : '<div class="text-center text-muted py-3">Sin estudios</div>')+'</div></div>';
+
+    if (d.errores&&Object.keys(d.errores).length) html+='<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> Servicios no disponibles: '+Object.values(d.errores).join(', ')+'</div>';
+    $('historyContent').innerHTML = html;
+  } catch(e) { $('historyContent').innerHTML='<div class="alert alert-danger">Error al cargar historia. Verifique que todos los servicios esten activos.</div>'; }
+  hideLoading();
+}
+function viewPatientHistory(rid) {
+  const p=pacientesList.find(x=>x.idPacienteRegional===rid);
+  if(p) { $('historySelected').classList.add('show'); $('historyPatientName').textContent=p.nombres+' '+p.apellidos; $('historyPatientId').textContent=p.idPacienteRegional; document.querySelector('[data-tab="history"]').click(); loadHistory(rid); }
+}
+
+// CONSULTATION
+function selectConsultPatient(p) {
+  $('consultSelected').classList.add('show'); $('consultPatientName').textContent=p.nombres+' '+p.apellidos; $('consultPatientId').textContent=p.idPacienteRegional; $('consultPatientRegionalId').value=p.idPacienteRegional;
+  resetMonitor(); examenesSolicitados=[]; renderExamenes();
+}
+function clearConsult() { $('consultSelected').classList.remove('show'); $('consultPatientRegionalId').value=''; resetMonitor(); }
+
+function resetMonitor() {
+  if(monitoreoInterval){clearInterval(monitoreoInterval);monitoreoInterval=null;}
+  $('startMonitorBtn').classList.remove('hidden'); $('stopMonitorBtn').classList.add('hidden');
+  ['vitalHR','vitalSpO2','vitalTemp','vitalPA'].forEach(id=>$(id).textContent='--');
+}
+function startMonitor() {
+  const pid=$('consultPatientRegionalId').value; if(!pid){showToast('Seleccione un paciente','warning');return;}
+  if(monitoreoInterval)clearInterval(monitoreoInterval);
+  $('startMonitorBtn').classList.add('hidden'); $('stopMonitorBtn').classList.remove('hidden');
+  const esc={estable:{hMin:65,hMax:85,sMin:96,sMax:100,tMin:36,tMax:37,pyMin:110,pyMax:130,pdMin:70,pdMax:85},
+    observacion:{hMin:90,hMax:110,sMin:92,sMax:95,tMin:37.1,tMax:38,pyMin:130,pyMax:150,pdMin:85,pdMax:95},
+    critico:{hMin:115,hMax:130,sMin:85,sMax:90,tMin:38.1,tMax:39.5,pyMin:150,pyMax:180,pdMin:95,pdMax:110}};
+  monitoreoInterval = setInterval(() => {
+    const e=esc[$('consEscenario').value]||esc.estable;
+    $('vitalHR').textContent = Math.floor(Math.random()*(e.hMax-e.hMin+1))+e.hMin;
+    $('vitalSpO2').textContent = Math.floor(Math.random()*(e.sMax-e.sMin+1))+e.sMin;
+    $('vitalTemp').textContent = (Math.random()*(e.tMax-e.tMin)+e.tMin).toFixed(1);
+    $('vitalPA').textContent = Math.floor(Math.random()*(e.pyMax-e.pyMin+1))+e.pyMin+'/'+Math.floor(Math.random()*(e.pdMax-e.pdMin+1))+e.pdMin;
+  }, 3000);
+  showToast('Monitoreo iniciado','success');
+}
+function stopMonitor() { if(monitoreoInterval){clearInterval(monitoreoInterval);monitoreoInterval=null;} $('startMonitorBtn').classList.remove('hidden');$('stopMonitorBtn').classList.add('hidden'); showToast('Monitoreo detenido','info'); }
+
+function addExamen() {
+  const t=$('examenTipo').value, n=$('examenNombre').value.trim();
+  if(!t||!n){showToast('Complete tipo y nombre','warning');return;}
+  examenesSolicitados.push({tipo:t,nombre:n}); renderExamenes(); $('examenTipo').value='';$('examenNombre').value='';
+}
+function removeExamen(i){examenesSolicitados.splice(i,1);renderExamenes();}
+function renderExamenes(){ $('examenesList').innerHTML = examenesSolicitados.map((e,i)=>'<div class="examen-item"><span><span class="e-type">'+e.tipo+'</span>: '+e.nombre+'</span><button class="btn btn-sm btn-outline-danger" onclick="removeExamen('+i+')"><i class="bi bi-x"></i></button></div>').join(''); }
+
+async function saveConsulta() {
+  const pid=$('consultPatientRegionalId').value; if(!pid){showToast('Seleccione paciente','warning');return;}
+  if(!$('consCie10').value){showToast('Ingrese diagnostico CIE-10','warning');return;}
+  showLoading();
+  try {
+    const body={idPacienteRegional:pid,sede:$('consSede').value,fechaConsulta:new Date().toISOString().split('T')[0],especialidad:$('consEspecialidad').value,diagnostico:$('consDiagnostico').value||$('consCie10').value,tratamiento:$('consTratamiento').value||'Pendiente',medico:$('consMedico').value||'Medico',notas:'Sintomas: '+($('consSintomas').value||'N/E')};
+    const r=await fetch(API.consultas+'/consultas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(r.ok){
+      showToast('Consulta registrada','success');
+      const hr=$('vitalHR').textContent;
+      if(hr!=='--') await fetch(API.laboratorio+'/laboratorio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:$('consSede').value,fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:'SIGNOS VITALES',resultado:'FC:'+hr+' SpO2:'+$('vitalSpO2').textContent+' Temp:'+$('vitalTemp').textContent,valoresReferencia:'FC:60-100 SpO2:95-100',medicoSolicitante:$('consMedico').value||'Medico',area:'CONSULTA',metodo:'MANUAL',anormal:false})});
+      for(const ex of examenesSolicitados){
+        if(ex.tipo==='LABORATORIO') await fetch(API.laboratorio+'/laboratorio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:$('consSede').value,fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:ex.nombre,resultado:'Pendiente',valoresReferencia:'---',medicoSolicitante:$('consMedico').value||'Medico',area:'CONSULTA',metodo:'MANUAL',anormal:false})});
+        if(ex.tipo==='IMAGEN') await fetch(API.imagenes+'/imagenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:$('consSede').value,fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:ex.nombre,formato:'DICOM',urlArchivo:'Pendiente',nombreArchivo:'Pendiente',medicoSolicitante:$('consMedico').value||'Medico',modalidad:'RX',hallazgos:'Pendiente',tamanoBytes:0})});
+      }
+      $('consResult').innerHTML='<div class="alert alert-success">Consulta y examenes registrados</div>';
+      setTimeout(()=>$('consResult').innerHTML='',3000);
+      clearConsult();
+    } else showToast('Error al guardar','error');
+  } catch(e){showToast('Error de conexion','error');}
+  hideLoading();
+}
+
+// LAB
+function selectLabPatient(p) {
+  $('labSelected').classList.add('show'); $('labPatientName').textContent=p.nombres+' '+p.apellidos; $('labPatientId').textContent=p.idPacienteRegional;
+  $('labPatientRegionalId').value=p.idPacienteRegional; loadLabResults(p.idPacienteRegional);
+}
+function clearLab() { $('labSelected').classList.remove('show'); $('labPatientRegionalId').value=''; $('labTable').innerHTML=''; }
+async function saveLab() {
+  const pid=$('labPatientRegionalId').value; if(!pid){showToast('Seleccione paciente','warning');return;}
+  const t=$('labTipoExamen').value.trim(), r=$('labResultado').value.trim(); if(!t||!r){showToast('Ingrese tipo y resultado','warning');return;}
+  showLoading();
+  try {
+    const resp=await fetch(API.laboratorio+'/laboratorio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:t,resultado:r,valoresReferencia:$('labValoresRef').value.trim()||'---',medicoSolicitante:'Sistema',area:$('labArea').value.trim()||'GENERAL',metodo:'AUTO',anormal:false})});
+    if(resp.ok){showToast('Resultado registrado','success');$('labTipoExamen').value='';$('labResultado').value='';$('labValoresRef').value='';$('labArea').value='';loadLabResults(pid);}
+    else showToast('Error','error');
+  }catch(e){showToast('Error de conexion','error');}
+  hideLoading();
+}
+async function loadLabResults(pid) {
+  try{const r=await fetch(API.laboratorio+'/laboratorio/paciente/'+pid);const d=await r.json();const data=d.data||[];
+    $('labTable').innerHTML=data.length?data.map(l=>'<tr><td>'+(l.tipoExamen||'-')+'</td><td>'+(l.resultado||'-')+'</td><td>'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td></tr>').join(''):'<tr><td colspan="5" class="text-center text-muted">Sin resultados</td></tr>';
+  }catch(e){$('labTable').innerHTML='<tr><td colspan="5" class="text-center text-danger">Error</td></tr>';}
+}
+
+// IMAGENES
+function selectImgPatient(p) {
+  $('imgSelected').classList.add('show'); $('imgPatientName').textContent=p.nombres+' '+p.apellidos; $('imgPatientId').textContent=p.idPacienteRegional;
+  $('imgPatientRegionalId').value=p.idPacienteRegional; loadImgResults(p.idPacienteRegional);
+}
+function clearImg() { $('imgSelected').classList.remove('show'); $('imgPatientRegionalId').value=''; $('imgTable').innerHTML=''; }
+async function saveImg() {
+  const pid=$('imgPatientRegionalId').value; if(!pid){showToast('Seleccione paciente','warning');return;}
+  const t=$('imgTipoEstudio').value.trim(); if(!t){showToast('Ingrese tipo de estudio','warning');return;}
+  showLoading();
+  try {
+    const resp=await fetch(API.imagenes+'/imagenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:t,formato:'DICOM',urlArchivo:$('imgUrl').value.trim()||'N/D',nombreArchivo:'estudio.dcm',medicoSolicitante:'Sistema',modalidad:$('imgModalidad').value.trim()||'RX',hallazgos:$('imgHallazgos').value.trim()||'Pendiente',tamanoBytes:1024})});
+    if(resp.ok){showToast('Estudio registrado','success');$('imgTipoEstudio').value='';$('imgHallazgos').value='';$('imgModalidad').value='';$('imgUrl').value='';loadImgResults(pid);}
+    else showToast('Error','error');
+  }catch(e){showToast('Error de conexion','error');}
+  hideLoading();
+}
+async function loadImgResults(pid) {
+  try{const r=await fetch(API.imagenes+'/imagenes/paciente/'+pid);const d=await r.json();const data=d.data||[];
+    $('imgTable').innerHTML=data.length?data.map(i=>'<tr><td>'+(i.tipoEstudio||'-')+'</td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td><a href="'+(i.urlArchivo||'#')+'" target="_blank">'+(i.nombreArchivo||'Ver')+'</a></td><td>'+(i.fechaEstudio||'-')+'</td></tr>').join(''):'<tr><td colspan="5" class="text-center text-muted">Sin estudios</td></tr>';
+  }catch(e){$('imgTable').innerHTML='<tr><td colspan="5" class="text-center text-danger">Error</td></tr>';}
+}
+
+// INIT
+document.addEventListener('DOMContentLoaded', function() {
+  loadPatientsList();
+  document.querySelector('[data-tab="login"]').click();
+  if ($('loginPass')) $('loginPass').addEventListener('keypress', function(e) { if (e.key === 'Enter') doLogin(); });
+});
+</script>
+</body>
+</html>

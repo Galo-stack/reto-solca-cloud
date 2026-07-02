@@ -19,6 +19,18 @@ import java.util.Map;
 public class PacienteController {
     private final PacienteService pacienteService;
 
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> listarPacientes() {
+        log.info("GET /api/pacientes - Listando pacientes");
+        var pacientes = pacienteService.listarTodos();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("data", pacientes);
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<Map<String, Object>> registrarPaciente(@Valid @RequestBody PacienteDTO dto) {
         log.info("POST /api/pacientes - Registrando paciente");
