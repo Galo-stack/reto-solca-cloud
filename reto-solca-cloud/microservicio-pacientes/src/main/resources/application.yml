@@ -7,9 +7,9 @@ spring:
   application:
     name: paciente-service
   datasource:
-    url: jdbc:mysql://localhost:3306/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
-    username: root
-    password: galito2002
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:galito2002}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

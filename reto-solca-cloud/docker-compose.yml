@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_pacientes
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql-pacientes-data:/var/lib/mysql
     networks:
@@ -25,7 +25,7 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_consultas
     ports:
-      - "3307:3306"
+      - "3308:3306"
     volumes:
       - mysql-consultas-data:/var/lib/mysql
     networks:
@@ -44,7 +44,7 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_laboratorio
     ports:
-      - "3308:3306"
+      - "3309:3306"
     volumes:
       - mysql-laboratorio-data:/var/lib/mysql
     networks:
@@ -63,7 +63,7 @@ services:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_imagenologia
     ports:
-      - "3309:3306"
+      - "3310:3306"
     volumes:
       - mysql-imagenologia-data:/var/lib/mysql
     networks:
@@ -81,9 +81,9 @@ services:
       dockerfile: Dockerfile
     container_name: paciente-service
     environment:
-      DB_URL: jdbc:mysql://mysql-pacientes:3306/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      DB_USERNAME: root
-      DB_PASSWORD: root123
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-pacientes:3306/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
     ports:
       - "8081:8081"
     networks:
@@ -99,9 +99,9 @@ services:
       dockerfile: Dockerfile
     container_name: consulta-service
     environment:
-      DB_URL: jdbc:mysql://mysql-consultas:3306/db_consultas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      DB_USERNAME: root
-      DB_PASSWORD: root123
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-consultas:3306/db_consultas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
     ports:
       - "8082:8082"
     networks:
@@ -117,9 +117,9 @@ services:
       dockerfile: Dockerfile
     container_name: laboratorio-service
     environment:
-      DB_URL: jdbc:mysql://mysql-laboratorio:3306/db_laboratorio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      DB_USERNAME: root
-      DB_PASSWORD: root123
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-laboratorio:3306/db_laboratorio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
     ports:
       - "8083:8083"
     networks:
@@ -135,9 +135,9 @@ services:
       dockerfile: Dockerfile
     container_name: imagenologia-service
     environment:
-      DB_URL: jdbc:mysql://mysql-imagenologia:3306/db_imagenologia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      DB_USERNAME: root
-      DB_PASSWORD: root123
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-imagenologia:3306/db_imagenologia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
     ports:
       - "8084:8084"
     networks:
