@@ -30,6 +30,9 @@ public class ConsultaService {
                 .tratamiento(dto.getTratamiento())
                 .medico(dto.getMedico())
                 .notas(dto.getNotas())
+                .examenFisico(dto.getExamenFisico())
+                .observaciones(dto.getObservaciones())
+                .recomendaciones(dto.getRecomendaciones())
                 .activo(true)
                 .build();
 
@@ -65,6 +68,9 @@ public class ConsultaService {
                 .tratamiento(c.getTratamiento())
                 .medico(c.getMedico())
                 .notas(c.getNotas())
+                .examenFisico(c.getExamenFisico())
+                .observaciones(c.getObservaciones())
+                .recomendaciones(c.getRecomendaciones())
                 .build();
     }
 }

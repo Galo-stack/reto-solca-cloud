@@ -48,6 +48,30 @@ public class Paciente {
     @Column(name = "direccion", columnDefinition = "TEXT")
     private String direccion;
 
+    @Column(name = "grupo_sanguineo", length = 5)
+    private String grupoSanguineo;
+
+    @Column(name = "estado_civil", length = 20)
+    private String estadoCivil;
+
+    @Column(name = "ocupacion", length = 100)
+    private String ocupacion;
+
+    @Column(name = "alergias", columnDefinition = "TEXT")
+    private String alergias;
+
+    @Column(name = "enfermedad_actual", columnDefinition = "TEXT")
+    private String enfermedadActual;
+
+    @Column(name = "antecedentes_personales", columnDefinition = "TEXT")
+    private String antecedentesPersonales;
+
+    @Column(name = "antecedentes_familiares", columnDefinition = "TEXT")
+    private String antecedentesFamiliares;
+
+    @Column(name = "contacto_emergencia", columnDefinition = "TEXT")
+    private String contactoEmergencia;
+
     @Column(name = "fecha_registro")
     @CreationTimestamp
     private LocalDateTime fechaRegistro;

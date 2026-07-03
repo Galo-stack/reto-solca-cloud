@@ -37,4 +37,7 @@ public class ConsultaDTO {
     private String medico;
 
     private String notas;
+    private String examenFisico;
+    private String observaciones;
+    private String recomendaciones;
 }

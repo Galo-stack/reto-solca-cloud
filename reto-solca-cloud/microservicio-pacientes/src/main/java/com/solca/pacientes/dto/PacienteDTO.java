@@ -34,5 +34,13 @@ public class PacienteDTO {
     private String telefono;
     private String email;
     private String direccion;
+    private String grupoSanguineo;
+    private String estadoCivil;
+    private String ocupacion;
+    private String alergias;
+    private String enfermedadActual;
+    private Object antecedentesPersonales;
+    private Object antecedentesFamiliares;
+    private Object contactoEmergencia;
     private List<HistoriaLocalDTO> historiasLocales;
 }

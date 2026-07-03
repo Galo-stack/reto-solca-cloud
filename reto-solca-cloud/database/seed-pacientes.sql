@@ -5,13 +5,13 @@
 -- -----------------------------------------------------------
 -- 1. PACIENTES (db_pacientes)
 -- -----------------------------------------------------------
-INSERT INTO pacientes (id_paciente_regional, cedula, nombres, apellidos, fecha_nacimiento, genero, telefono, email, direccion)
+INSERT INTO pacientes (id_paciente_regional, cedula, nombres, apellidos, fecha_nacimiento, genero, telefono, email, direccion, grupo_sanguineo, estado_civil, ocupacion, alergias, enfermedad_actual, antecedentes_personales, antecedentes_familiares, contacto_emergencia)
 VALUES
-    ('PAC-00001', '0102030405', 'Juan Carlos', 'Mendoza López', '1985-03-15', 'M', '0987654321', 'juan.mendoza@email.com', 'Av. Primera 123, Cuenca'),
-    ('PAC-00002', '0203040506', 'María Elena', 'Ramírez Torres', '1992-07-22', 'F', '0998765432', 'maria.ramirez@email.com', 'Calle Secundaria 456, Cuenca'),
-    ('PAC-00003', '0304050607', 'Carlos Andrés', 'Sánchez Vega', '1978-11-08', 'M', '0976543210', 'carlos.sanchez@email.com', 'Av. Central 789, Manta'),
-    ('PAC-00004', '0405060708', 'Ana Lucía', 'García Montenegro', '1995-05-30', 'F', '0965432109', 'ana.garcia@email.com', 'Calle Norte 321, Quito'),
-    ('PAC-00005', '0506070809', 'Pedro José', 'Torres Alcívar', '1965-09-12', 'M', '0954321098', 'pedro.torres@email.com', 'Av. Sur 654, Portoviejo');
+    ('PAC-00001', '0102030405', 'Juan Carlos', 'Mendoza López', '1985-03-15', 'M', '0987654321', 'juan.mendoza@email.com', 'Av. Primera 123, Cuenca', 'O+', 'CASADO', 'Ingeniero Civil', 'Penicilina', 'Dolor abdominal crónico en epigastrio', '{\"cronicas\":\"Ninguna\",\"cirugias\":\"Apendicectomía (2010)\",\"otros\":\"Ninguno\"}', '{\"padre\":\"Vive, HTA\",\"madre\":\"Vive, sana\",\"hermanos\":\"Sano\",\"hijos\":\"Sano\"}', '{\"nombre\":\"María López V.\",\"telefono\":\"0991112233\",\"parentesco\":\"Madre\"}'),
+    ('PAC-00002', '0203040506', 'María Elena', 'Ramírez Torres', '1992-07-22', 'F', '0998765432', 'maria.ramirez@email.com', 'Calle Secundaria 456, Cuenca', 'A+', 'SOLTERO', 'Médico', 'Sulfa, Mariscos', 'Nódulo tiroideo sospechoso', '{\"cronicas\":\"Hipotiroidismo\",\"cirugias\":\"Ninguna\",\"otros\":\"Ninguno\"}', '{\"padre\":\"Vive, sano\",\"madre\":\"Vive, HTA\",\"hermanos\":\"Sano\",\"hijos\":\"N/A\"}', '{\"nombre\":\"Carlos Ramírez\",\"telefono\":\"0992223344\",\"parentesco\":\"Padre\"}'),
+    ('PAC-00003', '0304050607', 'Carlos Andrés', 'Sánchez Vega', '1978-11-08', 'M', '0976543210', 'carlos.sanchez@email.com', 'Av. Central 789, Manta', 'B+', 'CASADO', 'Agricultor', 'Ninguna', 'Adenocarcinoma de colon Estadio II', '{\"cronicas\":\"Ninguna\",\"cirugias\":\"Ninguna\",\"otros\":\"Tabaquismo suspendido\"}', '{\"padre\":\"Fallecido por CA gástrico\",\"madre\":\"Vive, diabetes\",\"hermanos\":\"Sano\",\"hijos\":\"Sano\"}', '{\"nombre\":\"Lucía Vega de Sánchez\",\"telefono\":\"0993334455\",\"parentesco\":\"Esposa\"}'),
+    ('PAC-00004', '0405060708', 'Ana Lucía', 'García Montenegro', '1995-05-30', 'F', '0965432109', 'ana.garcia@email.com', 'Calle Norte 321, Quito', 'AB+', 'SOLTERO', 'Abogada', 'Ibuprofeno', 'Leucemia linfocítica crónica', '{\"cronicas\":\"Ninguna\",\"cirugias\":\"Ninguna\",\"otros\":\"Ninguno\"}', '{\"padre\":\"Vive, sano\",\"madre\":\"Vive, sana\",\"hermanos\":\"Sano\",\"hijos\":\"N/A\"}', '{\"nombre\":\"Pedro García\",\"telefono\":\"0994445566\",\"parentesco\":\"Hermano\"}'),
+    ('PAC-00005', '0506070809', 'Pedro José', 'Torres Alcívar', '1965-09-12', 'M', '0954321098', 'pedro.torres@email.com', 'Av. Sur 654, Portoviejo', 'O-', 'VIUDO', 'Jubilado', 'Codeína', 'Cáncer de próstata localizado', '{\"cronicas\":\"HTA, Diabetes tipo 2\",\"cirugias\":\"Ninguna\",\"otros\":\"Ninguno\"}', '{\"padre\":\"Fallecido por CA próstata\",\"madre\":\"Fallecida por DM\",\"hermanos\":\"HTA\",\"hijos\":\"Sano\"}', '{\"nombre\":\"José Torres M.\",\"telefono\":\"0995556677\",\"parentesco\":\"Hijo\"}');
 
 INSERT INTO historias_locales (id_paciente_regional, sede, id_historia_local)
 VALUES

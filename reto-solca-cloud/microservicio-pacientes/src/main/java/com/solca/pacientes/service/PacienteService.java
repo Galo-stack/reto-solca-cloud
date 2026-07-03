@@ -1,5 +1,7 @@
 package com.solca.pacientes.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solca.pacientes.dto.PacienteDTO;
 import com.solca.pacientes.model.Paciente;
 import com.solca.pacientes.repository.PacienteRepository;
@@ -14,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class PacienteService {
     private final PacienteRepository pacienteRepository;
+    private final ObjectMapper objectMapper;
 
     public List<PacienteDTO> listarTodos() {
         return pacienteRepository.findAll().stream()
@@ -41,6 +44,14 @@ public class PacienteService {
                 .telefono(dto.getTelefono())
                 .email(dto.getEmail())
                 .direccion(dto.getDireccion())
+                .grupoSanguineo(dto.getGrupoSanguineo())
+                .estadoCivil(dto.getEstadoCivil())
+                .ocupacion(dto.getOcupacion())
+                .alergias(dto.getAlergias())
+                .enfermedadActual(dto.getEnfermedadActual())
+                .antecedentesPersonales(toJsonString(dto.getAntecedentesPersonales()))
+                .antecedentesFamiliares(toJsonString(dto.getAntecedentesFamiliares()))
+                .contactoEmergencia(toJsonString(dto.getContactoEmergencia()))
                 .activo(true)
                 .build();
 
@@ -72,6 +83,34 @@ public class PacienteService {
                 .telefono(p.getTelefono())
                 .email(p.getEmail())
                 .direccion(p.getDireccion())
+                .grupoSanguineo(p.getGrupoSanguineo())
+                .estadoCivil(p.getEstadoCivil())
+                .ocupacion(p.getOcupacion())
+                .alergias(p.getAlergias())
+                .enfermedadActual(p.getEnfermedadActual())
+                .antecedentesPersonales(fromJsonString(p.getAntecedentesPersonales()))
+                .antecedentesFamiliares(fromJsonString(p.getAntecedentesFamiliares()))
+                .contactoEmergencia(fromJsonString(p.getContactoEmergencia()))
                 .build();
+    }
+
+    private String toJsonString(Object obj) {
+        if (obj == null) return null;
+        try {
+            if (obj instanceof String) return (String) obj;
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            log.warn("Error al serializar campo a JSON: {}", e.getMessage());
+            return obj.toString();
+        }
+    }
+
+    private Object fromJsonString(String json) {
+        if (json == null || json.isBlank()) return null;
+        try {
+            return objectMapper.readValue(json, Object.class);
+        } catch (JsonProcessingException e) {
+            return json;
+        }
     }
 }

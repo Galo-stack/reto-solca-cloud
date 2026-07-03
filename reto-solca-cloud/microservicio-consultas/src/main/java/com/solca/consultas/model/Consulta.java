@@ -45,6 +45,15 @@ public class Consulta {
     @Column(name = "notas", columnDefinition = "TEXT")
     private String notas;
 
+    @Column(name = "examen_fisico", columnDefinition = "TEXT")
+    private String examenFisico;
+
+    @Column(name = "observaciones", columnDefinition = "TEXT")
+    private String observaciones;
+
+    @Column(name = "recomendaciones", columnDefinition = "TEXT")
+    private String recomendaciones;
+
     @Column(name = "fecha_registro")
     @CreationTimestamp
     private LocalDateTime fechaRegistro;
