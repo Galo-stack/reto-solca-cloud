@@ -1,5 +1,5 @@
 param(
-    [string[]]$Services = @("microservicio-pacientes", "microservicio-consultas", "microservicio-laboratorio", "microservicio-imagenologia", "microservicio-repositorio"),
+    [string[]]$Services = @("microservicio-pacientes", "microservicio-consultas", "microservicio-laboratorio", "microservicio-imagenologia", "microservicio-repositorio", "microservicio-seguridad", "microservicio-auditoria"),
     [switch]$SkipTests = $true
 )
 

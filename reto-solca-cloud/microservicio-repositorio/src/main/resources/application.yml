@@ -17,9 +17,12 @@ services:
   imagenologia:
     url: ${SERVICES_IMAGENOLOGIA_URL:http://localhost:8084}
 
+jwt:
+  secret: "bXlzdXBlcnNlY3JldGp3dGtleWZvcnNvbGNhY2xvdWRzeXN0ZW0yMDI0cHJvZHVjdGlvbg=="
+
 logging:
   level:
-    com.solca.repositorio: DEBUG
+    com.solca.repositorio: INFO
     org.springframework.web: INFO
 
 management:

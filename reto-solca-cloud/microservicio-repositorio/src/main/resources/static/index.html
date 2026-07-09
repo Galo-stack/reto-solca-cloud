@@ -46,6 +46,11 @@ body.login-active { background: var(--primary-gradient); }
 .topbar .user-area { display: flex; align-items: center; gap: 1rem; }
 .topbar .user-area .user-badge { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1rem 0.4rem 0.6rem; background: var(--gray-50); border-radius: 50px; border: 1px solid var(--gray-200); font-size: 0.85rem; }
 .topbar .user-area .user-badge .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.role-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.role-MEDICO { background: #dbeafe; color: #1e40af; }
+.role-LABORATORIO { background: #d1fae5; color: #065f46; }
+.role-IMAGENOLOGIA { background: #fef3c7; color: #92400e; }
+.role-ADMIN { background: #ede9fe; color: #5b21b6; }
 .nav-bar { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 0 1.5rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
 .nav-bar::-webkit-scrollbar { display: none; }
 .nav-bar .nav-btn { border: none; background: none; padding: 0.9rem 1.25rem; color: var(--gray-600); font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.25s ease; border-bottom: 3px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 0.5rem; position: relative; }
@@ -71,16 +76,18 @@ body.login-active { background: var(--primary-gradient); }
 .bg-warning-gradient { background: linear-gradient(135deg, #d35400 0%, #e67e22 50%, #f39c12 100%); }
 .bg-info-gradient { background: linear-gradient(135deg, #1a5276 0%, #2980b9 50%, #3498db 100%); }
 .bg-danger-gradient { background: linear-gradient(135deg, #922b21 0%, #c0392b 50%, #e74c3c 100%); }
+.bg-purple-gradient { background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #8b5cf6 100%); }
 .btn-primary { background: var(--primary); border: none; padding: 0.55rem 1.25rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(10,108,117,0.35); }
 .btn-outline-primary { border-color: var(--primary); color: var(--primary); border-width: 2px; font-weight: 600; }
 .btn-outline-primary:hover { background: var(--primary); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,108,117,0.25); }
-.btn-success { border-radius: var(--radius-sm); font-weight: 600; }
-.btn-danger { border-radius: var(--radius-sm); font-weight: 600; }
 .status-badge { display: inline-block; padding: 0.25rem 0.85rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3px; }
 .status-ACTIVO { background: #d4edda; color: #155724; }
 .status-ALERTA { background: #fff3cd; color: #856404; }
 .status-CRITICO { background: #f8d7da; color: #721c24; }
+.status-PENDIENTE { background: #fff3cd; color: #856404; }
+.status-APROBADO { background: #d4edda; color: #155724; }
+.status-RECHAZADO { background: #f8d7da; color: #721c24; }
 .table { margin-bottom: 0; }
 .table th { background: var(--gray-50); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-600); border-bottom: 2px solid var(--gray-200); padding: 0.8rem 0.75rem; }
 .table td { padding: 0.75rem; vertical-align: middle; border-bottom: 1px solid var(--gray-100); font-size: 0.9rem; }
@@ -88,7 +95,6 @@ body.login-active { background: var(--primary-gradient); }
 .form-label { font-weight: 600; font-size: 0.8rem; margin-bottom: 0.3rem; color: #4a5568; text-transform: uppercase; letter-spacing: 0.4px; }
 .form-control, .form-select { border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); padding: 0.55rem 0.85rem; font-size: 0.9rem; transition: all 0.2s; background: #fff; }
 .form-control:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(10,108,117,0.12); }
-.form-control::placeholder { color: #a0aec0; }
 .login-wrapper { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 2rem; background: var(--primary-gradient); }
 .login-card { max-width: 440px; width: 100%; background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); overflow: hidden; }
 .login-card .login-header { background: var(--primary-gradient); padding: 2rem; text-align: center; color: #fff; }
@@ -145,6 +151,30 @@ footer { text-align: center; padding: 1.25rem; color: var(--gray-600); font-size
 .form-section-title { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin: 1rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--primary-light); display: flex; align-items: center; gap: 0.5rem; }
 .login-error { display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-sm); padding: 0.75rem 1rem; color: #dc2626; font-size: 0.85rem; margin-top: 1rem; align-items: center; gap: 0.5rem; }
 .login-error.show { display: flex; }
+.service-card { padding: 1rem; border-radius: var(--radius); border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 1rem; transition: all 0.2s; }
+.service-card:hover { box-shadow: var(--shadow); }
+.service-card .sc-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+.service-card .sc-info { flex: 1; }
+.service-card .sc-info .sc-name { font-weight: 700; font-size: 0.9rem; }
+.service-card .sc-info .sc-status { font-size: 0.78rem; }
+.service-card .sc-port { font-size: 0.7rem; color: var(--gray-600); }
+.service-status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 0.4rem; }
+.dot-available { background: #27ae60; }
+.dot-degraded { background: #f39c12; }
+.dot-unavailable { background: #e74c3c; }
+.sub-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.sub-tabs .sub-tab { padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid var(--gray-200); background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; }
+.sub-tabs .sub-tab:hover { border-color: var(--primary); color: var(--primary); }
+.sub-tabs .sub-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.audit-entry { padding: 0.75rem; border-bottom: 1px solid var(--gray-100); font-size: 0.85rem; }
+.audit-entry:hover { background: var(--gray-50); }
+.audit-entry .ae-header { display: flex; justify-content: space-between; font-weight: 600; }
+.audit-entry .ae-detail { color: var(--gray-600); margin-top: 0.25rem; font-size: 0.8rem; }
+.sub-tab-content { display: none; }
+.sub-tab-content.active { display: block; }
+.upload-zone { border: 2px dashed var(--gray-300); border-radius: var(--radius); padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+.upload-zone:hover { border-color: var(--primary); background: var(--primary-light); }
+@media print { .topbar, .nav-bar, footer, .loading-overlay, .toast-container, .no-print { display: none !important; } .tab-content { display: block !important; padding: 0 !important; max-width: 100% !important; } .card { box-shadow: none !important; border: 1px solid #ddd !important; } body { background: #fff !important; } }
 @media (max-width: 768px) { .nav-bar { padding: 0; } .nav-bar .nav-btn { padding: 0.7rem 0.85rem; font-size: 0.78rem; } .tab-content { padding: 1rem; } .history-grid { grid-template-columns: 1fr; } .patient-summary { grid-template-columns: 1fr; } .topbar .brand .brand-text .subtitle { display: none; } }
 .bg-soft-primary { background: var(--primary-light); }
 .text-primary { color: var(--primary) !important; }
@@ -176,13 +206,15 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 </div>
 
 <div class="nav-bar" id="mainTabs">
-  <button class="nav-btn active" data-tab="login"><i class="bi bi-key"></i> Acceso</button>
-  <button class="nav-btn protected" data-tab="dashboard"><i class="bi bi-grid-1x2"></i> Dashboard</button>
-  <button class="nav-btn protected" data-tab="patients"><i class="bi bi-people"></i> Pacientes</button>
-  <button class="nav-btn protected" data-tab="history"><i class="bi bi-file-medical"></i> Historia Clinica</button>
-  <button class="nav-btn protected" data-tab="consultation"><i class="bi bi-chat-dots"></i> Consulta Medica</button>
-  <button class="nav-btn protected" data-tab="laboratorio"><i class="bi bi-droplet"></i> Laboratorio</button>
-  <button class="nav-btn protected" data-tab="imagenes"><i class="bi bi-image"></i> Imagenologia</button>
+  <button class="nav-btn active" data-tab="login" data-roles="all"><i class="bi bi-key"></i> Acceso</button>
+  <button class="nav-btn protected" data-tab="dashboard" data-roles="MEDICO,LABORATORIO,IMAGENOLOGIA,ADMIN"><i class="bi bi-grid-1x2"></i> Dashboard</button>
+  <button class="nav-btn protected" data-tab="patients" data-roles="MEDICO,ADMIN"><i class="bi bi-people"></i> Pacientes</button>
+  <button class="nav-btn protected" data-tab="history" data-roles="MEDICO,ADMIN"><i class="bi bi-file-medical"></i> Historia Clinica</button>
+  <button class="nav-btn protected" data-tab="consultation" data-roles="MEDICO"><i class="bi bi-chat-dots"></i> Consulta Medica</button>
+  <button class="nav-btn protected" data-tab="laboratorio" data-roles="MEDICO,LABORATORIO,ADMIN"><i class="bi bi-droplet"></i> Laboratorio</button>
+  <button class="nav-btn protected" data-tab="imagenes" data-roles="MEDICO,IMAGENOLOGIA,ADMIN"><i class="bi bi-image"></i> Imagenologia</button>
+  <button class="nav-btn protected" data-tab="auditoria" data-roles="ADMIN"><i class="bi bi-shield-check"></i> Auditoria</button>
+  <button class="nav-btn protected" data-tab="services" data-roles="MEDICO,LABORATORIO,IMAGENOLOGIA,ADMIN"><i class="bi bi-hdd-stack"></i> Servicios</button>
 </div>
 
 <!-- TAB: LOGIN -->
@@ -192,7 +224,7 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
       <div class="login-header">
         <img src="./logo-solca.png" alt="SOLCA" onerror="this.style.display='none'">
         <h3>SOLCA Cloud</h3>
-        <p>Sistema de Gesti&oacute;n Cl&iacute;nica Regional</p>
+        <p>Sistema de Gestion Clinica Regional</p>
       </div>
       <div class="login-body">
         <div class="mb-3">
@@ -200,17 +232,8 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
           <input type="text" id="loginUser" class="form-control" placeholder="Ingrese su usuario" value="admin">
         </div>
         <div class="mb-3">
-          <label class="form-label"><i class="bi bi-lock"></i> Contrase&ntilde;a</label>
-          <input type="password" id="loginPass" class="form-control" placeholder="Ingrese su contrase&ntilde;a" value="admin123">
-        </div>
-        <div class="mb-3">
-          <label class="form-label"><i class="bi bi-tag"></i> Rol</label>
-          <select id="loginRole" class="form-select">
-            <option value="MEDICO">M&eacute;dico</option>
-            <option value="ENFERMERO">Enfermero</option>
-            <option value="LABORATORIO">Laboratorista</option>
-            <option value="ADMIN">Administrador</option>
-          </select>
+          <label class="form-label"><i class="bi bi-lock"></i> Contrasena</label>
+          <input type="password" id="loginPass" class="form-control" placeholder="Ingrese su contrasena" value="admin123">
         </div>
         <button class="btn btn-primary w-100 btn-lg" onclick="doLogin()"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
         <div class="login-error" id="loginError"><i class="bi bi-exclamation-triangle"></i> <span id="loginErrorMsg"></span></div>
@@ -225,16 +248,16 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
     <div class="col-md-3 col-6"><div class="metric-card bg-primary-gradient"><div class="icon"><i class="bi bi-people"></i></div><div class="value" id="dashTotalPacientes">0</div><div class="label">Total Pacientes</div></div></div>
     <div class="col-md-3 col-6"><div class="metric-card bg-success-gradient"><div class="icon"><i class="bi bi-chat-dots"></i></div><div class="value" id="dashTotalConsultas">0</div><div class="label">Consultas</div></div></div>
     <div class="col-md-3 col-6"><div class="metric-card bg-warning-gradient"><div class="icon"><i class="bi bi-droplet"></i></div><div class="value" id="dashTotalLab">0</div><div class="label">Laboratorios</div></div></div>
-    <div class="col-md-3 col-6"><div class="metric-card bg-info-gradient"><div class="icon"><i class="bi bi-image"></i></div><div class="value" id="dashTotalImg">0</div><div class="label">Im&aacute;genes</div></div></div>
+    <div class="col-md-3 col-6"><div class="metric-card bg-info-gradient"><div class="icon"><i class="bi bi-image"></i></div><div class="value" id="dashTotalImg">0</div><div class="label">Imagenes</div></div></div>
   </div>
   <div class="row g-3">
-    <div class="col-md-8"><div class="card"><div class="card-header"><i class="bi bi-bar-chart-line"></i> Distribuci&oacute;n de Actividad Cl&iacute;nica</div><div class="card-body"><div class="chart-container"><canvas id="activityChart"></canvas></div></div></div></div>
+    <div class="col-md-8"><div class="card"><div class="card-header"><i class="bi bi-bar-chart-line"></i> Distribucion de Actividad Clinica</div><div class="card-body"><div class="chart-container"><canvas id="activityChart"></canvas></div></div></div></div>
     <div class="col-md-4"><div class="card"><div class="card-header"><i class="bi bi-pie-chart"></i> Pacientes por Estado</div><div class="card-body"><div class="chart-container"><canvas id="statusPieChart"></canvas></div></div></div></div>
   </div>
   <div class="card mt-3">
-    <div class="card-header" style="background:var(--gray-50)"><i class="bi bi-clock-history"></i> &Uacute;ltimos Pacientes Registrados</div>
+    <div class="card-header" style="background:var(--gray-50)"><i class="bi bi-clock-history"></i> Ultimos Pacientes Registrados</div>
     <div class="card-body p-0">
-      <div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>ID Regional</th><th>Nombre</th><th>C&eacute;dula</th><th>G&eacute;nero</th><th>Estado</th></tr></thead><tbody id="dashRecentPatients"></tbody></table></div>
+      <div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>ID Regional</th><th>Nombre</th><th>Cedula</th><th>Genero</th><th>Estado</th></tr></thead><tbody id="dashRecentPatients"></tbody></table></div>
     </div>
   </div>
 </div>
@@ -243,16 +266,16 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <div class="tab-content" id="tab-patients">
   <div class="card">
     <div class="card-header" style="background:var(--primary-gradient);color:#fff">
-      <i class="bi bi-people-fill"></i> Gesti&oacute;n de Pacientes
+      <i class="bi bi-people-fill"></i> Gestion de Pacientes
       <button class="btn btn-light btn-sm ms-auto" onclick="openPatientModal()"><i class="bi bi-person-plus"></i> Nuevo Paciente</button>
     </div>
     <div class="card-body">
       <div class="row mb-3">
-        <div class="col-md-6"><input type="text" id="patientSearch" class="form-control" placeholder="Buscar por nombre, c&eacute;dula o ID regional..."></div>
+        <div class="col-md-6"><input type="text" id="patientSearch" class="form-control" placeholder="Buscar por nombre, cedula o ID regional..."></div>
         <div class="col-md-3"><button class="btn btn-outline-primary w-100" onclick="loadPatients()"><i class="bi bi-arrow-repeat"></i> Actualizar</button></div>
       </div>
       <div class="table-responsive">
-        <table class="table table-hover"><thead><tr><th>ID Regional</th><th>Nombres</th><th>Apellidos</th><th>C&eacute;dula</th><th>G&eacute;nero</th><th>Estado</th><th style="width:100px">Acci&oacute;n</th></tr></thead><tbody id="patientsTable"></tbody></table>
+        <table class="table table-hover"><thead><tr><th>ID Regional</th><th>Nombres</th><th>Apellidos</th><th>Cedula</th><th>Genero</th><th>Estado</th><th style="width:100px">Accion</th></tr></thead><tbody id="patientsTable"></tbody></table>
       </div>
     </div>
   </div>
@@ -261,10 +284,10 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <!-- TAB: HISTORY -->
 <div class="tab-content" id="tab-history">
   <div class="card">
-    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-file-medical"></i> Historia Cl&iacute;nica Consolidada</div>
+    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-file-medical"></i> Historia Clinica Consolidada <button class="btn btn-light btn-sm ms-auto no-print" onclick="printHistory()"><i class="bi bi-printer"></i> Imprimir</button></div>
     <div class="card-body">
       <div class="patient-search mb-3">
-        <input type="text" id="historySearch" class="form-control" placeholder="Buscar paciente por ID regional o c&eacute;dula...">
+        <input type="text" id="historySearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
         <div class="results-dropdown" id="historyResults"></div>
       </div>
       <div class="selected-patient-badge" id="historySelected">
@@ -279,10 +302,10 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <!-- TAB: CONSULTATION -->
 <div class="tab-content" id="tab-consultation">
   <div class="card">
-    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-chat-dots"></i> Registro de Consulta M&eacute;dica</div>
+    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-chat-dots"></i> Registro de Consulta Medica</div>
     <div class="card-body">
       <div class="patient-search mb-3">
-        <input type="text" id="consultSearch" class="form-control" placeholder="Buscar paciente por ID regional o c&eacute;dula...">
+        <input type="text" id="consultSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
         <div class="results-dropdown" id="consultResults"></div>
       </div>
       <div class="selected-patient-badge" id="consultSelected">
@@ -290,45 +313,42 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
         <button class="btn btn-sm btn-outline-secondary" onclick="clearConsult()"><i class="bi bi-x"></i> Cambiar</button>
       </div>
       <input type="hidden" id="consultPatientRegionalId">
-
       <div class="card mt-3">
         <div class="card-header" style="background:linear-gradient(135deg,#0e8c97,#00b4d8);color:#fff"><i class="bi bi-clipboard-data"></i> Datos de la Consulta</div>
         <div class="card-body">
           <div class="row g-3">
-            <div class="col-md-4"><label class="form-label">Sede</label><select id="consSede" class="form-select"><option value="SOLCA-CUENCA">SOLCA Cuenca</option><option value="SOLCA-QUITO">SOLCA Quito</option><option value="SOLCA-MANABI">SOLCA Manab&iacute;</option></select></div>
-            <div class="col-md-4"><label class="form-label">Especialidad</label><select id="consEspecialidad" class="form-select"><option value="MEDICINA GENERAL">Medicina General</option><option value="ONCOLOGIA">Oncolog&iacute;a</option><option value="CARDIOLOGIA">Cardiolog&iacute;a</option><option value="NEUROLOGIA">Neurolog&iacute;a</option><option value="GINECOLOGIA">Ginecolog&iacute;a</option><option value="PEDIATRIA">Pediatr&iacute;a</option><option value="TRAUMATOLOGIA">Traumatolog&iacute;a</option></select></div>
-            <div class="col-md-4"><label class="form-label">M&eacute;dico Tratante</label><input type="text" id="consMedico" class="form-control" placeholder="Dr. Apellido"></div>
+            <div class="col-md-4"><label class="form-label">Sede</label><select id="consSede" class="form-select"><option value="SOLCA-CUENCA">SOLCA Cuenca</option><option value="SOLCA-QUITO">SOLCA Quito</option><option value="SOLCA-MANABI">SOLCA Manabi</option></select></div>
+            <div class="col-md-4"><label class="form-label">Especialidad</label><select id="consEspecialidad" class="form-select"><option value="MEDICINA GENERAL">Medicina General</option><option value="ONCOLOGIA">Oncologia</option><option value="CARDIOLOGIA">Cardiologia</option><option value="NEUROLOGIA">Neurologia</option><option value="GINECOLOGIA">Ginecologia</option><option value="PEDIATRIA">Pediatria</option><option value="TRAUMATOLOGIA">Traumatologia</option></select></div>
+            <div class="col-md-4"><label class="form-label">Medico Tratante</label><input type="text" id="consMedico" class="form-control" placeholder="Dr. Apellido"></div>
           </div>
           <div class="row g-3 mt-2">
-            <div class="col-md-6"><label class="form-label">Diagn&oacute;stico (CIE-10)</label>
+            <div class="col-md-6"><label class="form-label">Diagnostico (CIE-10)</label>
               <div style="position:relative"><input type="text" id="consCie10" class="form-control" placeholder="Ej: C00-D48"><div class="cie10-suggestions" id="consCie10Sug"></div></div>
             </div>
-            <div class="col-md-6"><label class="form-label">Descripci&oacute;n del Diagn&oacute;stico</label><input type="text" id="consDiagnostico" class="form-control" readonly></div>
+            <div class="col-md-6"><label class="form-label">Descripcion del Diagnostico</label><input type="text" id="consDiagnostico" class="form-control" readonly></div>
           </div>
           <div class="row g-3 mt-2">
-            <div class="col-md-6"><label class="form-label">S&iacute;ntomas / Motivo</label><textarea id="consSintomas" class="form-control" rows="3" placeholder="Describa los s&iacute;ntomas del paciente..."></textarea></div>
+            <div class="col-md-6"><label class="form-label">Sintomas / Motivo</label><textarea id="consSintomas" class="form-control" rows="3" placeholder="Describa los sintomas del paciente..."></textarea></div>
             <div class="col-md-6"><label class="form-label">Tratamiento</label><textarea id="consTratamiento" class="form-control" rows="3" placeholder="Indique el tratamiento recetado..."></textarea></div>
           </div>
           <div class="row g-3 mt-2">
-            <div class="col-md-4"><label class="form-label">Examen F&iacute;sico</label><textarea id="consExamenFisico" class="form-control" rows="3" placeholder="Signos vitales y hallazgos del examen f&iacute;sico..."></textarea></div>
-            <div class="col-md-4"><label class="form-label">Observaciones</label><textarea id="consObservaciones" class="form-control" rows="3" placeholder="Observaciones cl&iacute;nicas adicionales..."></textarea></div>
+            <div class="col-md-4"><label class="form-label">Examen Fisico</label><textarea id="consExamenFisico" class="form-control" rows="3" placeholder="Signos vitales y hallazgos del examen fisico..."></textarea></div>
+            <div class="col-md-4"><label class="form-label">Observaciones</label><textarea id="consObservaciones" class="form-control" rows="3" placeholder="Observaciones clinicas adicionales..."></textarea></div>
             <div class="col-md-4"><label class="form-label">Recomendaciones</label><textarea id="consRecomendaciones" class="form-control" rows="3" placeholder="Recomendaciones para el paciente..."></textarea></div>
           </div>
         </div>
       </div>
-
       <div class="card mt-3">
-        <div class="card-header" style="background:linear-gradient(135deg,#6c757d,#495057);color:#fff"><i class="bi bi-plus-circle"></i> Ex&aacute;menes Solicitados</div>
+        <div class="card-header" style="background:linear-gradient(135deg,#6c757d,#495057);color:#fff"><i class="bi bi-plus-circle"></i> Examenes Solicitados</div>
         <div class="card-body">
           <div class="row g-2">
-            <div class="col-md-4"><select id="examenTipo" class="form-select"><option value="">Tipo de examen...</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGEN">Imagenolog&iacute;a</option></select></div>
-            <div class="col-md-6"><input type="text" id="examenNombre" class="form-control" placeholder="Nombre del examen (ej: Hemograma, Rayos X de t&oacute;rax)"></div>
+            <div class="col-md-4"><select id="examenTipo" class="form-select"><option value="">Tipo de examen...</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGEN">Imagenologia</option></select></div>
+            <div class="col-md-6"><input type="text" id="examenNombre" class="form-control" placeholder="Nombre del examen (ej: Hemograma, Rayos X de torax)"></div>
             <div class="col-md-2"><button class="btn btn-outline-success w-100" onclick="addExamen()"><i class="bi bi-plus-lg"></i></button></div>
           </div>
           <div id="examenesList" class="mt-2"></div>
         </div>
       </div>
-
       <button class="btn btn-primary w-100 mt-3 btn-lg" onclick="saveConsulta()"><i class="bi bi-save"></i> Guardar Consulta</button>
       <div id="consResult" class="mt-2"></div>
     </div>
@@ -338,10 +358,13 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <!-- TAB: LABORATORIO -->
 <div class="tab-content" id="tab-laboratorio">
   <div class="card">
-    <div class="card-header" style="background:linear-gradient(135deg,#1a7a4c,#27ae60);color:#fff"><i class="bi bi-droplet"></i> Resultados de Laboratorio</div>
+    <div class="card-header" style="background:linear-gradient(135deg,#1a7a4c,#27ae60);color:#fff">
+      <i class="bi bi-droplet"></i> Resultados de Laboratorio
+      <button class="btn btn-light btn-sm ms-auto" onclick="clearLab()"><i class="bi bi-arrow-repeat"></i> Nueva Busqueda</button>
+    </div>
     <div class="card-body">
       <div class="patient-search mb-3">
-        <input type="text" id="labSearch" class="form-control" placeholder="Buscar paciente por ID regional o c&eacute;dula...">
+        <input type="text" id="labSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
         <div class="results-dropdown" id="labResults"></div>
       </div>
       <div class="selected-patient-badge" id="labSelected">
@@ -349,14 +372,28 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
         <button class="btn btn-sm btn-outline-secondary" onclick="clearLab()"><i class="bi bi-x"></i> Cambiar</button>
       </div>
       <input type="hidden" id="labPatientRegionalId">
-      <div class="row g-2 mb-3 mt-2">
-        <div class="col-md-3"><input type="text" id="labTipoExamen" class="form-control" placeholder="Tipo de examen"></div>
-        <div class="col-md-3"><input type="text" id="labResultado" class="form-control" placeholder="Resultado"></div>
-        <div class="col-md-2"><input type="text" id="labValoresRef" class="form-control" placeholder="Valores ref."></div>
-        <div class="col-md-2"><input type="text" id="labArea" class="form-control" placeholder="&Aacute;rea"></div>
-        <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveLab()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+      <div class="sub-tabs mt-3" id="labSubTabs">
+        <button class="sub-tab active" onclick="switchLabTab('pendientes',this)"><i class="bi bi-clock"></i> Pendientes</button>
+        <button class="sub-tab" onclick="switchLabTab('procesados',this)"><i class="bi bi-check-all"></i> Procesados</button>
       </div>
-      <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>&Aacute;rea</th><th>Fecha</th></tr></thead><tbody id="labTable"></tbody></table></div>
+      <div id="labSubContent">
+        <div class="sub-tab-content active" id="labSubPendientes">
+          <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th><th>Accion</th></tr></thead><tbody id="labPendientesTable"></tbody></table></div>
+        </div>
+        <div class="sub-tab-content" id="labSubProcesados">
+          <div class="row g-2 mb-3">
+            <div class="col-md-3"><input type="text" id="labTipoExamen" class="form-control" placeholder="Tipo de examen"></div>
+            <div class="col-md-3"><input type="text" id="labResultado" class="form-control" placeholder="Resultado"></div>
+            <div class="col-md-2"><input type="text" id="labValoresRef" class="form-control" placeholder="Valores ref."></div>
+            <div class="col-md-2"><input type="text" id="labArea" class="form-control" placeholder="Area"></div>
+            <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveLab()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-md-12"><div class="upload-zone" onclick="document.getElementById('labPdfUpload').click()"><i class="bi bi-cloud-upload" style="font-size:2rem;display:block;margin-bottom:0.5rem"></i><strong>Subir resultado PDF</strong><p class="text-muted small mb-0">Haga clic o arrastre archivos PDF</p><input type="file" id="labPdfUpload" accept=".pdf" style="display:none" onchange="uploadLabPdf(this)"></div></div>
+          </div>
+          <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th><th>Estado</th></tr></thead><tbody id="labTable"></tbody></table></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -364,10 +401,13 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <!-- TAB: IMAGENES -->
 <div class="tab-content" id="tab-imagenes">
   <div class="card">
-    <div class="card-header" style="background:linear-gradient(135deg,#1a5276,#2980b9);color:#fff"><i class="bi bi-image"></i> Estudios de Imagenolog&iacute;a</div>
+    <div class="card-header" style="background:linear-gradient(135deg,#1a5276,#2980b9);color:#fff">
+      <i class="bi bi-image"></i> Estudios de Imagenologia
+      <button class="btn btn-light btn-sm ms-auto" onclick="clearImg()"><i class="bi bi-arrow-repeat"></i> Nueva Busqueda</button>
+    </div>
     <div class="card-body">
       <div class="patient-search mb-3">
-        <input type="text" id="imgSearch" class="form-control" placeholder="Buscar paciente por ID regional o c&eacute;dula...">
+        <input type="text" id="imgSearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
         <div class="results-dropdown" id="imgResults"></div>
       </div>
       <div class="selected-patient-badge" id="imgSelected">
@@ -376,18 +416,50 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
       </div>
       <input type="hidden" id="imgPatientRegionalId">
       <div class="row g-2 mb-3 mt-2">
-        <div class="col-md-3"><input type="text" id="imgTipoEstudio" class="form-control" placeholder="Tipo de estudio"></div>
+        <div class="col-md-3"><input type="text" id="imgTipoEstudio" class="form-control" placeholder="Tipo de estudio (RX, TAC, RMN)"></div>
         <div class="col-md-3"><input type="text" id="imgHallazgos" class="form-control" placeholder="Hallazgos"></div>
-        <div class="col-md-2"><input type="text" id="imgModalidad" class="form-control" placeholder="Modalidad"></div>
-        <div class="col-md-2"><input type="text" id="imgUrl" class="form-control" placeholder="URL del archivo"></div>
+        <div class="col-md-2"><input type="text" id="imgModalidad" class="form-control" placeholder="Modalidad (RX, TC, RM)"></div>
+        <div class="col-md-2">
+          <div class="upload-zone p-2 small" onclick="document.getElementById('imgFileUpload').click()" style="cursor:pointer;border:1px dashed var(--gray-300);border-radius:var(--radius-sm);text-align:center">
+            <i class="bi bi-images"></i> Subir DICOM
+            <input type="file" id="imgFileUpload" accept=".dcm,.jpg,.png" style="display:none" onchange="uploadImgFile(this)">
+          </div>
+        </div>
         <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveImg()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
       </div>
-      <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Archivo</th><th>Fecha</th></tr></thead><tbody id="imgTable"></tbody></table></div>
+      <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Archivo</th><th>Informe</th><th>Fecha</th></tr></thead><tbody id="imgTable"></tbody></table></div>
     </div>
   </div>
 </div>
 
-<footer>SOLCA Cloud - Sistema de Gesti&oacute;n Cl&iacute;nica Regional v3.0 | Interoperabilidad hospitalaria multicentros</footer>
+<!-- TAB: AUDITORIA -->
+<div class="tab-content" id="tab-auditoria">
+  <div class="card">
+    <div class="card-header" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff"><i class="bi bi-shield-check"></i> Registro de Auditoria del Sistema</div>
+    <div class="card-body">
+      <div class="row g-2 mb-3">
+        <div class="col-md-3"><select id="auditModulo" class="form-select"><option value="">Todos los modulos</option><option value="SEGURIDAD">Seguridad</option><option value="PACIENTES">Pacientes</option><option value="CONSULTAS">Consultas</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGENOLOGIA">Imagenologia</option></select></div>
+        <div class="col-md-2"><input type="date" id="auditFecha" class="form-control"></div>
+        <div class="col-md-2"><button class="btn btn-outline-primary w-100" onclick="loadAuditLogs()"><i class="bi bi-search"></i> Filtrar</button></div>
+        <div class="col-md-2"><button class="btn btn-outline-secondary w-100" onclick="loadAuditLogs()"><i class="bi bi-arrow-repeat"></i> Actualizar</button></div>
+        <div class="col-md-3 text-end"><span class="text-muted small" id="auditTotal">Total: 0 registros</span></div>
+      </div>
+      <div id="auditLogs" style="max-height:600px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius-sm)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: SERVICES -->
+<div class="tab-content" id="tab-services">
+  <div class="card">
+    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-hdd-stack"></i> Estado de los Servicios</div>
+    <div class="card-body">
+      <div class="row g-3" id="servicesGrid"></div>
+    </div>
+  </div>
+</div>
+
+<footer>SOLCA Cloud - Sistema de Gestion Clinica Regional v4.0 | Sistema Hospitalario Profesional</footer>
 
 <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
 <div class="toast-container" id="toastContainer"></div>
@@ -399,7 +471,9 @@ const API = {
   consultas: 'http://localhost:8082/api',
   laboratorio: 'http://localhost:8083/api',
   imagenes: 'http://localhost:8084/api',
-  repositorio: 'http://localhost:8085/api'
+  repositorio: 'http://localhost:8085/api',
+  seguridad: 'http://localhost:8086/api',
+  auditoria: 'http://localhost:8087/api'
 };
 
 const CIE10_CODES = [
@@ -421,6 +495,9 @@ let pacientesList = [];
 let examenesSolicitados = [];
 let activityChart = null;
 let statusPieChart = null;
+let currentUser = null;
+let currentToken = null;
+let auditLogsData = [];
 
 function $(id) { return document.getElementById(id); }
 
@@ -436,41 +513,142 @@ function showToast(msg, type) {
 function showLoading() { $('loadingOverlay').style.display = 'flex'; }
 function hideLoading() { $('loadingOverlay').style.display = 'none'; }
 
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
-    $('tab-' + this.dataset.tab).classList.add('active');
-    document.body.classList.toggle('login-active', this.dataset.tab === 'login');
-  });
-});
+function getToken() { return localStorage.getItem('solca_token'); }
+function setToken(t) { localStorage.setItem('solca_token', t); }
+function clearToken() { localStorage.removeItem('solca_token'); }
 
-function doLogin() {
+function getCurrentUser() {
+  const u = localStorage.getItem('solca_user');
+  return u ? JSON.parse(u) : null;
+}
+
+function setCurrentUser(u) {
+  localStorage.setItem('solca_user', JSON.stringify(u));
+  currentUser = u;
+}
+
+function clearCurrentUser() {
+  localStorage.removeItem('solca_user');
+  currentUser = null;
+}
+
+function userHasRole(roles) {
+  if (!currentUser) return false;
+  return roles.split(',').includes(currentUser.rol);
+}
+
+async function apiCall(url, method, body) {
+  const headers = {'Content-Type': 'application/json'};
+  const token = getToken();
+  if (token) { headers['Authorization'] = 'Bearer ' + token; }
+  const opts = { method: method || 'GET', headers: headers };
+  if (body) { opts.body = JSON.stringify(body); }
+  const response = await fetch(url, opts);
+  if (response.status === 401) {
+    showToast('Su sesion ha expirado. Ingrese nuevamente.', 'warning');
+    logout();
+    return null;
+  }
+  return response;
+}
+
+async function doLogin() {
   const user = $('loginUser').value.trim();
   const pass = $('loginPass').value;
-  if (!user || !pass) { showToast('Ingrese usuario y contrase&ntilde;a', 'warning'); return; }
+  if (!user || !pass) { showToast('Ingrese usuario y contrasena', 'warning'); return; }
   showLoading();
-  setTimeout(() => {
-    $('userDisplay').innerHTML = '<i class="bi bi-person-check"></i> ' + user + ' (' + $('loginRole').value + ')';
-    $('logoutBtn').classList.remove('d-none');
-    document.querySelectorAll('.protected').forEach(b => b.style.display = 'flex');
-    document.querySelector('[data-tab="dashboard"]').click();
-    loadAllData();
-    showToast('Bienvenido al sistema SOLCA Cloud', 'success');
-    hideLoading();
-  }, 500);
+  $('loginError').classList.remove('show');
+  try {
+    const resp = await fetch(API.seguridad + '/auth/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username: user, password: pass})
+    });
+    const d = await resp.json();
+    if (resp.ok && d.data) {
+      setToken(d.data.token);
+      setCurrentUser(d.data.usuario);
+      currentUser = d.data.usuario;
+      currentToken = d.data.token;
+      renderUserInfo();
+      showToast('Bienvenido al sistema SOLCA Cloud', 'success');
+      switchTab('dashboard');
+      loadAllData();
+      checkServices();
+      await sendAudit('SEGURIDAD', 'Inicio de sesion', 'Login exitoso: ' + user, 'EXITO');
+    } else {
+      $('loginErrorMsg').textContent = d.message || 'Credenciales invalidas';
+      $('loginError').classList.add('show');
+      showToast('Error de autenticacion', 'error');
+      await sendAudit('SEGURIDAD', 'Intento fallido de inicio de sesion', 'Usuario: ' + user, 'FALLO');
+    }
+  } catch (e) {
+    $('loginErrorMsg').textContent = 'Error de conexion con el servidor de seguridad';
+    $('loginError').classList.add('show');
+    showToast('Error de conexion con el servidor', 'error');
+  }
+  hideLoading();
 }
 
 function logout() {
-  $('userDisplay').innerHTML = '<i class="bi bi-shield-lock"></i> No autenticado';
-  $('logoutBtn').classList.add('d-none');
-  document.querySelectorAll('.protected').forEach(b => b.style.display = 'none');
-  document.querySelector('[data-tab="login"]').click();
-  showToast('Sesi&oacute;n cerrada', 'info');
+  sendAudit('SEGURIDAD', 'Cierre de sesion', 'Usuario: ' + (currentUser ? currentUser.username : 'desconocido'), 'EXITO');
+  clearToken();
+  clearCurrentUser();
+  renderUserInfo();
+  document.querySelectorAll('.nav-btn').forEach(b => b.style.display = '');
+  switchTab('login');
+  showToast('Sesion cerrada correctamente', 'info');
 }
 
+function renderUserInfo() {
+  if (currentUser) {
+    $('userDisplay').innerHTML = '<i class="bi bi-person-check"></i> ' + currentUser.nombres + ' ' + currentUser.apellidos + ' <span class="role-badge role-' + currentUser.rol + '">' + currentUser.rol + '</span>';
+    $('logoutBtn').classList.remove('d-none');
+    document.querySelectorAll('.nav-btn.protected').forEach(b => {
+      const roles = b.dataset.roles || '';
+      if (roles === 'all' || userHasRole(roles)) {
+        b.style.display = 'flex';
+      } else {
+        b.style.display = 'none';
+      }
+    });
+  } else {
+    $('userDisplay').innerHTML = '<i class="bi bi-shield-lock"></i> No autenticado';
+    $('logoutBtn').classList.add('d-none');
+    document.querySelectorAll('.nav-btn.protected').forEach(b => b.style.display = 'none');
+  }
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  const btn = document.querySelector('[data-tab="' + tabName + '"]');
+  if (btn) btn.classList.add('active');
+  $('tab-' + tabName).classList.add('active');
+  document.body.classList.toggle('login-active', tabName === 'login');
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.dataset.tab === 'login') { logout(); return; }
+    switchTab(this.dataset.tab);
+  });
+});
+
 document.querySelectorAll('.protected').forEach(b => b.style.display = 'none');
+
+function checkExistingSession() {
+  const token = getToken();
+  const user = getCurrentUser();
+  if (token && user) {
+    currentUser = user;
+    currentToken = token;
+    renderUserInfo();
+    switchTab('dashboard');
+    loadAllData();
+    checkServices();
+  }
+}
 
 function setupPatientSearch(inputId, resultsId, selectCallback) {
   const input = $(inputId);
@@ -507,8 +685,14 @@ function selectPatient(regionalId, inputId, resultsId, callback) {
 }
 
 async function loadPatientsList() {
-  try { const r = await fetch(API.pacientes + '/pacientes'); const d = await r.json(); pacientesList = d.data || []; return pacientesList; }
-  catch(e) { console.error(e); return []; }
+  if (!currentUser) return [];
+  try {
+    const r = await apiCall(API.pacientes + '/pacientes');
+    if (!r) return [];
+    const d = await r.json();
+    pacientesList = d.data || [];
+    return pacientesList;
+  } catch(e) { console.error(e); return []; }
 }
 
 async function loadAllData() {
@@ -560,7 +744,8 @@ function setupCie10(inputId, sugId, targetId) {
 
 async function loadDashboard() {
   try {
-    const r = await fetch(API.pacientes + '/pacientes');
+    const r = await apiCall(API.pacientes + '/pacientes');
+    if (!r) return;
     const d = await r.json();
     const pts = d.data || [];
     $('dashTotalPacientes').textContent = pts.length;
@@ -585,30 +770,30 @@ async function loadDashboard() {
 
 function renderPatientsTable() {
   const tbody = $('patientsTable');
-  tbody.innerHTML = pacientesList.map(p => '<tr><td><code>' + p.idPacienteRegional + '</code></td><td>' + p.nombres + '</td><td>' + p.apellidos + '</td><td>' + p.cedula + '</td><td>' + (p.genero==='M'?'Masculino':'Femenino') + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td><td><button class="btn btn-sm btn-outline-primary" onclick="viewPatientHistory(\'' + p.idPacienteRegional + '\')" title="Ver Historia Cl&iacute;nica"><i class="bi bi-eye"></i></button></td></tr>').join('') || '<tr><td colspan="7" class="text-center text-muted">No hay pacientes registrados</td></tr>';
+  tbody.innerHTML = pacientesList.map(p => '<tr><td><code>' + p.idPacienteRegional + '</code></td><td>' + p.nombres + '</td><td>' + p.apellidos + '</td><td>' + p.cedula + '</td><td>' + (p.genero==='M'?'Masculino':'Femenino') + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td><td><button class="btn btn-sm btn-outline-primary" onclick="viewPatientHistory(\'' + p.idPacienteRegional + '\')" title="Ver Historia"><i class="bi bi-eye"></i></button></td></tr>').join('') || '<tr><td colspan="7" class="text-center text-muted">No hay pacientes registrados</td></tr>';
 }
 async function loadPatients() { await loadPatientsList(); renderPatientsTable(); }
 
 function openPatientModal() {
   const html =
     '<div class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header" style="background:var(--primary-gradient);color:#fff"><h5 class="modal-title"><i class="bi bi-person-badge"></i> Registro de Paciente</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body">' +
-    '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informaci&oacute;n Personal</div>' +
-    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="pNombres" class="form-control" placeholder="Nombres completos" required></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="pApellidos" class="form-control" placeholder="Apellidos completos" required></div></div>' +
-    '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">C&eacute;dula (10 d&iacute;g.) *</label><input type="text" id="pCedula" class="form-control" maxlength="10" placeholder="1234567890" required><small id="pCedulaHelp" class="text-muted">Ingrese c&eacute;dula ecuatoriana</small></div>' +
+    '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informacion Personal</div>' +
+    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="pNombres" class="form-control" required></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="pApellidos" class="form-control" required></div></div>' +
+    '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">Cedula (10 dig.) *</label><input type="text" id="pCedula" class="form-control" maxlength="10" required><small id="pCedulaHelp" class="text-muted">Ingrese cedula ecuatoriana</small></div>' +
     '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="pFechaNac" class="form-control" required></div>' +
-    '<div class="col-md-2"><label class="form-label">G&eacute;nero *</label><select id="pGenero" class="form-select"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>' +
-    '<div class="col-md-3"><label class="form-label">Grupo Sangu&iacute;neo</label><select id="pGrupoSanguineo" class="form-select"><option value="">Seleccione...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div></div>' +
+    '<div class="col-md-2"><label class="form-label">Genero *</label><select id="pGenero" class="form-select"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>' +
+    '<div class="col-md-3"><label class="form-label">Grupo Sanguineo</label><select id="pGrupoSanguineo" class="form-select"><option value="">Seleccione...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div></div>' +
     '<div class="form-section-title mt-3"><i class="bi bi-telephone"></i> Contacto</div>' +
-    '<div class="row g-2"><div class="col-md-3"><label class="form-label">Tel&eacute;fono</label><input type="text" id="pTelefono" class="form-control" maxlength="10" placeholder="0999999999"></div><div class="col-md-3"><label class="form-label">Email</label><input type="email" id="pEmail" class="form-control" placeholder="correo@ejemplo.com"></div><div class="col-md-3"><label class="form-label">Estado Civil</label><select id="pEstadoCivil" class="form-select"><option value="SOLTERO">Soltero/a</option><option value="CASADO">Casado/a</option><option value="DIVORCIADO">Divorciado/a</option><option value="VIUDO">Viudo/a</option></select></div><div class="col-md-3"><label class="form-label">Ocupaci&oacute;n</label><input type="text" id="pOcupacion" class="form-control" placeholder="Profesi&oacute;n u oficio"></div></div>' +
-    '<div class="mt-2"><label class="form-label">Direcci&oacute;n</label><textarea id="pDireccion" class="form-control" rows="2" placeholder="Direcci&oacute;n domiciliaria"></textarea></div>' +
-'<div class="form-section-title mt-3"><i class="bi bi-heart-pulse"></i> Informaci&oacute;n M&eacute;dica</div>' +
-'<div class="row g-2"><div class="col-md-6"><label class="form-label">Alergias</label><textarea id="pAlergias" class="form-control" rows="2" placeholder="Alergias conocidas (medicamentos, alimentos, etc.)"></textarea></div><div class="col-md-6"><label class="form-label">Enfermedad Actual</label><textarea id="pEnfermedadActual" class="form-control" rows="2" placeholder="Describa la enfermedad o motivo de consulta actual"></textarea></div></div>' +
-'<div class="form-section-title mt-3"><i class="bi bi-clipboard-pulse"></i> Antecedentes Patol&oacute;gicos Personales</div>' +
-'<div class="row g-2"><div class="col-md-4"><label class="form-label">Enfermedades Cr&oacute;nicas</label><textarea id="pAntCronicas" class="form-control" rows="2" placeholder="Diabetes, HTA, etc."></textarea></div><div class="col-md-4"><label class="form-label">Cirug&iacute;as Previas</label><textarea id="pCirugias" class="form-control" rows="2" placeholder="Cirug&iacute;as anteriores"></textarea></div><div class="col-md-4"><label class="form-label">Otros</label><textarea id="pAntOtros" class="form-control" rows="2" placeholder="Otras condiciones relevantes"></textarea></div></div>' +
-'<div class="form-section-title mt-3"><i class="bi bi-people"></i> Antecedentes Patol&oacute;gicos Familiares</div>' +
-'<div class="row g-2"><div class="col-md-3"><label class="form-label">Padre</label><textarea id="pAntFamPadre" class="form-control" rows="2" placeholder="Enfermedades del padre"></textarea></div><div class="col-md-3"><label class="form-label">Madre</label><textarea id="pAntFamMadre" class="form-control" rows="2" placeholder="Enfermedades de la madre"></textarea></div><div class="col-md-3"><label class="form-label">Hermanos</label><textarea id="pAntFamHermanos" class="form-control" rows="2" placeholder="Enfermedades de hermanos"></textarea></div><div class="col-md-3"><label class="form-label">Hijos</label><textarea id="pAntFamHijos" class="form-control" rows="2" placeholder="Enfermedades de hijos"></textarea></div></div>' +
+    '<div class="row g-2"><div class="col-md-3"><label class="form-label">Telefono</label><input type="text" id="pTelefono" class="form-control" maxlength="10" placeholder="0999999999"></div><div class="col-md-3"><label class="form-label">Email</label><input type="email" id="pEmail" class="form-control"></div><div class="col-md-3"><label class="form-label">Estado Civil</label><select id="pEstadoCivil" class="form-select"><option value="SOLTERO">Soltero/a</option><option value="CASADO">Casado/a</option><option value="DIVORCIADO">Divorciado/a</option><option value="VIUDO">Viudo/a</option></select></div><div class="col-md-3"><label class="form-label">Ocupacion</label><input type="text" id="pOcupacion" class="form-control"></div></div>' +
+    '<div class="mt-2"><label class="form-label">Direccion</label><textarea id="pDireccion" class="form-control" rows="2"></textarea></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-heart-pulse"></i> Informacion Medica</div>' +
+    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Alergias</label><textarea id="pAlergias" class="form-control" rows="2" placeholder="Alergias conocidas"></textarea></div><div class="col-md-6"><label class="form-label">Enfermedad Actual</label><textarea id="pEnfermedadActual" class="form-control" rows="2" placeholder="Motivo de consulta actual"></textarea></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-clipboard-pulse"></i> Antecedentes Patologicos Personales</div>' +
+    '<div class="row g-2"><div class="col-md-4"><label class="form-label">Enfermedades Cronicas</label><textarea id="pAntCronicas" class="form-control" rows="2"></textarea></div><div class="col-md-4"><label class="form-label">Cirugias Previas</label><textarea id="pCirugias" class="form-control" rows="2"></textarea></div><div class="col-md-4"><label class="form-label">Otros</label><textarea id="pAntOtros" class="form-control" rows="2"></textarea></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-people"></i> Antecedentes Patologicos Familiares</div>' +
+    '<div class="row g-2"><div class="col-md-3"><label class="form-label">Padre</label><textarea id="pAntFamPadre" class="form-control" rows="2"></textarea></div><div class="col-md-3"><label class="form-label">Madre</label><textarea id="pAntFamMadre" class="form-control" rows="2"></textarea></div><div class="col-md-3"><label class="form-label">Hermanos</label><textarea id="pAntFamHermanos" class="form-control" rows="2"></textarea></div><div class="col-md-3"><label class="form-label">Hijos</label><textarea id="pAntFamHijos" class="form-control" rows="2"></textarea></div></div>' +
     '<div class="form-section-title mt-3"><i class="bi bi-telephone-forward"></i> Contacto de Emergencia</div>' +
-    '<div class="row g-2"><div class="col-md-4"><label class="form-label">Nombre Completo</label><input type="text" id="pEmergNombre" class="form-control" placeholder="Nombre del contacto"></div><div class="col-md-4"><label class="form-label">Tel&eacute;fono</label><input type="text" id="pEmergTelefono" class="form-control" maxlength="10" placeholder="0999999999"></div><div class="col-md-4"><label class="form-label">Parentesco</label><select id="pEmergParentesco" class="form-select"><option value="">Seleccione...</option><option value="Padre">Padre</option><option value="Madre">Madre</option><option value="Conyuge">C&oacute;nyuge</option><option value="Hijo/a">Hijo/a</option><option value="Hermano/a">Hermano/a</option><option value="Familiar">Familiar</option><option value="Amigo">Amigo</option></select></div></div>' +
+    '<div class="row g-2"><div class="col-md-4"><label class="form-label">Nombre Completo</label><input type="text" id="pEmergNombre" class="form-control"></div><div class="col-md-4"><label class="form-label">Telefono</label><input type="text" id="pEmergTelefono" class="form-control" maxlength="10"></div><div class="col-md-4"><label class="form-label">Parentesco</label><select id="pEmergParentesco" class="form-select"><option value="">Seleccione...</option><option value="Padre">Padre</option><option value="Madre">Madre</option><option value="Conyuge">Conyuge</option><option value="Hijo/a">Hijo/a</option><option value="Hermano/a">Hermano/a</option><option value="Familiar">Familiar</option><option value="Amigo">Amigo</option></select></div></div>' +
     '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" onclick="savePatient()"><i class="bi bi-save"></i> Guardar Paciente</button></div></div></div>';
   const div = document.createElement('div'); div.innerHTML = html;
   document.body.appendChild(div);
@@ -619,17 +804,15 @@ function openPatientModal() {
   window._patientModal = m;
   if ($('pCedula')) $('pCedula').oninput = function() {
     const v = this.value;
-    if (v.length === 10) {
-      const val = /^\d{10}$/.test(v) && parseInt(v.substring(0,2)) >= 1 && parseInt(v.substring(0,2)) <= 24;
-      $('pCedulaHelp').innerHTML = val ? '<span class="text-success fw-bold">C&eacute;dula v&aacute;lida</span>' : '<span class="text-danger fw-bold">C&eacute;dula inv&aacute;lida</span>';
-    } else $('pCedulaHelp').textContent = 'Ingrese c&eacute;dula ecuatoriana de 10 d&iacute;gitos';
+    if (v.length === 10) { $('pCedulaHelp').innerHTML = /^\d{10}$/.test(v) ? '<span class="text-success fw-bold">Cedula valida</span>' : '<span class="text-danger fw-bold">Cedula invalida</span>'; }
+    else $('pCedulaHelp').textContent = 'Ingrese cedula ecuatoriana de 10 digitos';
   };
 }
 
 async function savePatient() {
   const n=$('pNombres').value.trim(), a=$('pApellidos').value.trim(), c=$('pCedula').value.trim(), f=$('pFechaNac').value, g=$('pGenero').value;
   if (!n||!a||!c||!f) { showToast('Complete los campos obligatorios (*)','warning'); return; }
-  if (!/^\d{10}$/.test(c)) { showToast('C&eacute;dula debe tener 10 d&iacute;gitos v&aacute;lidos','warning'); return; }
+  if (!/^\d{10}$/.test(c)) { showToast('Cedula debe tener 10 digitos validos','warning'); return; }
   showLoading();
   try {
     const body = {
@@ -641,28 +824,20 @@ async function savePatient() {
       direccion:$('pDireccion').value.trim(),
       alergias:$('pAlergias').value.trim(),
       enfermedadActual:$('pEnfermedadActual').value.trim(),
-      antecedentesPersonales:{
-        cronicas:$('pAntCronicas').value.trim(),
-        cirugias:$('pCirugias').value.trim(),
-        otros:$('pAntOtros').value.trim()
-      },
-      antecedentesFamiliares:{
-        padre:$('pAntFamPadre').value.trim(),
-        madre:$('pAntFamMadre').value.trim(),
-        hermanos:$('pAntFamHermanos').value.trim(),
-        hijos:$('pAntFamHijos').value.trim()
-      },
-      contactoEmergencia:{
-        nombre:$('pEmergNombre').value.trim(),
-        telefono:$('pEmergTelefono').value.trim(),
-        parentesco:$('pEmergParentesco').value||''
-      }
+      antecedentesPersonales:{cronicas:$('pAntCronicas').value.trim(),cirugias:$('pCirugias').value.trim(),otros:$('pAntOtros').value.trim()},
+      antecedentesFamiliares:{padre:$('pAntFamPadre').value.trim(),madre:$('pAntFamMadre').value.trim(),hermanos:$('pAntFamHermanos').value.trim(),hijos:$('pAntFamHijos').value.trim()},
+      contactoEmergencia:{nombre:$('pEmergNombre').value.trim(),telefono:$('pEmergTelefono').value.trim(),parentesco:$('pEmergParentesco').value||''}
     };
-    const r = await fetch(API.pacientes+'/pacientes', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+    const r = await apiCall(API.pacientes+'/pacientes', 'POST', body);
+    if (!r) { hideLoading(); return; }
     const d = await r.json();
-    if (r.ok) { showToast('Paciente registrado: '+d.data.idPacienteRegional,'success'); window._patientModal&&window._patientModal.hide(); await loadPatientsList(); renderPatientsTable(); await loadDashboard(); }
-    else showToast(d.message||'Error al registrar paciente','error');
-  } catch(e) { showToast('Error de conexi&oacute;n con el servidor','error'); }
+    if (r.ok) {
+      showToast('Paciente registrado: '+d.data.idPacienteRegional,'success');
+      window._patientModal&&window._patientModal.hide();
+      await loadPatientsList(); renderPatientsTable(); await loadDashboard();
+      await sendAudit('PACIENTES', 'Creacion de paciente', 'ID Regional: ' + d.data.idPacienteRegional + ' - ' + n + ' ' + a, 'EXITO');
+    } else showToast(d.message||'Error al registrar paciente','error');
+  } catch(e) { showToast('Error de conexion con el servidor','error'); }
   hideLoading();
 }
 
@@ -676,64 +851,58 @@ function clearHistory() { $('historySelected').classList.remove('show'); $('hist
 
 async function loadHistory(rid) {
   showLoading();
-  $('historyContent').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" style="width:3rem;height:3rem"></div><p class="mt-3 text-muted">Cargando historia cl&iacute;nica...</p></div>';
+  $('historyContent').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" style="width:3rem;height:3rem"></div><p class="mt-3 text-muted">Cargando historia clinica...</p></div>';
   try {
-    const r = await fetch(API.repositorio+'/repositorio/paciente/'+rid);
+    const r = await apiCall(API.repositorio+'/repositorio/paciente/'+rid);
+    if (!r) { hideLoading(); return; }
     const d = await r.json();
     if (d.status==='ERROR'||!d.paciente) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Paciente no encontrado en el repositorio regional</div>'; hideLoading(); return; }
     const p=d.paciente||{}, consultas=d.consultas||[], lab=d.laboratorio||[], img=d.imagenes||[];
-
     let html = '<div class="history-section"><div class="hs-header"><i class="bi bi-person-badge"></i> FICHA DEL PACIENTE</div><div class="hs-body">' +
       '<div class="patient-summary"><div class="ps-avatar"><i class="bi bi-person"></i></div><div class="ps-info">' +
       '<div class="ps-item"><div class="ps-label">Nombre Completo</div><div class="ps-value">'+(p.nombres||'')+' '+(p.apellidos||'')+'</div></div>' +
       '<div class="ps-item"><div class="ps-label">ID Regional</div><div class="ps-value"><code>'+(p.idPacienteRegional||'-')+'</code></div></div>' +
-      '<div class="ps-item"><div class="ps-label">C&eacute;dula</div><div class="ps-value">'+(p.cedula||'-')+'</div></div>' +
-      '<div class="ps-item"><div class="ps-label">G&eacute;nero</div><div class="ps-value">'+(p.genero==='M'?'Masculino':p.genero==='F'?'Femenino':p.genero||'-')+'</div></div>' +
-      '<div class="ps-item"><div class="ps-label">Grupo Sangu&iacute;neo</div><div class="ps-value"><span class="status-badge" style="background:var(--primary-light);color:var(--primary)">'+(p.grupoSanguineo||'No registrado')+'</span></div></div>' +
-      (p.ocupacion ? '<div class="ps-item"><div class="ps-label">Ocupaci&oacute;n</div><div class="ps-value">'+p.ocupacion+'</div></div>' : '') +
-      '<div class="ps-item"><div class="ps-label">Tel&eacute;fono</div><div class="ps-value">'+(p.telefono||'-')+'</div></div>' +
+      '<div class="ps-item"><div class="ps-label">Cedula</div><div class="ps-value">'+(p.cedula||'-')+'</div></div>' +
+      '<div class="ps-item"><div class="ps-label">Genero</div><div class="ps-value">'+(p.genero==='M'?'Masculino':p.genero==='F'?'Femenino':p.genero||'-')+'</div></div>' +
+      '<div class="ps-item"><div class="ps-label">Grupo Sanguineo</div><div class="ps-value"><span class="status-badge" style="background:var(--primary-light);color:var(--primary)">'+(p.grupoSanguineo||'No registrado')+'</span></div></div>' +
+      (p.ocupacion ? '<div class="ps-item"><div class="ps-label">Ocupacion</div><div class="ps-value">'+p.ocupacion+'</div></div>' : '') +
+      '<div class="ps-item"><div class="ps-label">Telefono</div><div class="ps-value">'+(p.telefono||'-')+'</div></div>' +
       (p.email ? '<div class="ps-item"><div class="ps-label">Email</div><div class="ps-value">'+p.email+'</div></div>' : '') +
       (p.estadoCivil ? '<div class="ps-item"><div class="ps-label">Estado Civil</div><div class="ps-value">'+p.estadoCivil+'</div></div>' : '') +
-      (p.direccion ? '<div class="ps-item"><div class="ps-label">Direcci&oacute;n</div><div class="ps-value">'+p.direccion+'</div></div>' : '') +
+      (p.direccion ? '<div class="ps-item"><div class="ps-label">Direccion</div><div class="ps-value">'+p.direccion+'</div></div>' : '') +
       '</div></div></div></div>';
-
     const ce = p.contactoEmergencia;
     if (ce&&(ce.nombre||ce.telefono)) {
       html+='<div class="history-section"><div class="hs-header"><i class="bi bi-telephone-forward"></i> CONTACTO DE EMERGENCIA</div><div class="hs-body"><div class="history-grid">'+
         '<div class="history-item"><div class="h-label">Nombre</div><div class="h-value">'+(ce.nombre||'-')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Tel&eacute;fono</div><div class="h-value">'+(ce.telefono||'-')+'</div></div>'+
+        '<div class="history-item"><div class="h-label">Telefono</div><div class="h-value">'+(ce.telefono||'-')+'</div></div>'+
         '<div class="history-item"><div class="h-label">Parentesco</div><div class="h-value">'+(ce.parentesco||'-')+'</div></div>'+
         '</div></div></div>';
     }
-
     if (consultas.length&&consultas[consultas.length-1].diagnostico) {
       const ult=consultas[consultas.length-1];
-      html+='<div class="history-section"><div class="hs-header" style="border-bottom-color:var(--success)"><i class="bi bi-clipboard-pulse text-success"></i> DIAGN&Oacute;STICO PRINCIPAL</div><div class="hs-body"><div class="history-grid">'+
+      html+='<div class="history-section"><div class="hs-header" style="border-bottom-color:var(--success)"><i class="bi bi-clipboard-pulse text-success"></i> DIAGNOSTICO PRINCIPAL</div><div class="hs-body"><div class="history-grid">'+
         '<div class="history-item"><div class="h-label">CIE-10</div><div class="h-value"><code>'+(ult.codigoCie10||ult.diagnostico||'-')+'</code></div></div>'+
-        '<div class="history-item"><div class="h-label">Descripci&oacute;n</div><div class="h-value">'+(ult.diagnostico||'-')+'</div></div>'+
-        (ult.medico?'<div class="history-item"><div class="h-label">M&eacute;dico</div><div class="h-value">'+ult.medico+'</div></div>':'')+
+        '<div class="history-item"><div class="h-label">Descripcion</div><div class="h-value">'+(ult.diagnostico||'-')+'</div></div>'+
+        (ult.medico?'<div class="history-item"><div class="h-label">Medico</div><div class="h-value">'+ult.medico+'</div></div>':'')+
         '</div></div></div>';
     }
-
     if (p.alergias) {
       html+='<div class="history-section"><div class="hs-header" style="border-bottom-color:var(--danger)"><i class="bi bi-exclamation-triangle text-danger"></i> ALERGIAS</div><div class="hs-body"><div class="alert alert-danger mb-0"><i class="bi bi-exclamation-circle"></i> '+p.alergias+'</div></div></div>';
     }
-
     if (p.enfermedadActual) {
       html+='<div class="history-section"><div class="hs-header"><i class="bi bi-heart-pulse"></i> ENFERMEDAD ACTUAL</div><div class="hs-body"><div class="bg-soft-primary p-3 rounded">'+p.enfermedadActual+'</div></div></div>';
     }
-
     const ap = p.antecedentesPersonales;
     if (ap&&(ap.cronicas||ap.cirugias||ap.otros)) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-clipboard-data"></i> ANTECEDENTES PATOL&Oacute;GICOS PERSONALES</div><div class="hs-body"><div class="history-grid">'+
-        '<div class="history-item"><div class="h-label">Enfermedades Cr&oacute;nicas</div><div class="h-value">'+(ap.cronicas||'Ninguna')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Cirug&iacute;as Previas</div><div class="h-value">'+(ap.cirugias||'Ninguna')+'</div></div>'+
+      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-clipboard-data"></i> ANTECEDENTES PATOLOGICOS PERSONALES</div><div class="hs-body"><div class="history-grid">'+
+        '<div class="history-item"><div class="h-label">Enfermedades Cronicas</div><div class="h-value">'+(ap.cronicas||'Ninguna')+'</div></div>'+
+        '<div class="history-item"><div class="h-label">Cirugias Previas</div><div class="h-value">'+(ap.cirugias||'Ninguna')+'</div></div>'+
         '<div class="history-item"><div class="h-label">Otros</div><div class="h-value">'+(ap.otros||'Ninguno')+'</div></div></div></div></div>';
     }
-
     const af = p.antecedentesFamiliares;
     if (af&&(typeof af==='string'?af:(af.padre||af.madre||af.hermanos||af.hijos))) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-people"></i> ANTECEDENTES PATOL&Oacute;GICOS FAMILIARES</div><div class="hs-body">'+
+      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-people"></i> ANTECEDENTES PATOLOGICOS FAMILIARES</div><div class="hs-body">'+
         (typeof af==='string'?'<p class="mb-0">'+af+'</p>':
         '<div class="history-grid">'+
         '<div class="history-item"><div class="h-label">Padre</div><div class="h-value">'+(af.padre||'No registrado')+'</div></div>'+
@@ -741,31 +910,43 @@ async function loadHistory(rid) {
         '<div class="history-item"><div class="h-label">Hermanos</div><div class="h-value">'+(af.hermanos||'No registrado')+'</div></div>'+
         '<div class="history-item"><div class="h-label">Hijos</div><div class="h-value">'+(af.hijos||'No registrado')+'</div></div></div>')+'</div></div>';
     }
-
-    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-chat-dots"></i> CONSULTAS M&Eacute;DICAS</div><div class="hs-body">'+
-      (consultas.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Especialidad</th><th>Diagn&oacute;stico</th><th>M&eacute;dico</th><th>Tratamiento</th><th>Ex.F&iacute;sico</th></tr></thead><tbody>'+
+    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-chat-dots"></i> CONSULTAS MEDICAS</div><div class="hs-body">'+
+      (consultas.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Especialidad</th><th>Diagnostico</th><th>Medico</th><th>Tratamiento</th><th>Ex.Fisico</th></tr></thead><tbody>'+
       consultas.map(c=>'<tr><td><strong>'+(c.fechaConsulta||'-')+'</strong></td><td><span class="status-badge" style="background:var(--primary-light);color:var(--primary)">'+(c.especialidad||'-')+'</span></td><td>'+(c.diagnostico||'-')+'</td><td>'+(c.medico||'-')+'</td><td>'+(c.tratamiento||'-')+'</td><td>'+(c.examenFisico||'-')+'</td></tr>').join('')+
       '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin consultas registradas</p></div>')+'</div></div>';
-
     html += '<div class="history-section"><div class="hs-header"><i class="bi bi-droplet"></i> RESULTADOS DE LABORATORIO</div><div class="hs-body">'+
-      (lab.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Examen</th><th>Resultado</th><th>Referencia</th><th>&Aacute;rea</th></tr></thead><tbody>'+
+      (lab.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th></tr></thead><tbody>'+
       lab.map(l=>'<tr><td>'+(l.fechaEjecucion||'-')+'</td><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td></tr>').join('')+
       '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin resultados de laboratorio</p></div>')+'</div></div>';
-
-    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-image"></i> ESTUDIOS DE IMAGENOLOG&Iacute;A</div><div class="hs-body">'+
+    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-image"></i> ESTUDIOS DE IMAGENOLOGIA</div><div class="hs-body">'+
       (img.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th></tr></thead><tbody>'+
       img.map(i=>'<tr><td>'+(i.fechaEstudio||'-')+'</td><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td><span class="status-badge" style="background:var(--gray-100);color:var(--gray-800)">'+(i.modalidad||'-')+'</span></td></tr>').join('')+
-      '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin estudios de imagenolog&iacute;a</p></div>')+'</div></div>';
-
+      '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin estudios de imagenologia</p></div>')+'</div></div>';
     if (d.errores&&Object.keys(d.errores).length) html+='<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> <strong>Nota:</strong> Algunos servicios no respondieron: '+Object.values(d.errores).join(', ')+'</div>';
     $('historyContent').innerHTML = html;
-  } catch(e) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia cl&iacute;nica. Verifique que todos los microservicios est&eacute;n activos.</div>'; }
+    sendAudit('CONSULTAS', 'Consulta de historia clinica', 'Paciente: ' + rid, 'EXITO');
+  } catch(e) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia clinica. Verifique que todos los microservicios esten activos.</div>'; }
   hideLoading();
+}
+
+function printHistory() {
+  const content = $('historyContent').innerHTML;
+  if (!content || content.includes('Cargando')) { showToast('Cargue una historia clinica primero', 'warning'); return; }
+  const title = $('historyPatientName').textContent;
+  const win = window.open('', '_blank');
+  win.document.write('<html><head><title>Historia Clinica - ' + title + '</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
+  win.document.write('<style>body{font-family:"Inter",sans-serif;padding:2rem;color:#2d3748}table{width:100%;border-collapse:collapse;margin:1rem 0}th{background:#f8f9fa;padding:0.75rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.8px;color:#0a6c75;border-bottom:3px solid #0a6c75;text-align:left}td{padding:0.75rem;border-bottom:1px solid #dee2e6;font-size:0.9rem}.h-section{border:1px solid #dee2e6;border-radius:8px;margin-bottom:1rem;overflow:hidden}.h-section .h-header{background:#f8f9fa;padding:0.9rem 1.25rem;border-bottom:3px solid #0a6c75;font-weight:700;color:#0a6c75;font-size:0.85rem}.h-section .h-body{padding:1.25rem}.badge-props{display:inline-block;padding:0.25rem 0.85rem;border-radius:50px;font-size:0.75rem;background:#e0f2f4;color:#0a6c75}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}.grid-item{padding:0.5rem 0}.grid-item .lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;font-weight:600}.grid-item .val{font-size:0.95rem;margin-top:0.15rem;font-weight:500}@media print{body{padding:0.5rem}}</style></head><body>');
+  win.document.write('<div style="text-align:center;margin-bottom:2rem;border-bottom:3px solid #0a6c75;padding-bottom:1rem"><h2 style="color:#0a6c75;margin:0">SOLCA Cloud</h2><p style="color:#6c757d;margin:0">Historia Clinica Consolidada - ' + title + '</p></div>');
+  win.document.write('<div>' + content.replace(/<button[\s\S]*?<\/button>/g, '').replace(/onclick="[^"]*"/g, '').replace(/class="no-print"/g, '') + '</div>');
+  win.document.write('<div style="text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #dee2e6;color:#6c757d;font-size:0.78rem">Documento generado por SOLCA Cloud - ' + new Date().toLocaleString('es-EC') + '</div>');
+  win.document.write('</body></html>');
+  win.document.close();
+  setTimeout(() => { win.print(); }, 500);
 }
 
 function viewPatientHistory(rid) {
   const p=pacientesList.find(x=>x.idPacienteRegional===rid);
-  if(p) { $('historySelected').classList.add('show'); $('historyPatientName').textContent=p.nombres+' '+p.apellidos; $('historyPatientId').textContent=p.idPacienteRegional; document.querySelector('[data-tab="history"]').click(); loadHistory(rid); }
+  if(p) { $('historySelected').classList.add('show'); $('historyPatientName').textContent=p.nombres+' '+p.apellidos; $('historyPatientId').textContent=p.idPacienteRegional; switchTab('history'); loadHistory(rid); }
 }
 
 function selectConsultPatient(p) {
@@ -784,30 +965,32 @@ function renderExamenes(){ $('examenesList').innerHTML = examenesSolicitados.map
 
 async function saveConsulta() {
   const pid=$('consultPatientRegionalId').value; if(!pid){showToast('Seleccione un paciente','warning');return;}
-  if(!$('consCie10').value){showToast('Ingrese el diagn&oacute;stico CIE-10','warning');return;}
+  if(!$('consCie10').value){showToast('Ingrese el diagnostico CIE-10','warning');return;}
   showLoading();
   try {
     const body={
       idPacienteRegional:pid, sede:$('consSede').value, fechaConsulta:new Date().toISOString().split('T')[0],
       especialidad:$('consEspecialidad').value, diagnostico:$('consDiagnostico').value||$('consCie10').value,
-      tratamiento:$('consTratamiento').value||'Pendiente', medico:$('consMedico').value||'M&eacute;dico asignado',
+      tratamiento:$('consTratamiento').value||'Pendiente', medico:$('consMedico').value||'Medico asignado',
       examenFisico:$('consExamenFisico').value||'',
       observaciones:$('consObservaciones').value||'',
       recomendaciones:$('consRecomendaciones').value||'',
       notas:'Sintomas: '+($('consSintomas').value||'No especificado')
     };
-    const r=await fetch(API.consultas+'/consultas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const r=await apiCall(API.consultas+'/consultas','POST',body);
+    if(!r){hideLoading();return;}
     if(r.ok){
       showToast('Consulta registrada exitosamente','success');
       for(const ex of examenesSolicitados){
-        if(ex.tipo==='LABORATORIO') await fetch(API.laboratorio+'/laboratorio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:$('consSede').value,fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:ex.nombre,resultado:'Pendiente',valoresReferencia:'---',medicoSolicitante:$('consMedico').value||'M&eacute;dico',area:'CONSULTA EXTERNA',metodo:'MANUAL',anormal:false})});
-        if(ex.tipo==='IMAGEN') await fetch(API.imagenes+'/imagenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:$('consSede').value,fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:ex.nombre,formato:'DICOM',urlArchivo:'Pendiente',nombreArchivo:'Pendiente',medicoSolicitante:$('consMedico').value||'M&eacute;dico',modalidad:'RX',hallazgos:'Pendiente',tamanoBytes:0})});
+        if(ex.tipo==='LABORATORIO') await apiCall(API.laboratorio+'/laboratorio','POST',{idPacienteRegional:pid,sede:$('consSede').value,fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:ex.nombre,resultado:'Pendiente',valoresReferencia:'---',medicoSolicitante:$('consMedico').value||'Medico',area:'CONSULTA EXTERNA',metodo:'MANUAL',anormal:false});
+        if(ex.tipo==='IMAGEN') await apiCall(API.imagenes+'/imagenes','POST',{idPacienteRegional:pid,sede:$('consSede').value,fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:ex.nombre,formato:'DICOM',urlArchivo:'Pendiente',nombreArchivo:'Pendiente',medicoSolicitante:$('consMedico').value||'Medico',modalidad:'RX',hallazgos:'Pendiente',tamanoBytes:0});
       }
-      $('consResult').innerHTML='<div class="alert alert-success mt-2"><i class="bi bi-check-circle"></i> Consulta m&eacute;dica y ex&aacute;menes registrados correctamente</div>';
+      $('consResult').innerHTML='<div class="alert alert-success mt-2"><i class="bi bi-check-circle"></i> Consulta medica y examenes registrados correctamente</div>';
       setTimeout(()=>$('consResult').innerHTML='',4000);
+      sendAudit('CONSULTAS', 'Registro de consulta', 'Paciente: ' + pid + ' - Diagnostico: ' + body.diagnostico, 'EXITO');
       clearConsult();
     } else showToast('Error al guardar la consulta','error');
-  } catch(e){showToast('Error de conexi&oacute;n con el servidor','error');}
+  } catch(e){showToast('Error de conexion con el servidor','error');}
   hideLoading();
 }
 
@@ -815,22 +998,60 @@ function selectLabPatient(p) {
   $('labSelected').classList.add('show'); $('labPatientName').textContent=p.nombres+' '+p.apellidos; $('labPatientId').textContent=p.idPacienteRegional;
   $('labPatientRegionalId').value=p.idPacienteRegional; loadLabResults(p.idPacienteRegional);
 }
-function clearLab() { $('labSelected').classList.remove('show'); $('labPatientRegionalId').value=''; $('labTable').innerHTML=''; }
+function clearLab() { $('labSelected').classList.remove('show'); $('labPatientRegionalId').value=''; $('labTable').innerHTML=''; $('labPendientesTable').innerHTML=''; }
+
+let labCurrentTab = 'pendientes';
+function switchLabTab(tab, btn) {
+  labCurrentTab = tab;
+  document.querySelectorAll('#labSubTabs .sub-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#labSubContent .sub-tab-content').forEach(c => c.classList.remove('active'));
+  $('labSub' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+  if (tab === 'pendientes') loadLabPendientes($('labPatientRegionalId').value);
+}
+
+async function loadLabPendientes(pid) {
+  if (!pid) return;
+  try {
+    const r = await apiCall(API.laboratorio+'/laboratorio/paciente/'+pid);
+    if (!r) return;
+    const d = await r.json();
+    const data = d.data || [];
+    const pendientes = data.filter(l => l.resultado === 'Pendiente' || !l.resultado);
+    const table = $('labPendientesTable');
+    table.innerHTML = pendientes.length ? pendientes.map(l => '<tr><td><strong>' + (l.tipoExamen||'-') + '</strong></td><td><span class="status-badge status-PENDIENTE">Pendiente</span></td><td class="text-muted">' + (l.valoresReferencia||'-') + '</td><td>' + (l.area||'-') + '</td><td>' + (l.fechaEjecucion||'-') + '</td><td><button class="btn btn-sm btn-success" onclick="switchLabTab(\'procesados\',document.querySelector(\'#labSubTabs .sub-tab:last-child\'))"><i class="bi bi-arrow-right"></i> Procesar</button></td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">No hay solicitudes pendientes</td></tr>';
+  } catch(e) { $('labPendientesTable').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error al cargar</td></tr>'; }
+}
+
 async function saveLab() {
   const pid=$('labPatientRegionalId').value; if(!pid){showToast('Seleccione un paciente','warning');return;}
   const t=$('labTipoExamen').value.trim(), r=$('labResultado').value.trim(); if(!t||!r){showToast('Ingrese tipo de examen y resultado','warning');return;}
   showLoading();
   try {
-    const resp=await fetch(API.laboratorio+'/laboratorio',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:t,resultado:r,valoresReferencia:$('labValoresRef').value.trim()||'---',medicoSolicitante:'Sistema',area:$('labArea').value.trim()||'GENERAL',metodo:'AUTOMATICO',anormal:false})});
-    if(resp.ok){showToast('Resultado de laboratorio registrado','success');$('labTipoExamen').value='';$('labResultado').value='';$('labValoresRef').value='';$('labArea').value='';loadLabResults(pid);}
+    const resp=await apiCall(API.laboratorio+'/laboratorio','POST',{idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:t,resultado:r,valoresReferencia:$('labValoresRef').value.trim()||'---',medicoSolicitante:'Sistema',area:$('labArea').value.trim()||'GENERAL',metodo:'AUTOMATICO',anormal:false});
+    if (!resp) { hideLoading(); return; }
+    if(resp.ok){showToast('Resultado de laboratorio registrado','success');$('labTipoExamen').value='';$('labResultado').value='';$('labValoresRef').value='';$('labArea').value='';loadLabResults(pid);sendAudit('LABORATORIO','Registro de resultado laboratorio','Paciente: '+pid+' - Examen: '+t,'EXITO');}
     else showToast('Error al registrar resultado','error');
-  }catch(e){showToast('Error de conexi&oacute;n','error');}
+  }catch(e){showToast('Error de conexion','error');}
   hideLoading();
 }
+
 async function loadLabResults(pid) {
-  try{const r=await fetch(API.laboratorio+'/laboratorio/paciente/'+pid);const d=await r.json();const data=d.data||[];
-    $('labTable').innerHTML=data.length?data.map(l=>'<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td></tr>').join(''):'<tr><td colspan="5" class="text-center text-muted py-4">Sin resultados de laboratorio</td></tr>';
-  }catch(e){$('labTable').innerHTML='<tr><td colspan="5" class="text-center text-danger">Error al cargar datos</td></tr>';}
+  try{
+    const r = await apiCall(API.laboratorio+'/laboratorio/paciente/'+pid);
+    if (!r) return;
+    const d = await r.json();
+    const data=d.data||[];
+    $('labPendientesTable').innerHTML = data.filter(l => l.resultado === 'Pendiente' || !l.resultado).length ? data.filter(l => l.resultado === 'Pendiente' || !l.resultado).map(l => '<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td><span class="status-badge status-PENDIENTE">Pendiente</span></td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td><td><button class="btn btn-sm btn-success" onclick="switchLabTab(\'procesados\',document.querySelector(\'#labSubTabs .sub-tab:last-child\'))"><i class="bi bi-arrow-right"></i> Procesar</button></td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">No hay solicitudes pendientes</td></tr>';
+    $('labTable').innerHTML = data.filter(l => l.resultado && l.resultado !== 'Pendiente').length ? data.filter(l => l.resultado && l.resultado !== 'Pendiente').map(l => '<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td><td><span class="status-badge status-APROBADO">Procesado</span></td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">Sin resultados procesados</td></tr>';
+  } catch(e){$('labTable').innerHTML='<tr><td colspan="6" class="text-center text-danger">Error al cargar datos</td></tr>';}
+}
+
+function uploadLabPdf(input) {
+  if (input.files && input.files[0]) {
+    showToast('Archivo ' + input.files[0].name + ' listo para procesar (simulacion)', 'info');
+    sendAudit('LABORATORIO', 'Subida de archivo PDF resultado', input.files[0].name, 'EXITO');
+  }
 }
 
 function selectImgPatient(p) {
@@ -838,28 +1059,137 @@ function selectImgPatient(p) {
   $('imgPatientRegionalId').value=p.idPacienteRegional; loadImgResults(p.idPacienteRegional);
 }
 function clearImg() { $('imgSelected').classList.remove('show'); $('imgPatientRegionalId').value=''; $('imgTable').innerHTML=''; }
+
+function uploadImgFile(input) {
+  if (input.files && input.files[0]) {
+    showToast('Archivo ' + input.files[0].name + ' preparado para estudio', 'info');
+    $('imgTipoEstudio').value = input.files[0].name.replace(/\.[^/.]+$/, '');
+    sendAudit('IMAGENOLOGIA', 'Subida de archivo DICOM', input.files[0].name, 'EXITO');
+  }
+}
+
 async function saveImg() {
   const pid=$('imgPatientRegionalId').value; if(!pid){showToast('Seleccione un paciente','warning');return;}
   const t=$('imgTipoEstudio').value.trim(); if(!t){showToast('Ingrese tipo de estudio','warning');return;}
   showLoading();
   try {
-    const resp=await fetch(API.imagenes+'/imagenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:t,formato:'DICOM',urlArchivo:$('imgUrl').value.trim()||'No disponible',nombreArchivo:'estudio.dcm',medicoSolicitante:'Sistema',modalidad:$('imgModalidad').value.trim()||'RX',hallazgos:$('imgHallazgos').value.trim()||'Pendiente',tamanoBytes:1024})});
-    if(resp.ok){showToast('Estudio de imagen registrado','success');$('imgTipoEstudio').value='';$('imgHallazgos').value='';$('imgModalidad').value='';$('imgUrl').value='';loadImgResults(pid);}
+    const resp=await apiCall(API.imagenes+'/imagenes','POST',{idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:t,formato:'DICOM',urlArchivo:'/api/repositorio/archivos/'+pid+'/'+t,nombreArchivo:t+'.dcm',medicoSolicitante:'Sistema',modalidad:$('imgModalidad').value.trim()||'RX',hallazgos:$('imgHallazgos').value.trim()||'Pendiente',tamanoBytes:1024,informeRadiológico:''});
+    if (!resp) { hideLoading(); return; }
+    if(resp.ok){showToast('Estudio de imagen registrado','success');$('imgTipoEstudio').value='';$('imgHallazgos').value='';$('imgModalidad').value='';loadImgResults(pid);sendAudit('IMAGENOLOGIA','Registro de estudio imagen','Paciente: '+pid+' - Estudio: '+t,'EXITO');}
     else showToast('Error al registrar estudio','error');
-  }catch(e){showToast('Error de conexi&oacute;n','error');}
+  }catch(e){showToast('Error de conexion','error');}
   hideLoading();
 }
+
 async function loadImgResults(pid) {
-  try{const r=await fetch(API.imagenes+'/imagenes/paciente/'+pid);const d=await r.json();const data=d.data||[];
-    $('imgTable').innerHTML=data.length?data.map(i=>'<tr><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td><a href="'+(i.urlArchivo||'#')+'" target="_blank" class="text-primary fw-bold">'+(i.nombreArchivo||'Ver archivo')+'</a></td><td>'+(i.fechaEstudio||'-')+'</td></tr>').join(''):'<tr><td colspan="5" class="text-center text-muted py-4">Sin estudios de imagenolog&iacute;a</td></tr>';
-  }catch(e){$('imgTable').innerHTML='<tr><td colspan="5" class="text-center text-danger">Error al cargar datos</td></tr>';}
+  try{
+    const r = await apiCall(API.imagenes+'/imagenes/paciente/'+pid);
+    if (!r) return;
+    const d = await r.json();
+    const data=d.data||[];
+    $('imgTable').innerHTML = data.length ? data.map(i => '<tr><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td><a href="'+(i.urlArchivo||'#')+'" target="_blank" class="text-primary fw-bold"><i class="bi bi-download"></i> '+(i.nombreArchivo||'Ver')+'</a></td><td>'+(i.informeRadiologico ? '<span class="text-success">Disponible</span>' : '<span class="text-muted">Pendiente</span>')+'</td><td>'+(i.fechaEstudio||'-')+'</td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">Sin estudios de imagenologia</td></tr>';
+  } catch(e){$('imgTable').innerHTML='<tr><td colspan="6" class="text-center text-danger">Error al cargar datos</td></tr>';}
+}
+
+// AUDITORIA
+async function sendAudit(modulo, accion, detalle, resultado) {
+  if (!currentUser) return;
+  try {
+    const body = {
+      usuario: currentUser.username,
+      rol: currentUser.rol,
+      direccionIp: '',
+      modulo: modulo,
+      accion: accion,
+      detalle: detalle,
+      resultado: resultado || 'EXITO'
+    };
+    await apiCall(API.auditoria + '/auditorias', 'POST', body);
+  } catch(e) { console.error('Audit error:', e); }
+}
+
+async function loadAuditLogs() {
+  if (!currentUser || currentUser.rol !== 'ADMIN') return;
+  showLoading();
+  try {
+    const modulo = $('auditModulo').value;
+    const fecha = $('auditFecha').value;
+    let url = API.auditoria + '/auditorias?page=0&size=200';
+    if (modulo) { url = API.auditoria + '/auditorias/modulo/' + modulo + '?page=0&size=200'; }
+    const r = await apiCall(url);
+    if (!r) { hideLoading(); return; }
+    const d = await r.json();
+    let logs = d.data ? (d.data.content || d.data || []) : [];
+    if (fecha && logs.length) {
+      logs = logs.filter(l => l.fecha && l.fecha.startsWith(fecha));
+    }
+    auditLogsData = logs;
+    $('auditTotal').textContent = 'Total: ' + logs.length + ' registros';
+    const container = $('auditLogs');
+    container.innerHTML = logs.length ? logs.map(l =>
+      '<div class="audit-entry"><div class="ae-header"><span><span class="status-badge" style="background:var(--gray-100)">' +
+      (l.modulo||'') + '</span> <strong>' + (l.accion||'') + '</strong></span>' +
+      '<span class="text-muted small">' + (l.fecha ? new Date(l.fecha).toLocaleString('es-EC') : '') + '</span></div>' +
+      '<div class="ae-detail"><i class="bi bi-person"></i> ' + (l.usuario||'') + ' (' + (l.rol||'') + ') | ' +
+      (l.detalle||'') + ' | <span class="' + (l.resultado==='EXITO'?'text-success':'text-danger') + ' fw-bold">' + (l.resultado||'') + '</span></div></div>'
+    ).join('') : '<div class="empty-state py-4"><i class="bi bi-inbox"></i><p class="mb-0">No hay registros de auditoria</p></div>';
+  } catch(e) { $('auditLogs').innerHTML = '<div class="alert alert-danger m-3">Error al cargar registros de auditoria</div>'; }
+  hideLoading();
+}
+
+// SERVICE STATUS
+async function checkServices() {
+  const services = [
+    {name:'Pacientes', port:8081, url:'http://localhost:8081/api/actuator/health'},
+    {name:'Consultas', port:8082, url:'http://localhost:8082/api/actuator/health'},
+    {name:'Laboratorio', port:8083, url:'http://localhost:8083/api/actuator/health'},
+    {name:'Imagenologia', port:8084, url:'http://localhost:8084/api/actuator/health'},
+    {name:'Repositorio', port:8085, url:'http://localhost:8085/api/actuator/health'},
+    {name:'Seguridad', port:8086, url:'http://localhost:8086/api/actuator/health'},
+    {name:'Auditoria', port:8087, url:'http://localhost:8087/api/actuator/health'}
+  ];
+  const grid = $('servicesGrid');
+  grid.innerHTML = services.map(s =>
+    '<div class="col-md-4 col-lg-3"><div class="service-card" id="svc-' + s.port + '"><div class="sc-icon bg-secondary"><i class="bi bi-hdd text-white"></i></div><div class="sc-info"><div class="sc-name">' + s.name + '</div><div class="sc-status"><span class="service-status-dot dot-unavailable"></span>Verificando...</div><div class="sc-port">Puerto ' + s.port + '</div></div></div></div>'
+  ).join('');
+  for (const s of services) {
+    try {
+      const resp = await fetch(s.url, { signal: AbortSignal.timeout(3000) });
+      const card = $('svc-' + s.port);
+      if (card) {
+        const statusEl = card.querySelector('.sc-status');
+        const iconEl = card.querySelector('.sc-icon');
+        if (resp.ok) {
+          statusEl.innerHTML = '<span class="service-status-dot dot-available"></span>Disponible';
+          iconEl.className = 'sc-icon bg-success-gradient';
+        } else {
+          statusEl.innerHTML = '<span class="service-status-dot dot-degraded"></span>Degradado';
+          iconEl.className = 'sc-icon bg-warning-gradient';
+        }
+      }
+    } catch(e) {
+      const card = $('svc-' + s.port);
+      if (card) {
+        const statusEl = card.querySelector('.sc-status');
+        const iconEl = card.querySelector('.sc-icon');
+        statusEl.innerHTML = '<span class="service-status-dot dot-unavailable"></span>No disponible';
+        iconEl.className = 'sc-icon bg-danger-gradient';
+      }
+    }
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadPatientsList();
-  document.querySelector('[data-tab="login"]').click();
-  document.body.classList.add('login-active');
-  if ($('loginPass')) $('loginPass').addEventListener('keypress', function(e) { if (e.key === 'Enter') doLogin(); });
+  checkExistingSession();
+  if (!currentUser) {
+    loadPatientsList();
+    switchTab('login');
+    document.body.classList.add('login-active');
+  }
+  if ($('loginPass')) $('loginPass').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+  setInterval(() => { if (currentUser) checkServices(); }, 60000);
 });
 </script>
 </body>

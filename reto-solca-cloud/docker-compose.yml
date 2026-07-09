@@ -1,4 +1,42 @@
 services:
+  mysql-seguridad:
+    image: mysql:8.0
+    container_name: mysql-seguridad
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_seguridad
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql-seguridad-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mysql-auditoria:
+    image: mysql:8.0
+    container_name: mysql-auditoria
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_auditoria
+    ports:
+      - "3312:3306"
+    volumes:
+      - mysql-auditoria-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   mysql-pacientes:
     image: mysql:8.0
     container_name: mysql-pacientes
@@ -168,11 +206,47 @@ services:
       - imagenologia-service
     restart: unless-stopped
 
+  seguridad-service:
+    build:
+      context: ./microservicio-seguridad
+      dockerfile: Dockerfile
+    container_name: seguridad-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-seguridad:3306/db_seguridad?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    ports:
+      - "8086:8086"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-seguridad:
+        condition: service_healthy
+    restart: unless-stopped
+
+  auditoria-service:
+    build:
+      context: ./microservicio-auditoria
+      dockerfile: Dockerfile
+    container_name: auditoria-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-auditoria:3306/db_auditoria?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+    ports:
+      - "8087:8087"
+    networks:
+      - solca-network
+    depends_on:
+      mysql-auditoria:
+        condition: service_healthy
+    restart: unless-stopped
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin-solca
     environment:
-      PMA_HOSTS: mysql-pacientes,mysql-consultas,mysql-laboratorio,mysql-imagenologia
+      PMA_HOSTS: mysql-pacientes,mysql-consultas,mysql-laboratorio,mysql-imagenologia,mysql-seguridad,mysql-auditoria
       PMA_ARBITRARY: 1
     ports:
       - "8080:80"
@@ -183,9 +257,13 @@ services:
       - mysql-consultas
       - mysql-laboratorio
       - mysql-imagenologia
+      - mysql-seguridad
+      - mysql-auditoria
     restart: unless-stopped
 
 volumes:
+  mysql-seguridad-data:
+  mysql-auditoria-data:
   mysql-pacientes-data:
   mysql-consultas-data:
   mysql-laboratorio-data:

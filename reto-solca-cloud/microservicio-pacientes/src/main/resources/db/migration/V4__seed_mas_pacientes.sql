@@ -1,0 +1,9 @@
+INSERT IGNORE INTO pacientes (id_paciente_regional, cedula, nombres, apellidos, fecha_nacimiento, genero, telefono, email, direccion, grupo_sanguineo, estado_civil, ocupacion, alergias, enfermedad_actual, antecedentes_personales, antecedentes_familiares, contacto_emergencia) VALUES
+('PAC-00006', '0607080910', 'Sofía Isabel', 'Miranda Delgado', '1990-12-03', 'F', '0988887766', 'sofia.miranda@email.com', 'Av. 12 de Abril 456, Cuenca', 'A-', 'SOLTERO', 'Enfermera', 'Ninguna', 'Linfoma de Hodgkin Estadio II', '{"cronicas":"Ninguna","cirugias":"Ninguna","otros":"Ninguno"}', '{"padre":"Vive , sano","madre":"Vive, sana","hermanos":"Sano","hijos":"N/A"}', '{"nombre":"Diana Miranda","telefono":"0996667788","parentesco":"Hermana"}'),
+('PAC-00007', '0708091011', 'Luis Fernando', 'Cordero González', '1972-09-18', 'M', '0977776655', 'luis.cordero@email.com', 'Calle Bolívar 789, Loja', 'O+', 'CASADO', 'Docente Universitario', 'Penicilina, Sulfa', 'Tumor cerebral (Glioblastoma multiforme)', '{"cronicas":"HTA","cirugias":"Ninguna","otros":"Ninguno"}', '{"padre":"Fallecido por ACV","madre":"Vive, HTA","hermanos":"Sano","hijos":"Sano"}', '{"nombre":"María Cordero","telefono":"0995554433","parentesco":"Esposa"}'),
+('PAC-00008', '0809101112', 'Carmen Beatriz', 'Orellana Vélez', '1983-07-25', 'F', '0966665544', 'carmen.orellana@email.com', 'Av. Amazonas 321, Quito', 'B-', 'DIVORCIADO', 'Contadora', 'Ninguna', 'Cáncer de mama triple negativo Estadio III', '{"cronicas":"Ninguna","cirugias":"Cesárea (2015)","otros":"Ninguno"}', '{"padre":"Vive, diabetes tipo 2","madre":"Fallecida por CA mamario","hermanos":"Sana","hijos":"Sano"}', '{"nombre":"Andrea Orellana","telefono":"0994443322","parentesco":"Hermana"}');
+
+INSERT IGNORE INTO historias_locales (id_paciente_regional, sede, id_historia_local) VALUES
+('PAC-00006', 'SOLCA-CUENCA', 'HC-007'),
+('PAC-00007', 'SOLCA-LOJA', 'HC-008'),
+('PAC-00008', 'SOLCA-QUITO', 'HC-009');

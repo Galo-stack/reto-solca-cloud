@@ -3,9 +3,14 @@ package com.solca.repositorio.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import io.netty.channel.ChannelOption;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.ClientRequest;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 import java.time.Duration;
@@ -39,9 +44,26 @@ public class WebClientConfig {
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
     }
 
+    private ExchangeFilterFunction jwtForwardingFilter() {
+        return ExchangeFilterFunction.ofRequestProcessor(request -> {
+            ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            if (attrs != null) {
+                String authHeader = attrs.getRequest().getHeader("Authorization");
+                if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                    ClientRequest filtered = ClientRequest.from(request)
+                            .header("Authorization", authHeader)
+                            .build();
+                    return Mono.just(filtered);
+                }
+            }
+            return Mono.just(request);
+        });
+    }
+
     @Bean
     public WebClient webClient(HttpClient httpClient) {
         return WebClient.builder()
+                .filter(jwtForwardingFilter())
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(MAX_MEMORY_SIZE))
                 .build();
