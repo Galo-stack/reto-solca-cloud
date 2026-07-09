@@ -8,6 +8,7 @@ import com.solca.pacientes.repository.PacienteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -70,6 +71,40 @@ public class PacienteService {
         return pacienteRepository.findById(id)
                 .map(this::convertirADTO)
                 .orElse(null);
+    }
+
+    @Transactional
+    public PacienteDTO actualizarPaciente(String id, PacienteDTO dto) {
+        log.info("Actualizando paciente: {}", id);
+
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado: " + id));
+
+        if (!paciente.getCedula().equals(dto.getCedula()) &&
+            pacienteRepository.existsByCedula(dto.getCedula())) {
+            throw new RuntimeException("Ya existe otro paciente con esa cedula");
+        }
+
+        paciente.setCedula(dto.getCedula());
+        paciente.setNombres(dto.getNombres());
+        paciente.setApellidos(dto.getApellidos());
+        paciente.setFechaNacimiento(dto.getFechaNacimiento());
+        paciente.setGenero(dto.getGenero());
+        paciente.setTelefono(dto.getTelefono());
+        paciente.setEmail(dto.getEmail());
+        paciente.setDireccion(dto.getDireccion());
+        paciente.setGrupoSanguineo(dto.getGrupoSanguineo());
+        paciente.setEstadoCivil(dto.getEstadoCivil());
+        paciente.setOcupacion(dto.getOcupacion());
+        paciente.setAlergias(dto.getAlergias());
+        paciente.setEnfermedadActual(dto.getEnfermedadActual());
+        paciente.setAntecedentesPersonales(toJsonString(dto.getAntecedentesPersonales()));
+        paciente.setAntecedentesFamiliares(toJsonString(dto.getAntecedentesFamiliares()));
+        paciente.setContactoEmergencia(toJsonString(dto.getContactoEmergencia()));
+
+        Paciente saved = pacienteRepository.save(paciente);
+        log.info("Paciente actualizado: {}", saved.getIdPacienteRegional());
+        return convertirADTO(saved);
     }
 
     private PacienteDTO convertirADTO(Paciente p) {

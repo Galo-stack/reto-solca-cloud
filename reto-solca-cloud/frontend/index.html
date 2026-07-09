@@ -229,11 +229,11 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
       <div class="login-body">
         <div class="mb-3">
           <label class="form-label"><i class="bi bi-person"></i> Usuario</label>
-          <input type="text" id="loginUser" class="form-control" placeholder="Ingrese su usuario" value="admin">
+          <input type="text" id="loginUser" class="form-control" placeholder="Ingrese su usuario">
         </div>
         <div class="mb-3">
           <label class="form-label"><i class="bi bi-lock"></i> Contrasena</label>
-          <input type="password" id="loginPass" class="form-control" placeholder="Ingrese su contrasena" value="admin123">
+          <input type="password" id="loginPass" class="form-control" placeholder="Ingrese su contrasena">
         </div>
         <button class="btn btn-primary w-100 btn-lg" onclick="doLogin()"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
         <div class="login-error" id="loginError"><i class="bi bi-exclamation-triangle"></i> <span id="loginErrorMsg"></span></div>
@@ -386,12 +386,12 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
             <div class="col-md-3"><input type="text" id="labResultado" class="form-control" placeholder="Resultado"></div>
             <div class="col-md-2"><input type="text" id="labValoresRef" class="form-control" placeholder="Valores ref."></div>
             <div class="col-md-2"><input type="text" id="labArea" class="form-control" placeholder="Area"></div>
-            <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveLab()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+            <div class="col-md-2"><button class="btn btn-success w-100" id="labSaveBtn" onclick="saveLab()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
           </div>
           <div class="row g-2 mb-3">
             <div class="col-md-12"><div class="upload-zone" onclick="document.getElementById('labPdfUpload').click()"><i class="bi bi-cloud-upload" style="font-size:2rem;display:block;margin-bottom:0.5rem"></i><strong>Subir resultado PDF</strong><p class="text-muted small mb-0">Haga clic o arrastre archivos PDF</p><input type="file" id="labPdfUpload" accept=".pdf" style="display:none" onchange="uploadLabPdf(this)"></div></div>
           </div>
-          <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th><th>Estado</th></tr></thead><tbody id="labTable"></tbody></table></div>
+          <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th><th>Fecha</th><th>Estado</th><th>Accion</th></tr></thead><tbody id="labTable"></tbody></table></div>
         </div>
       </div>
     </div>
@@ -425,9 +425,9 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
             <input type="file" id="imgFileUpload" accept=".dcm,.jpg,.png" style="display:none" onchange="uploadImgFile(this)">
           </div>
         </div>
-        <div class="col-md-2"><button class="btn btn-success w-100" onclick="saveImg()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
+        <div class="col-md-2"><button class="btn btn-success w-100" id="imgSaveBtn" onclick="saveImg()"><i class="bi bi-plus-lg"></i> Registrar</button></div>
       </div>
-      <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Archivo</th><th>Informe</th><th>Fecha</th></tr></thead><tbody id="imgTable"></tbody></table></div>
+      <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th><th>Archivo</th><th>Informe</th><th>Fecha</th><th>Accion</th></tr></thead><tbody id="imgTable"></tbody></table></div>
     </div>
   </div>
 </div>
@@ -620,17 +620,23 @@ function renderUserInfo() {
 }
 
 function switchTab(tabName) {
+  if (tabName !== 'login' && !currentUser) { showToast('Debe iniciar sesion primero', 'warning'); return; }
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   const btn = document.querySelector('[data-tab="' + tabName + '"]');
   if (btn) btn.classList.add('active');
   $('tab-' + tabName).classList.add('active');
   document.body.classList.toggle('login-active', tabName === 'login');
+  if (tabName === 'history') clearHistory();
+  else if (tabName === 'consultation') clearConsult();
+  else if (tabName === 'laboratorio') clearLab();
+  else if (tabName === 'imagenes') clearImg();
 }
 
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', function() {
     if (this.dataset.tab === 'login') { logout(); return; }
+    if (!currentUser) { showToast('Debe iniciar sesion para acceder a esta seccion', 'warning'); return; }
     switchTab(this.dataset.tab);
   });
 });
@@ -770,7 +776,8 @@ async function loadDashboard() {
 
 function renderPatientsTable() {
   const tbody = $('patientsTable');
-  tbody.innerHTML = pacientesList.map(p => '<tr><td><code>' + p.idPacienteRegional + '</code></td><td>' + p.nombres + '</td><td>' + p.apellidos + '</td><td>' + p.cedula + '</td><td>' + (p.genero==='M'?'Masculino':'Femenino') + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td><td><button class="btn btn-sm btn-outline-primary" onclick="viewPatientHistory(\'' + p.idPacienteRegional + '\')" title="Ver Historia"><i class="bi bi-eye"></i></button></td></tr>').join('') || '<tr><td colspan="7" class="text-center text-muted">No hay pacientes registrados</td></tr>';
+  const canEdit = currentUser && currentUser.rol === 'MEDICO';
+  tbody.innerHTML = pacientesList.map(p => '<tr><td><code>' + p.idPacienteRegional + '</code></td><td>' + p.nombres + '</td><td>' + p.apellidos + '</td><td>' + p.cedula + '</td><td>' + (p.genero==='M'?'Masculino':'Femenino') + '</td><td><span class="status-badge status-ACTIVO">ACTIVO</span></td><td><button class="btn btn-sm btn-outline-primary" onclick="viewPatientHistory(\'' + p.idPacienteRegional + '\')" title="Ver Historia"><i class="bi bi-eye"></i></button>' + (canEdit ? '<button class="btn btn-sm btn-outline-warning ms-1" onclick="editPatient(\'' + p.idPacienteRegional + '\')" title="Editar"><i class="bi bi-pencil"></i></button>' : '') + '</td></tr>').join('') || '<tr><td colspan="7" class="text-center text-muted">No hay pacientes registrados</td></tr>';
 }
 async function loadPatients() { await loadPatientsList(); renderPatientsTable(); }
 
@@ -945,8 +952,81 @@ function printHistory() {
 }
 
 function viewPatientHistory(rid) {
+  if (!currentUser) { showToast('Debe iniciar sesion primero', 'warning'); return; }
   const p=pacientesList.find(x=>x.idPacienteRegional===rid);
   if(p) { $('historySelected').classList.add('show'); $('historyPatientName').textContent=p.nombres+' '+p.apellidos; $('historyPatientId').textContent=p.idPacienteRegional; switchTab('history'); loadHistory(rid); }
+}
+
+function editPatient(rid) {
+  const p = pacientesList.find(x => x.idPacienteRegional === rid);
+  if (!p) { showToast('Paciente no encontrado', 'error'); return; }
+  const ap = p.antecedentesPersonales || {};
+  const af = p.antecedentesFamiliares || {};
+  const ce = p.contactoEmergencia || {};
+  const html =
+    '<div class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header" style="background:var(--primary-gradient);color:#fff"><h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Paciente: ' + p.idPacienteRegional + '</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body">' +
+    '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informacion Personal</div>' +
+    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="epNombres" class="form-control" value="' + escHtml(p.nombres||'') + '"></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="epApellidos" class="form-control" value="' + escHtml(p.apellidos||'') + '"></div></div>' +
+    '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">Cedula (10 dig.) *</label><input type="text" id="epCedula" class="form-control" maxlength="10" value="' + escHtml(p.cedula||'') + '"></div>' +
+    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="epFechaNac" class="form-control" value="' + (p.fechaNacimiento||'') + '"></div>' +
+    '<div class="col-md-2"><label class="form-label">Genero *</label><select id="epGenero" class="form-select"><option value="M"' + (p.genero==='M'?' selected':'') + '>Masculino</option><option value="F"' + (p.genero==='F'?' selected':'') + '>Femenino</option></select></div>' +
+    '<div class="col-md-3"><label class="form-label">Grupo Sanguineo</label><select id="epGrupoSanguineo" class="form-select"><option value="">Seleccione...</option>' + ['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g => '<option value="' + g + '"' + (p.grupoSanguineo===g?' selected':'') + '>' + g + '</option>').join('') + '</select></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-telephone"></i> Contacto</div>' +
+    '<div class="row g-2"><div class="col-md-3"><label class="form-label">Telefono</label><input type="text" id="epTelefono" class="form-control" maxlength="10" value="' + escHtml(p.telefono||'') + '"></div><div class="col-md-3"><label class="form-label">Email</label><input type="email" id="epEmail" class="form-control" value="' + escHtml(p.email||'') + '"></div><div class="col-md-3"><label class="form-label">Estado Civil</label><select id="epEstadoCivil" class="form-select"><option value="SOLTERO"' + (p.estadoCivil==='SOLTERO'?' selected':'') + '>Soltero/a</option><option value="CASADO"' + (p.estadoCivil==='CASADO'?' selected':'') + '>Casado/a</option><option value="DIVORCIADO"' + (p.estadoCivil==='DIVORCIADO'?' selected':'') + '>Divorciado/a</option><option value="VIUDO"' + (p.estadoCivil==='VIUDO'?' selected':'') + '>Viudo/a</option></select></div><div class="col-md-3"><label class="form-label">Ocupacion</label><input type="text" id="epOcupacion" class="form-control" value="' + escHtml(p.ocupacion||'') + '"></div></div>' +
+    '<div class="mt-2"><label class="form-label">Direccion</label><textarea id="epDireccion" class="form-control" rows="2">' + escHtml(p.direccion||'') + '</textarea></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-heart-pulse"></i> Informacion Medica</div>' +
+    '<div class="row g-2"><div class="col-md-6"><label class="form-label">Alergias</label><textarea id="epAlergias" class="form-control" rows="2">' + escHtml(p.alergias||'') + '</textarea></div><div class="col-md-6"><label class="form-label">Enfermedad Actual</label><textarea id="epEnfermedadActual" class="form-control" rows="2">' + escHtml(p.enfermedadActual||'') + '</textarea></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-clipboard-pulse"></i> Antecedentes Patologicos Personales</div>' +
+    '<div class="row g-2"><div class="col-md-4"><label class="form-label">Enfermedades Cronicas</label><textarea id="epAntCronicas" class="form-control" rows="2">' + escHtml(ap.cronicas||'') + '</textarea></div><div class="col-md-4"><label class="form-label">Cirugias Previas</label><textarea id="epCirugias" class="form-control" rows="2">' + escHtml(ap.cirugias||'') + '</textarea></div><div class="col-md-4"><label class="form-label">Otros</label><textarea id="epAntOtros" class="form-control" rows="2">' + escHtml(ap.otros||'') + '</textarea></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-people"></i> Antecedentes Patologicos Familiares</div>' +
+    '<div class="row g-2"><div class="col-md-3"><label class="form-label">Padre</label><textarea id="epAntFamPadre" class="form-control" rows="2">' + escHtml(af.padre||'') + '</textarea></div><div class="col-md-3"><label class="form-label">Madre</label><textarea id="epAntFamMadre" class="form-control" rows="2">' + escHtml(af.madre||'') + '</textarea></div><div class="col-md-3"><label class="form-label">Hermanos</label><textarea id="epAntFamHermanos" class="form-control" rows="2">' + escHtml(af.hermanos||'') + '</textarea></div><div class="col-md-3"><label class="form-label">Hijos</label><textarea id="epAntFamHijos" class="form-control" rows="2">' + escHtml(af.hijos||'') + '</textarea></div></div>' +
+    '<div class="form-section-title mt-3"><i class="bi bi-telephone-forward"></i> Contacto de Emergencia</div>' +
+    '<div class="row g-2"><div class="col-md-4"><label class="form-label">Nombre Completo</label><input type="text" id="epEmergNombre" class="form-control" value="' + escHtml(ce.nombre||'') + '"></div><div class="col-md-4"><label class="form-label">Telefono</label><input type="text" id="epEmergTelefono" class="form-control" maxlength="10" value="' + escHtml(ce.telefono||'') + '"></div><div class="col-md-4"><label class="form-label">Parentesco</label><select id="epEmergParentesco" class="form-select"><option value="">Seleccione...</option><option value="Padre"' + (ce.parentesco==='Padre'?' selected':'') + '>Padre</option><option value="Madre"' + (ce.parentesco==='Madre'?' selected':'') + '>Madre</option><option value="Conyuge"' + (ce.parentesco==='Conyuge'?' selected':'') + '>Conyuge</option><option value="Hijo/a"' + (ce.parentesco==='Hijo/a'?' selected':'') + '>Hijo/a</option><option value="Hermano/a"' + (ce.parentesco==='Hermano/a'?' selected':'') + '>Hermano/a</option><option value="Familiar"' + (ce.parentesco==='Familiar'?' selected':'') + '>Familiar</option><option value="Amigo"' + (ce.parentesco==='Amigo'?' selected':'') + '>Amigo</option></select></div></div>' +
+    '<input type="hidden" id="epRegionalId" value="' + rid + '">' +
+    '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-warning" onclick="saveEditPatient()"><i class="bi bi-check-lg"></i> Guardar Cambios</button></div></div></div>';
+  const div = document.createElement('div'); div.innerHTML = html;
+  document.body.appendChild(div);
+  const el = div.querySelector('.modal');
+  const m = new bootstrap.Modal(el);
+  m.show();
+  el.addEventListener('hidden.bs.modal', () => div.remove());
+  window._editPatientModal = m;
+}
+
+function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function saveEditPatient() {
+  const rid = $('epRegionalId').value;
+  if (!confirm('Seguro que quiere hacer cambios al paciente ' + rid + '?')) return;
+  const n=$('epNombres').value.trim(), a=$('epApellidos').value.trim(), c=$('epCedula').value.trim(), f=$('epFechaNac').value, g=$('epGenero').value;
+  if (!n||!a||!c||!f) { showToast('Complete los campos obligatorios (*)','warning'); return; }
+  if (!/^\d{10}$/.test(c)) { showToast('Cedula debe tener 10 digitos validos','warning'); return; }
+  showLoading();
+  try {
+    const body = {
+      nombres:n, apellidos:a, cedula:c, fechaNacimiento:f, genero:g,
+      grupoSanguineo:$('epGrupoSanguineo').value||'',
+      telefono:$('epTelefono').value.trim(), email:$('epEmail').value.trim(),
+      estadoCivil:$('epEstadoCivil').value||'',
+      ocupacion:$('epOcupacion').value.trim(),
+      direccion:$('epDireccion').value.trim(),
+      alergias:$('epAlergias').value.trim(),
+      enfermedadActual:$('epEnfermedadActual').value.trim(),
+      antecedentesPersonales:{cronicas:$('epAntCronicas').value.trim(),cirugias:$('epCirugias').value.trim(),otros:$('epAntOtros').value.trim()},
+      antecedentesFamiliares:{padre:$('epAntFamPadre').value.trim(),madre:$('epAntFamMadre').value.trim(),hermanos:$('epAntFamHermanos').value.trim(),hijos:$('epAntFamHijos').value.trim()},
+      contactoEmergencia:{nombre:$('epEmergNombre').value.trim(),telefono:$('epEmergTelefono').value.trim(),parentesco:$('epEmergParentesco').value||''}
+    };
+    const r = await apiCall(API.pacientes+'/pacientes/'+rid, 'PUT', body);
+    if (!r) { hideLoading(); return; }
+    const d = await r.json();
+    if (r.ok) {
+      showToast('Datos cambiados exitosamente','success');
+      window._editPatientModal && window._editPatientModal.hide();
+      await loadPatientsList(); renderPatientsTable(); await loadDashboard();
+      await sendAudit('PACIENTES', 'Actualizacion de paciente', 'ID Regional: ' + rid, 'EXITO');
+    } else showToast(d.message||'Error al actualizar paciente','error');
+  } catch(e) { showToast('Error de conexion con el servidor','error'); }
+  hideLoading();
 }
 
 function selectConsultPatient(p) {
@@ -998,7 +1078,12 @@ function selectLabPatient(p) {
   $('labSelected').classList.add('show'); $('labPatientName').textContent=p.nombres+' '+p.apellidos; $('labPatientId').textContent=p.idPacienteRegional;
   $('labPatientRegionalId').value=p.idPacienteRegional; loadLabResults(p.idPacienteRegional);
 }
-function clearLab() { $('labSelected').classList.remove('show'); $('labPatientRegionalId').value=''; $('labTable').innerHTML=''; $('labPendientesTable').innerHTML=''; }
+function clearLab() {
+  $('labSelected').classList.remove('show'); $('labPatientRegionalId').value='';
+  $('labTable').innerHTML=''; $('labPendientesTable').innerHTML='';
+  _editLabId = null;
+  $('labSaveBtn').textContent = 'Registrar'; $('labSaveBtn').onclick = saveLab;
+}
 
 let labCurrentTab = 'pendientes';
 function switchLabTab(tab, btn) {
@@ -1036,6 +1121,48 @@ async function saveLab() {
   hideLoading();
 }
 
+let _editLabId = null;
+function editLabResult(id, tipoExamen, resultado, valoresRef, area) {
+  _editLabId = id;
+  $('labTipoExamen').value = tipoExamen;
+  $('labResultado').value = resultado;
+  $('labValoresRef').value = valoresRef;
+  $('labArea').value = area;
+  $('labSaveBtn').textContent = 'Actualizar';
+  $('labSaveBtn').onclick = saveEditLabResult;
+  showToast('Editando resultado de laboratorio #' + id, 'info');
+}
+
+async function saveEditLabResult() {
+  if (!confirm('Seguro que quiere hacer cambios a este resultado de laboratorio?')) return;
+  const pid = $('labPatientRegionalId').value;
+  const t = $('labTipoExamen').value.trim(), r = $('labResultado').value.trim();
+  if (!t || !r) { showToast('Ingrese tipo de examen y resultado', 'warning'); return; }
+  showLoading();
+  try {
+    const resp = await apiCall(API.laboratorio + '/laboratorio/' + _editLabId, 'PUT', {
+      idPacienteRegional: pid, sede: 'SOLCA-CUENCA',
+      fechaEjecucion: new Date().toISOString().split('T')[0],
+      tipoExamen: t, resultado: r,
+      valoresReferencia: $('labValoresRef').value.trim() || '---',
+      medicoSolicitante: 'Sistema', area: $('labArea').value.trim() || 'GENERAL',
+      metodo: 'AUTOMATICO', anormal: false
+    });
+    if (!resp) { hideLoading(); return; }
+    if (resp.ok) {
+      showToast('Datos cambiados exitosamente', 'success');
+      _editLabId = null;
+      $('labSaveBtn').textContent = 'Registrar';
+      $('labSaveBtn').onclick = saveLab;
+      $('labTipoExamen').value = ''; $('labResultado').value = '';
+      $('labValoresRef').value = ''; $('labArea').value = '';
+      loadLabResults(pid);
+      sendAudit('LABORATORIO', 'Actualizacion de resultado laboratorio', 'Paciente: ' + pid, 'EXITO');
+    } else showToast('Error al actualizar resultado', 'error');
+  } catch (e) { showToast('Error de conexion', 'error'); }
+  hideLoading();
+}
+
 async function loadLabResults(pid) {
   try{
     const r = await apiCall(API.laboratorio+'/laboratorio/paciente/'+pid);
@@ -1043,7 +1170,8 @@ async function loadLabResults(pid) {
     const d = await r.json();
     const data=d.data||[];
     $('labPendientesTable').innerHTML = data.filter(l => l.resultado === 'Pendiente' || !l.resultado).length ? data.filter(l => l.resultado === 'Pendiente' || !l.resultado).map(l => '<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td><span class="status-badge status-PENDIENTE">Pendiente</span></td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td><td><button class="btn btn-sm btn-success" onclick="switchLabTab(\'procesados\',document.querySelector(\'#labSubTabs .sub-tab:last-child\'))"><i class="bi bi-arrow-right"></i> Procesar</button></td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">No hay solicitudes pendientes</td></tr>';
-    $('labTable').innerHTML = data.filter(l => l.resultado && l.resultado !== 'Pendiente').length ? data.filter(l => l.resultado && l.resultado !== 'Pendiente').map(l => '<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td><td><span class="status-badge status-APROBADO">Procesado</span></td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">Sin resultados procesados</td></tr>';
+    const canEditLab = currentUser && currentUser.rol === 'LABORATORIO';
+    $('labTable').innerHTML = data.filter(l => l.resultado && l.resultado !== 'Pendiente').length ? data.filter(l => l.resultado && l.resultado !== 'Pendiente').map(l => '<tr><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td><td>'+(l.fechaEjecucion||'-')+'</td><td><span class="status-badge status-APROBADO">Procesado</span></td><td>' + (canEditLab ? '<button class="btn btn-sm btn-outline-warning" onclick="editLabResult(' + l.id + ',\'' + l.tipoExamen + '\',\'' + escHtml(l.resultado) + '\',\'' + escHtml(l.valoresReferencia||'') + '\',\'' + escHtml(l.area||'') + '\')" title="Editar"><i class="bi bi-pencil"></i></button>' : '') + '</td></tr>').join('') : '<tr><td colspan="7" class="text-center text-muted py-4">Sin resultados procesados</td></tr>';
   } catch(e){$('labTable').innerHTML='<tr><td colspan="6" class="text-center text-danger">Error al cargar datos</td></tr>';}
 }
 
@@ -1058,7 +1186,11 @@ function selectImgPatient(p) {
   $('imgSelected').classList.add('show'); $('imgPatientName').textContent=p.nombres+' '+p.apellidos; $('imgPatientId').textContent=p.idPacienteRegional;
   $('imgPatientRegionalId').value=p.idPacienteRegional; loadImgResults(p.idPacienteRegional);
 }
-function clearImg() { $('imgSelected').classList.remove('show'); $('imgPatientRegionalId').value=''; $('imgTable').innerHTML=''; }
+function clearImg() {
+  $('imgSelected').classList.remove('show'); $('imgPatientRegionalId').value=''; $('imgTable').innerHTML='';
+  _editImgId = null;
+  $('imgSaveBtn').textContent = 'Registrar'; $('imgSaveBtn').onclick = saveImg;
+}
 
 function uploadImgFile(input) {
   if (input.files && input.files[0]) {
@@ -1087,8 +1219,51 @@ async function loadImgResults(pid) {
     if (!r) return;
     const d = await r.json();
     const data=d.data||[];
-    $('imgTable').innerHTML = data.length ? data.map(i => '<tr><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td><a href="'+(i.urlArchivo||'#')+'" target="_blank" class="text-primary fw-bold"><i class="bi bi-download"></i> '+(i.nombreArchivo||'Ver')+'</a></td><td>'+(i.informeRadiologico ? '<span class="text-success">Disponible</span>' : '<span class="text-muted">Pendiente</span>')+'</td><td>'+(i.fechaEstudio||'-')+'</td></tr>').join('') : '<tr><td colspan="6" class="text-center text-muted py-4">Sin estudios de imagenologia</td></tr>';
+    const canEditImg = currentUser && currentUser.rol === 'IMAGENOLOGIA';
+    $('imgTable').innerHTML = data.length ? data.map(i => '<tr><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td>'+(i.modalidad||'-')+'</td><td><a href="'+(i.urlArchivo||'#')+'" target="_blank" class="text-primary fw-bold"><i class="bi bi-download"></i> '+(i.nombreArchivo||'Ver')+'</a></td><td>'+(i.informeRadiologico ? '<span class="text-success">Disponible</span>' : '<span class="text-muted">Pendiente</span>')+'</td><td>'+(i.fechaEstudio||'-')+'</td><td>' + (canEditImg ? '<button class="btn btn-sm btn-outline-warning" onclick="editImgResult(' + i.id + ',\'' + escHtml(i.tipoEstudio) + '\',\'' + escHtml(i.hallazgos||'') + '\',\'' + escHtml(i.modalidad||'') + '\')" title="Editar"><i class="bi bi-pencil"></i></button>' : '') + '</td></tr>').join('') : '<tr><td colspan="7" class="text-center text-muted py-4">Sin estudios de imagenologia</td></tr>';
   } catch(e){$('imgTable').innerHTML='<tr><td colspan="6" class="text-center text-danger">Error al cargar datos</td></tr>';}
+}
+
+let _editImgId = null;
+function editImgResult(id, tipoEstudio, hallazgos, modalidad) {
+  _editImgId = id;
+  $('imgTipoEstudio').value = tipoEstudio;
+  $('imgHallazgos').value = hallazgos;
+  $('imgModalidad').value = modalidad;
+  $('imgSaveBtn').textContent = 'Actualizar';
+  $('imgSaveBtn').onclick = saveEditImgResult;
+  showToast('Editando estudio de imagenologia #' + id, 'info');
+}
+
+async function saveEditImgResult() {
+  if (!confirm('Seguro que quiere hacer cambios a este estudio de imagenologia?')) return;
+  const pid = $('imgPatientRegionalId').value;
+  const t = $('imgTipoEstudio').value.trim();
+  if (!t) { showToast('Ingrese tipo de estudio', 'warning'); return; }
+  showLoading();
+  try {
+    const resp = await apiCall(API.imagenes + '/imagenes/' + _editImgId, 'PUT', {
+      idPacienteRegional: pid, sede: 'SOLCA-CUENCA',
+      fechaEstudio: new Date().toISOString().split('T')[0],
+      tipoEstudio: t, formato: 'DICOM',
+      urlArchivo: '/api/repositorio/archivos/' + pid + '/' + t,
+      nombreArchivo: t + '.dcm', medicoSolicitante: 'Sistema',
+      modalidad: $('imgModalidad').value.trim() || 'RX',
+      hallazgos: $('imgHallazgos').value.trim() || 'Pendiente',
+      tamanoBytes: 1024
+    });
+    if (!resp) { hideLoading(); return; }
+    if (resp.ok) {
+      showToast('Datos cambiados exitosamente', 'success');
+      _editImgId = null;
+      $('imgSaveBtn').textContent = 'Registrar';
+      $('imgSaveBtn').onclick = saveImg;
+      $('imgTipoEstudio').value = ''; $('imgHallazgos').value = ''; $('imgModalidad').value = '';
+      loadImgResults(pid);
+      sendAudit('IMAGENOLOGIA', 'Actualizacion de estudio imagen', 'Paciente: ' + pid, 'EXITO');
+    } else showToast('Error al actualizar estudio', 'error');
+  } catch (e) { showToast('Error de conexion', 'error'); }
+  hideLoading();
 }
 
 // AUDITORIA

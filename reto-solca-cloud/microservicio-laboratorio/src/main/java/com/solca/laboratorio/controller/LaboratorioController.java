@@ -61,4 +61,17 @@ public class LaboratorioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarResultado(@PathVariable Long id, @Valid @RequestBody LaboratorioDTO dto) {
+        log.info("PUT /api/laboratorio/{} - Actualizando resultado", id);
+        LaboratorioDTO result = laboratorioService.actualizarResultado(id, dto);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Resultado de laboratorio actualizado exitosamente");
+        response.put("data", result);
+
+        return ResponseEntity.ok(response);
+    }
 }

@@ -61,4 +61,17 @@ public class ImagenologiaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarEstudio(@PathVariable Long id, @Valid @RequestBody ImagenologiaDTO dto) {
+        log.info("PUT /api/imagenes/{} - Actualizando estudio", id);
+        ImagenologiaDTO result = imagenologiaService.actualizarEstudio(id, dto);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Estudio de imagenologia actualizado exitosamente");
+        response.put("data", result);
+
+        return ResponseEntity.ok(response);
+    }
 }

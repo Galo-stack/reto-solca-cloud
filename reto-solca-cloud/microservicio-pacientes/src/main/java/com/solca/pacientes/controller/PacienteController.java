@@ -77,4 +77,17 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarPaciente(@PathVariable String id, @Valid @RequestBody PacienteDTO dto) {
+        log.info("PUT /api/pacientes/{} - Actualizando paciente", id);
+        PacienteDTO result = pacienteService.actualizarPaciente(id, dto);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Paciente actualizado exitosamente");
+        response.put("data", result);
+
+        return ResponseEntity.ok(response);
+    }
 }

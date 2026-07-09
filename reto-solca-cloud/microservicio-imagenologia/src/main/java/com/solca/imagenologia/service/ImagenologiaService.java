@@ -58,6 +58,30 @@ public class ImagenologiaService {
                 .orElse(null);
     }
 
+    @Transactional
+    public ImagenologiaDTO actualizarEstudio(Long id, ImagenologiaDTO dto) {
+        log.info("Actualizando estudio de imagen ID: {}", id);
+
+        EstudioImagen estudio = imagenologiaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Estudio no encontrado: " + id));
+
+        estudio.setTipoEstudio(dto.getTipoEstudio());
+        estudio.setHallazgos(dto.getHallazgos());
+        estudio.setModalidad(dto.getModalidad());
+        estudio.setDescripcion(dto.getDescripcion());
+        estudio.setFormato(dto.getFormato());
+        estudio.setUrlArchivo(dto.getUrlArchivo());
+        estudio.setNombreArchivo(dto.getNombreArchivo());
+        estudio.setMedicoSolicitante(dto.getMedicoSolicitante());
+        estudio.setSede(dto.getSede());
+        estudio.setFechaEstudio(dto.getFechaEstudio());
+        estudio.setTamanoBytes(dto.getTamanoBytes());
+
+        EstudioImagen saved = imagenologiaRepository.save(estudio);
+        log.info("Estudio de imagen actualizado ID: {}", saved.getId());
+        return convertirADTO(saved);
+    }
+
     private ImagenologiaDTO convertirADTO(EstudioImagen e) {
         return ImagenologiaDTO.builder()
                 .id(e.getId())

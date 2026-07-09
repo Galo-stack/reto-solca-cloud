@@ -58,6 +58,30 @@ public class LaboratorioService {
                 .orElse(null);
     }
 
+    @Transactional
+    public LaboratorioDTO actualizarResultado(Long id, LaboratorioDTO dto) {
+        log.info("Actualizando resultado de laboratorio ID: {}", id);
+
+        ResultadoLaboratorio resultado = laboratorioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Resultado no encontrado: " + id));
+
+        resultado.setTipoExamen(dto.getTipoExamen());
+        resultado.setResultado(dto.getResultado());
+        resultado.setValoresReferencia(dto.getValoresReferencia());
+        resultado.setArea(dto.getArea());
+        resultado.setMetodo(dto.getMetodo());
+        resultado.setObservaciones(dto.getObservaciones());
+        resultado.setMedicoSolicitante(dto.getMedicoSolicitante());
+        resultado.setFechaResultado(dto.getFechaResultado());
+        resultado.setAnormal(dto.getAnormal() != null ? dto.getAnormal() : false);
+        resultado.setSede(dto.getSede());
+        resultado.setFechaEjecucion(dto.getFechaEjecucion());
+
+        ResultadoLaboratorio saved = laboratorioRepository.save(resultado);
+        log.info("Resultado de laboratorio actualizado ID: {}", saved.getId());
+        return convertirADTO(saved);
+    }
+
     private LaboratorioDTO convertirADTO(ResultadoLaboratorio r) {
         return LaboratorioDTO.builder()
                 .id(r.getId())
