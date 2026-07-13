@@ -216,7 +216,7 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
   <button class="nav-btn protected" data-tab="consultation" data-roles="MEDICO"><i class="bi bi-chat-dots"></i> Consulta Medica</button>
   <button class="nav-btn protected" data-tab="laboratorio" data-roles="MEDICO,LABORATORIO,ADMIN"><i class="bi bi-droplet"></i> Laboratorio</button>
   <button class="nav-btn protected" data-tab="imagenes" data-roles="MEDICO,IMAGENOLOGIA,ADMIN"><i class="bi bi-image"></i> Imagenologia</button>
-  <button class="nav-btn protected" data-tab="auditoria" data-roles="ADMIN"><i class="bi bi-shield-check"></i> Auditoria</button>
+  <button class="nav-btn protected" data-tab="auditoria" data-roles="ADMIN,AUDITOR"><i class="bi bi-shield-check"></i> Auditoria</button>
   <button class="nav-btn protected" data-tab="services" data-roles="MEDICO,LABORATORIO,IMAGENOLOGIA,ADMIN"><i class="bi bi-hdd-stack"></i> Servicios</button>
 </div>
 
@@ -529,28 +529,96 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 <!-- TAB: AUDITORIA -->
 <div class="tab-content" id="tab-auditoria">
   <div class="card">
-    <div class="card-header" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff"><i class="bi bi-shield-check"></i> Registro de Auditoria del Sistema</div>
+    <div class="card-header" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff"><i class="bi bi-shield-check"></i> Modulo de Auditoria del Sistema</div>
     <div class="card-body">
-      <div class="row g-2 mb-3">
-        <div class="col-md-2"><select id="auditModulo" class="form-select"><option value="">Todos los modulos</option><option value="SEGURIDAD">Seguridad</option><option value="PACIENTES">Pacientes</option><option value="CONSULTAS">Consultas</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGENOLOGIA">Imagenologia</option></select></div>
-        <div class="col-md-2"><input type="date" id="auditFechaDesde" class="form-control" placeholder="Fecha desde"></div>
-        <div class="col-md-2"><input type="date" id="auditFechaHasta" class="form-control" placeholder="Fecha hasta"></div>
-        <div class="col-md-2"><button class="btn btn-outline-primary w-100" onclick="loadAuditLogs()"><i class="bi bi-search"></i> Filtrar</button></div>
-        <div class="col-md-2"><button class="btn btn-outline-secondary w-100" onclick="loadAuditLogs()"><i class="bi bi-arrow-repeat"></i> Actualizar</button></div>
-        <div class="col-md-2"><button class="btn btn-outline-success w-100" onclick="exportAuditCSV()"><i class="bi bi-download"></i> Exportar CSV</button></div>
+      <div class="sub-tabs mb-3">
+        <button class="sub-tab active" onclick="switchAuditSubTab('dashboard',this)"><i class="bi bi-speedometer2"></i> Dashboard</button>
+        <button class="sub-tab" onclick="switchAuditSubTab('repositorio',this)"><i class="bi bi-archive"></i> Repositorio</button>
       </div>
-      <div class="row g-2 mb-3" id="auditStatsRow">
-        <div class="col-md-3"><div class="metric-card bg-primary-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditTotalCount">0</div><div class="label" style="font-size:0.65rem">Total Eventos</div></div></div>
-        <div class="col-md-3"><div class="metric-card bg-success-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditExitoCount">0</div><div class="label" style="font-size:0.65rem">Exitosos</div></div></div>
-        <div class="col-md-3"><div class="metric-card bg-danger-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditFalloCount">0</div><div class="label" style="font-size:0.65rem">Fallos</div></div></div>
-        <div class="col-md-3"><div class="metric-card bg-warning-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditUsuarioCount">0</div><div class="label" style="font-size:0.65rem">Usuarios Activos</div></div></div>
+      <div id="auditDashboard">
+        <div class="row g-2 mb-3">
+          <div class="col-md-2"><select id="auditModulo" class="form-select"><option value="">Todos los modulos</option><option value="SEGURIDAD">Seguridad</option><option value="PACIENTES">Pacientes</option><option value="CONSULTAS">Consultas</option><option value="LABORATORIO">Laboratorio</option><option value="IMAGENOLOGIA">Imagenologia</option></select></div>
+          <div class="col-md-2"><input type="date" id="auditFechaDesde" class="form-control" placeholder="Fecha desde"></div>
+          <div class="col-md-2"><input type="date" id="auditFechaHasta" class="form-control" placeholder="Fecha hasta"></div>
+          <div class="col-md-2"><button class="btn btn-outline-primary w-100" onclick="loadAuditLogs()"><i class="bi bi-search"></i> Filtrar</button></div>
+          <div class="col-md-2"><button class="btn btn-outline-secondary w-100" onclick="loadAuditLogs()"><i class="bi bi-arrow-repeat"></i> Actualizar</button></div>
+          <div class="col-md-2"><button class="btn btn-outline-success w-100" onclick="exportAuditCSV()"><i class="bi bi-download"></i> Exportar CSV</button></div>
+        </div>
+        <div class="row g-2 mb-3" id="auditStatsRow">
+          <div class="col-md-3"><div class="metric-card bg-primary-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditTotalCount">0</div><div class="label" style="font-size:0.65rem">Total Eventos</div></div></div>
+          <div class="col-md-3"><div class="metric-card bg-success-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditExitoCount">0</div><div class="label" style="font-size:0.65rem">Exitosos</div></div></div>
+          <div class="col-md-3"><div class="metric-card bg-danger-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditFalloCount">0</div><div class="label" style="font-size:0.65rem">Fallos</div></div></div>
+          <div class="col-md-3"><div class="metric-card bg-warning-gradient" style="padding:0.8rem"><div class="value" style="font-size:1.3rem" id="auditUsuarioCount">0</div><div class="label" style="font-size:0.65rem">Usuarios Activos</div></div></div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-md-6"><div class="card"><div class="card-header"><i class="bi bi-bar-chart"></i> Eventos por Modulo</div><div class="card-body"><div class="chart-container" style="height:200px"><canvas id="auditChartModulos"></canvas></div></div></div></div>
+          <div class="col-md-6"><div class="card"><div class="card-header"><i class="bi bi-pie-chart"></i> Resultados</div><div class="card-body"><div class="chart-container" style="height:200px"><canvas id="auditChartResultados"></canvas></div></div></div></div>
+        </div>
+        <div><span class="text-muted small" id="auditTotal">Total: 0 registros</span></div>
+        <div id="auditLogs" style="max-height:500px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius-sm)"></div>
       </div>
-      <div class="row g-2 mb-3">
-        <div class="col-md-6"><div class="card"><div class="card-header"><i class="bi bi-bar-chart"></i> Eventos por Modulo</div><div class="card-body"><div class="chart-container" style="height:200px"><canvas id="auditChartModulos"></canvas></div></div></div></div>
-        <div class="col-md-6"><div class="card"><div class="card-header"><i class="bi bi-pie-chart"></i> Resultados</div><div class="card-body"><div class="chart-container" style="height:200px"><canvas id="auditChartResultados"></canvas></div></div></div></div>
+      <div id="auditRepositorio" style="display:none">
+        <div class="row g-2 mb-2">
+          <div class="col-md-3"><input type="text" id="repoSearch" class="form-control" placeholder="Busqueda inteligente..." onkeyup="if(event.key==='Enter')loadRepositorio()"></div>
+          <div class="col-md-2"><input type="date" id="repoFechaDesde" class="form-control"></div>
+          <div class="col-md-2"><input type="date" id="repoFechaHasta" class="form-control"></div>
+          <div class="col-md-1"><input type="text" id="repoUsuario" class="form-control" placeholder="Usuario"></div>
+          <div class="col-md-1"><select id="repoRol" class="form-select"><option value="">Rol</option><option>ADMIN</option><option>MEDICO</option><option>LABORATORIO</option><option>IMAGENOLOGIA</option><option>AUDITOR</option></select></div>
+          <div class="col-md-1"><select id="repoModulo" class="form-select"><option value="">Modulo</option><option>SEGURIDAD</option><option>PACIENTES</option><option>CONSULTAS</option><option>LABORATORIO</option><option>IMAGENOLOGIA</option></select></div>
+          <div class="col-md-1"><select id="repoCriticidad" class="form-select"><option value="">Criticidad</option><option>BAJO</option><option>MEDIO</option><option>ALTO</option><option>CRITICO</option></select></div>
+          <div class="col-md-1"><select id="repoResultado" class="form-select"><option value="">Resultado</option><option>EXITO</option><option>FALLO</option></select></div>
+        </div>
+        <div class="row g-2 mb-2">
+          <div class="col-md-2"><input type="text" id="repoIp" class="form-control" placeholder="Direccion IP"></div>
+          <div class="col-md-2"><input type="text" id="repoPaciente" class="form-control" placeholder="Paciente ID"></div>
+          <div class="col-md-2"><select id="repoAccion" class="form-select"><option value="">Accion</option><option>Inicio de sesion</option><option>Intento fallido de inicio de sesion</option><option>Cierre de sesion</option><option>Creacion de paciente</option><option>Actualizacion de paciente</option><option>Consulta de historia clinica</option><option>Registro de consulta</option><option>Solicitud de laboratorio</option><option>Registro de resultado laboratorio</option><option>Actualizacion de resultado laboratorio</option><option>Subida de archivo PDF resultado</option><option>Subida de archivo DICOM</option><option>Registro de estudio imagen</option><option>Solicitud de imagenologia</option><option>Actualizacion de estudio imagen</option></select></div>
+          <div class="col-md-2"><button class="btn btn-primary w-100" onclick="loadRepositorio()"><i class="bi bi-search"></i> Buscar</button></div>
+          <div class="col-md-2"><button class="btn btn-outline-secondary w-100" onclick="resetRepositorioFiltros()"><i class="bi bi-eraser"></i> Limpiar</button></div>
+          <div class="col-md-2">
+            <div class="btn-group w-100">
+              <button class="btn btn-outline-success" onclick="exportRepositorioCSV()" title="Exportar CSV"><i class="bi bi-filetype-csv"></i></button>
+              <button class="btn btn-outline-success" onclick="exportRepositorioExcel()" title="Exportar Excel"><i class="bi bi-file-earmark-excel"></i></button>
+              <button class="btn btn-outline-danger" onclick="exportRepositorioPDF()" title="Exportar PDF"><i class="bi bi-filetype-pdf"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive" style="max-height:500px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius-sm)">
+          <table class="table table-sm table-striped table-hover mb-0" id="repoTable" style="font-size:0.75rem;min-width:1800px">
+            <thead class="sticky-top" style="background:var(--primary-dark);color:#fff">
+              <tr>
+                <th class="p-1 text-center" style="width:30px">#</th>
+                <th class="p-1" onclick="sortRepositorio('fecha')" style="cursor:pointer;white-space:nowrap">Fecha <i class="bi bi-arrow-down-up"></i></th>
+                <th class="p-1" onclick="sortRepositorio('hora')" style="cursor:pointer;white-space:nowrap">Hora</th>
+                <th class="p-1" onclick="sortRepositorio('usuario')" style="cursor:pointer;white-space:nowrap">Usuario</th>
+                <th class="p-1" style="white-space:nowrap">Nombre Completo</th>
+                <th class="p-1" onclick="sortRepositorio('rol')" style="cursor:pointer;white-space:nowrap">Rol</th>
+                <th class="p-1" style="white-space:nowrap">Direccion IP</th>
+                <th class="p-1" style="white-space:nowrap">Dispositivo</th>
+                <th class="p-1" style="white-space:nowrap">Navegador</th>
+                <th class="p-1" style="white-space:nowrap">Sistema Operativo</th>
+                <th class="p-1" onclick="sortRepositorio('modulo')" style="cursor:pointer;white-space:nowrap">Modulo</th>
+                <th class="p-1" style="white-space:nowrap">Submodulo</th>
+                <th class="p-1" style="white-space:nowrap">Paciente</th>
+                <th class="p-1" style="white-space:nowrap">Historia Clinica</th>
+                <th class="p-1" onclick="sortRepositorio('accion')" style="cursor:pointer;white-space:nowrap">Accion</th>
+                <th class="p-1" style="white-space:nowrap">Campo Modificado</th>
+                <th class="p-1" style="white-space:nowrap">Valor Anterior</th>
+                <th class="p-1" style="white-space:nowrap">Valor Nuevo</th>
+                <th class="p-1" onclick="sortRepositorio('resultado')" style="cursor:pointer;white-space:nowrap">Resultado</th>
+                <th class="p-1" onclick="sortRepositorio('nivelCriticidad')" style="cursor:pointer;white-space:nowrap">Criticidad</th>
+                <th class="p-1" style="white-space:nowrap">Tiempo Resp.</th>
+                <th class="p-1" style="white-space:nowrap">UUID</th>
+                <th class="p-1 text-center" style="width:40px">Detalle</th>
+              </tr>
+            </thead>
+            <tbody id="repoTableBody"></tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <span class="text-muted small" id="repoTotalInfo">Mostrando 0 registros</span>
+          <nav><ul class="pagination pagination-sm mb-0" id="repoPagination"></ul></nav>
+        </div>
       </div>
-      <div><span class="text-muted small" id="auditTotal">Total: 0 registros</span></div>
-      <div id="auditLogs" style="max-height:500px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:var(--radius-sm)"></div>
     </div>
   </div>
 </div>
@@ -679,12 +747,12 @@ async function doLogin() {
       switchTab('dashboard');
       loadAllData();
       checkServices();
-      await sendAudit('SEGURIDAD', 'Inicio de sesion', 'Login exitoso: ' + user, 'EXITO');
+      await sendAudit('SEGURIDAD', 'Inicio de sesion', 'Login exitoso: ' + user, 'EXITO', { submodulo: 'Autenticacion', criticidad: 'BAJO' });
     } else {
       $('loginErrorMsg').textContent = d.message || 'Credenciales invalidas';
       $('loginError').classList.add('show');
       showToast('Error de autenticacion', 'error');
-      await sendAudit('SEGURIDAD', 'Intento fallido de inicio de sesion', 'Usuario: ' + user, 'FALLO');
+      await sendAudit('SEGURIDAD', 'Intento fallido de inicio de sesion', 'Usuario: ' + user, 'FALLO', { submodulo: 'Autenticacion', criticidad: 'MEDIO' });
     }
   } catch (e) {
     $('loginErrorMsg').textContent = 'Error de conexion con el servidor de seguridad';
@@ -695,7 +763,7 @@ async function doLogin() {
 }
 
 function logout() {
-  sendAudit('SEGURIDAD', 'Cierre de sesion', 'Usuario: ' + (currentUser ? currentUser.username : 'desconocido'), 'EXITO');
+  sendAudit('SEGURIDAD', 'Cierre de sesion', 'Usuario: ' + (currentUser ? currentUser.username : 'desconocido'), 'EXITO', { submodulo: 'Autenticacion' });
   clearToken();
   clearCurrentUser();
   renderUserInfo();
@@ -993,7 +1061,7 @@ async function savePatient() {
       showToast('Paciente registrado: '+d.data.idPacienteRegional,'success');
       window._patientModal&&window._patientModal.hide();
       await loadPatientsList(); renderPatientsTable(); await loadDashboard();
-      await sendAudit('PACIENTES', 'Creacion de paciente', 'ID Regional: ' + d.data.idPacienteRegional + ' - ' + n + ' ' + a, 'EXITO');
+      await sendAudit('PACIENTES', 'Creacion de paciente', 'ID Regional: ' + d.data.idPacienteRegional + ' - ' + n + ' ' + a, 'EXITO', { paciente: d.data.idPacienteRegional, submodulo: 'Registro' });
     } else showToast(d.message||'Error al registrar paciente','error');
   } catch(e) { showToast('Error de conexion con el servidor','error'); }
   hideLoading();
@@ -1082,7 +1150,7 @@ async function loadHistory(rid) {
       '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin estudios de imagenologia</p></div>')+'</div></div>';
     if (d.errores&&Object.keys(d.errores).length) html+='<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> <strong>Nota:</strong> Algunos servicios no respondieron: '+Object.values(d.errores).join(', ')+'</div>';
     $('historyContent').innerHTML = html;
-    sendAudit('CONSULTAS', 'Consulta de historia clinica', 'Paciente: ' + rid, 'EXITO');
+    sendAudit('CONSULTAS', 'Consulta de historia clinica', 'Paciente: ' + rid, 'EXITO', { paciente: rid, submodulo: 'Historia Clinica' });
   } catch(e) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia clinica. Verifique que todos los microservicios esten activos.</div>'; }
   hideLoading();
 }
@@ -1177,7 +1245,7 @@ async function saveEditPatient() {
       showToast('Datos cambiados exitosamente','success');
       window._editPatientModal && window._editPatientModal.hide();
       await loadPatientsList(); renderPatientsTable(); await loadDashboard();
-      await sendAudit('PACIENTES', 'Actualizacion de paciente', 'ID Regional: ' + rid, 'EXITO');
+      await sendAudit('PACIENTES', 'Actualizacion de paciente', 'ID Regional: ' + rid, 'EXITO', { paciente: rid, submodulo: 'Edicion' });
     } else showToast(d.message||'Error al actualizar paciente','error');
   } catch(e) { showToast('Error de conexion con el servidor','error'); }
   hideLoading();
@@ -1253,7 +1321,7 @@ async function saveConsulta() {
       }
       $('consResult').innerHTML='<div class="alert alert-success mt-2"><i class="bi bi-check-circle"></i> Consulta medica registrada correctamente</div>';
       setTimeout(()=>$('consResult').innerHTML='',4000);
-      sendAudit('CONSULTAS', 'Registro de consulta', 'Paciente: ' + pid + ' - Diagnostico: ' + body.diagnostico, 'EXITO');
+      sendAudit('CONSULTAS', 'Registro de consulta', 'Paciente: ' + pid + ' - Diagnostico: ' + body.diagnostico, 'EXITO', { paciente: pid, submodulo: 'Consulta Medica', criticidad: 'BAJO' });
       clearConsult();
     } else showToast('Error al guardar la consulta','error');
   } catch(e){showToast('Error de conexion con el servidor','error');}
@@ -1319,7 +1387,7 @@ async function saveLabSolicitud() {
       renderLabSolExamenes();
       $('labSolIndicaciones').value = '';
       loadLabSolicitudes(pid);
-      sendAudit('LABORATORIO', 'Solicitud de laboratorio', 'Paciente: ' + pid + ' - ' + body.examenes.join(', '), 'EXITO');
+      sendAudit('LABORATORIO', 'Solicitud de laboratorio', 'Paciente: ' + pid + ' - ' + body.examenes.join(', '), 'EXITO', { paciente: pid, submodulo: 'Solicitudes' });
     } else {
       const d = await r.json();
       showToast(d.message || 'Error al enviar solicitud', 'error');
@@ -1364,7 +1432,7 @@ async function saveLab() {
   try {
     const resp=await apiCall(API.laboratorio+'/laboratorio','POST',{idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEjecucion:new Date().toISOString().split('T')[0],tipoExamen:t,resultado:r,valoresReferencia:$('labValoresRef').value.trim()||'---',medicoSolicitante:'Sistema',area:$('labArea').value.trim()||'GENERAL',metodo:'AUTOMATICO',anormal:false});
     if (!resp) { hideLoading(); return; }
-    if(resp.ok){showToast('Resultado de laboratorio registrado','success');$('labTipoExamen').value='';$('labResultado').value='';$('labValoresRef').value='';$('labArea').value='';loadLabResults(pid);sendAudit('LABORATORIO','Registro de resultado laboratorio','Paciente: '+pid+' - Examen: '+t,'EXITO');}
+    if(resp.ok){showToast('Resultado de laboratorio registrado','success');$('labTipoExamen').value='';$('labResultado').value='';$('labValoresRef').value='';$('labArea').value='';loadLabResults(pid);sendAudit('LABORATORIO','Registro de resultado laboratorio','Paciente: '+pid+' - Examen: '+t,'EXITO',{paciente:pid,submodulo:'Resultados'});}
     else showToast('Error al registrar resultado','error');
   }catch(e){showToast('Error de conexion','error');}
   hideLoading();
@@ -1406,7 +1474,7 @@ async function saveEditLabResult() {
       $('labTipoExamen').value = ''; $('labResultado').value = '';
       $('labValoresRef').value = ''; $('labArea').value = '';
       loadLabResults(pid);
-      sendAudit('LABORATORIO', 'Actualizacion de resultado laboratorio', 'Paciente: ' + pid, 'EXITO');
+      sendAudit('LABORATORIO', 'Actualizacion de resultado laboratorio', 'Paciente: ' + pid, 'EXITO', { paciente: pid, submodulo: 'Resultados' });
     } else showToast('Error al actualizar resultado', 'error');
   } catch (e) { showToast('Error de conexion', 'error'); }
   hideLoading();
@@ -1427,7 +1495,7 @@ async function loadLabResults(pid) {
 function uploadLabPdf(input) {
   if (input.files && input.files[0]) {
     showToast('Archivo ' + input.files[0].name + ' listo para procesar (simulacion)', 'info');
-    sendAudit('LABORATORIO', 'Subida de archivo PDF resultado', input.files[0].name, 'EXITO');
+    sendAudit('LABORATORIO', 'Subida de archivo PDF resultado', input.files[0].name, 'EXITO', { submodulo: 'Archivos' });
   }
 }
 
@@ -1445,7 +1513,7 @@ function uploadImgFile(input) {
   if (input.files && input.files[0]) {
     showToast('Archivo ' + input.files[0].name + ' preparado para estudio', 'info');
     $('imgTipoEstudio').value = input.files[0].name.replace(/\.[^/.]+$/, '');
-    sendAudit('IMAGENOLOGIA', 'Subida de archivo DICOM', input.files[0].name, 'EXITO');
+    sendAudit('IMAGENOLOGIA', 'Subida de archivo DICOM', input.files[0].name, 'EXITO', { submodulo: 'Archivos' });
   }
 }
 
@@ -1456,7 +1524,7 @@ async function saveImg() {
   try {
     const resp=await apiCall(API.imagenes+'/imagenes','POST',{idPacienteRegional:pid,sede:'SOLCA-CUENCA',fechaEstudio:new Date().toISOString().split('T')[0],tipoEstudio:t,formato:'DICOM',urlArchivo:'/api/repositorio/archivos/'+pid+'/'+t,nombreArchivo:t+'.dcm',medicoSolicitante:'Sistema',modalidad:$('imgModalidad').value.trim()||'RX',hallazgos:$('imgHallazgos').value.trim()||'Pendiente',tamanoBytes:1024,informeRadiológico:''});
     if (!resp) { hideLoading(); return; }
-    if(resp.ok){showToast('Estudio de imagen registrado','success');$('imgTipoEstudio').value='';$('imgHallazgos').value='';$('imgModalidad').value='';loadImgResults(pid);sendAudit('IMAGENOLOGIA','Registro de estudio imagen','Paciente: '+pid+' - Estudio: '+t,'EXITO');}
+    if(resp.ok){showToast('Estudio de imagen registrado','success');$('imgTipoEstudio').value='';$('imgHallazgos').value='';$('imgModalidad').value='';loadImgResults(pid);sendAudit('IMAGENOLOGIA','Registro de estudio imagen','Paciente: '+pid+' - Estudio: '+t,'EXITO',{paciente:pid,submodulo:'Estudios'});}
     else showToast('Error al registrar estudio','error');
   }catch(e){showToast('Error de conexion','error');}
   hideLoading();
@@ -1493,7 +1561,7 @@ async function saveImgSolicitud() {
       $('imgSolIndicaciones').value = '';
       $('imgSolRegion').value = '';
       loadImgSolicitudes(pid);
-      sendAudit('IMAGENOLOGIA', 'Solicitud de imagenologia', 'Paciente: ' + pid + ' - ' + body.tipoEstudio, 'EXITO');
+      sendAudit('IMAGENOLOGIA', 'Solicitud de imagenologia', 'Paciente: ' + pid + ' - ' + body.tipoEstudio, 'EXITO', { paciente: pid, submodulo: 'Solicitudes' });
     } else {
       const d = await r.json();
       showToast(d.message || 'Error al enviar solicitud', 'error');
@@ -1565,24 +1633,58 @@ async function saveEditImgResult() {
       $('imgSaveBtn').onclick = saveImg;
       $('imgTipoEstudio').value = ''; $('imgHallazgos').value = ''; $('imgModalidad').value = '';
       loadImgResults(pid);
-      sendAudit('IMAGENOLOGIA', 'Actualizacion de estudio imagen', 'Paciente: ' + pid, 'EXITO');
+      sendAudit('IMAGENOLOGIA', 'Actualizacion de estudio imagen', 'Paciente: ' + pid, 'EXITO', { paciente: pid, submodulo: 'Estudios' });
     } else showToast('Error al actualizar estudio', 'error');
   } catch (e) { showToast('Error de conexion', 'error'); }
   hideLoading();
 }
 
 // AUDITORIA
-async function sendAudit(modulo, accion, detalle, resultado) {
+function getBrowserInfo() {
+  const ua = navigator.userAgent;
+  let navegador = 'Desconocido';
+  if (ua.includes('Chrome') && !ua.includes('Edg')) navegador = 'Chrome';
+  else if (ua.includes('Firefox')) navegador = 'Firefox';
+  else if (ua.includes('Safari') && !ua.includes('Chrome')) navegador = 'Safari';
+  else if (ua.includes('Edg')) navegador = 'Edge';
+  else if (ua.includes('Trident')) navegador = 'Internet Explorer';
+  let sistemaOperativo = 'Desconocido';
+  if (/Windows NT 1[01]/.test(ua)) sistemaOperativo = 'Windows 10/11';
+  else if (/Windows NT 6\.\d/.test(ua)) sistemaOperativo = 'Windows';
+  else if (/Mac OS X/.test(ua)) sistemaOperativo = 'macOS';
+  else if (/Linux/.test(ua) && !/Android/.test(ua)) sistemaOperativo = 'Linux';
+  else if (/Android/.test(ua)) sistemaOperativo = 'Android';
+  else if (/iPhone|iPad|iPod/.test(ua)) sistemaOperativo = 'iOS';
+  let dispositivo = 'Desktop';
+  if (/Mobi|Android|iPhone|iPod/.test(ua)) dispositivo = 'Movil';
+  else if (/iPad|Tablet/.test(ua)) dispositivo = 'Tablet';
+  return { navegador, sistemaOperativo, dispositivo };
+}
+
+async function sendAudit(modulo, accion, detalle, resultado, opts = {}) {
   if (!currentUser) return;
   try {
+    const info = getBrowserInfo();
     const body = {
       usuario: currentUser.username,
+      nombreCompleto: opts.nombreCompleto || (currentUser.nombres ? currentUser.nombres + ' ' + (currentUser.apellidos||'') : currentUser.username),
       rol: currentUser.rol,
-      direccionIp: '',
+      direccionIp: opts.ip || '',
+      dispositivo: opts.dispositivo || info.dispositivo,
+      navegador: opts.navegador || info.navegador,
+      sistemaOperativo: opts.sistemaOperativo || info.sistemaOperativo,
       modulo: modulo,
+      submodulo: opts.submodulo || '',
       accion: accion,
-      detalle: detalle,
-      resultado: resultado || 'EXITO'
+      detalle: detalle || '',
+      valorAnterior: opts.valorAnterior || '',
+      valorNuevo: opts.valorNuevo || '',
+      pacienteRelacionado: opts.paciente || '',
+      historiaClinica: opts.historiaClinica || '',
+      nivelCriticidad: opts.criticidad || 'BAJO',
+      resultado: resultado || 'EXITO',
+      codigoHttp: opts.codigoHttp || 200,
+      tiempoEjecucionMs: opts.tiempoMs || 0
     };
     await apiCall(API.auditoria + '/auditorias', 'POST', body);
   } catch(e) { console.error('Audit error:', e); }
@@ -1592,7 +1694,7 @@ let auditChartModulos = null;
 let auditChartResultados = null;
 
 async function loadAuditLogs() {
-  if (!currentUser || currentUser.rol !== 'ADMIN') return;
+  if (!currentUser || !['ADMIN','AUDITOR'].includes(currentUser.rol)) return;
   showLoading();
   try {
     const modulo = $('auditModulo').value;
@@ -1659,6 +1761,251 @@ function exportAuditCSV() {
   link.download = 'auditoria_solca_' + new Date().toISOString().split('T')[0] + '.csv';
   link.click();
   showToast('Reporte de auditoria exportado', 'success');
+}
+
+// REPOSITORIO DE AUDITORIA
+let repoPage = 0, repoSize = 50, repoSortedBy = 'fecha', repoSortedDir = 'desc', repoData = [];
+
+function switchAuditSubTab(tab, btn) {
+  document.querySelectorAll('#tab-auditoria .sub-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('auditDashboard').style.display = tab === 'dashboard' ? '' : 'none';
+  document.getElementById('auditRepositorio').style.display = tab === 'repositorio' ? '' : 'none';
+  if (tab === 'dashboard') loadAuditLogs();
+  if (tab === 'repositorio') loadRepositorio();
+}
+
+function resetRepositorioFiltros() {
+  ['repoSearch','repoFechaDesde','repoFechaHasta','repoUsuario','repoIp','repoPaciente'].forEach(id => $(''+id).value='');
+  ['repoRol','repoModulo','repoCriticidad','repoResultado','repoAccion'].forEach(id => $(''+id).selectedIndex=0);
+  repoPage = 0; loadRepositorio();
+}
+
+function repoQuery() {
+  const params = new URLSearchParams();
+  params.set('page', 0); params.set('size', 500);
+  const u = $('repoUsuario').value.trim(); if (u) params.set('usuario', u);
+  const r = $('repoRol').value; if (r) params.set('rol', r);
+  const m = $('repoModulo').value; if (m) params.set('modulo', m);
+  const c = $('repoCriticidad').value; if (c) params.set('criticidad', c);
+  const res = $('repoResultado').value; if (res) params.set('resultado', res);
+  const p = $('repoPaciente').value.trim(); if (p) params.set('paciente', p);
+  const a = $('repoAccion').value; if (a) params.set('accion', a);
+  const fd = $('repoFechaDesde').value; if (fd) params.set('desde', fd);
+  const fh = $('repoFechaHasta').value; if (fh) params.set('hasta', fh);
+  return params.toString();
+}
+
+function repoFilterClientSide(data) {
+  const q = $('repoSearch').value.trim().toLowerCase();
+  const ip = $('repoIp').value.trim().toLowerCase();
+  let filtered = data;
+  if (q) filtered = filtered.filter(l => JSON.stringify(l).toLowerCase().includes(q));
+  if (ip) filtered = filtered.filter(l => (l.direccionIp||'').toLowerCase().includes(ip));
+  return filtered;
+}
+
+function repoSortClientSide(data) {
+  const col = repoSortedBy;
+  const dir = repoSortedDir === 'asc' ? 1 : -1;
+  return data.sort((a, b) => {
+    const va = (a[col]||'').toString().toLowerCase();
+    const vb = (b[col]||'').toString().toLowerCase();
+    if (col === 'fecha') return dir * (new Date(va) - new Date(vb));
+    if (col === 'tiempoEjecucionMs') return dir * ((a[col]||0) - (b[col]||0));
+    return va < vb ? -dir : va > vb ? dir : 0;
+  });
+}
+
+async function loadRepositorio() {
+  if (!currentUser || !['ADMIN','AUDITOR'].includes(currentUser.rol)) return; showLoading();
+  try {
+    const resp = await apiCall(API.auditoria + '/auditorias/buscar?' + repoQuery());
+    if (!resp) { hideLoading(); return; }
+    const d = await resp.json();
+    let allData = d.data ? (d.data.content || d.data || []) : [];
+    const pageInfo = d.data || d;
+    allData = repoFilterClientSide(allData);
+    allData = repoSortClientSide(allData);
+    repoTotalElements = allData.length;
+    const start = repoPage * repoSize;
+    repoData = allData.slice(start, start + repoSize);
+    repoTotalPages = Math.ceil(allData.length / repoSize) || 1;
+    renderRepositorioTable();
+  } catch(e) {
+    document.getElementById('repoTableBody').innerHTML = '<tr><td colspan="23" class="text-center text-danger p-3">Error: ' + e.message + '</td></tr>';
+  }
+  hideLoading();
+}
+
+function renderRepositorioTable() {
+  const tbody = document.getElementById('repoTableBody');
+  if (!repoData.length) {
+    tbody.innerHTML = '<tr><td colspan="23" class="text-center py-4 text-muted"><i class="bi bi-inbox"></i> No se encontraron registros de auditoria</td></tr>';
+    document.getElementById('repoTotalInfo').textContent = '0 registros';
+    document.getElementById('repoPagination').innerHTML = ''; return;
+  }
+  tbody.innerHTML = repoData.map((l, i) => {
+    const critClass = {BAJO:'text-success',MEDIO:'text-warning',ALTO:'text-danger',CRITICO:'text-danger fw-bold'}[l.nivelCriticidad]||'';
+    const resClass = l.resultado === 'EXITO' ? 'text-success' : 'text-danger';
+    const fecha = l.fecha ? new Date(l.fecha).toLocaleDateString('es-EC') : '';
+    return '<tr>' +
+      '<td class="p-1 text-center text-muted">' + (repoPage * repoSize + i + 1) + '</td>' +
+      '<td class="p-1" style="white-space:nowrap">' + fecha + '</td>' +
+      '<td class="p-1">' + escHtml(l.hora||'') + '</td>' +
+      '<td class="p-1"><strong>' + escHtml(l.usuario||'') + '</strong></td>' +
+      '<td class="p-1">' + escHtml(l.nombreCompleto||'') + '</td>' +
+      '<td class="p-1"><span class="badge bg-secondary">' + escHtml(l.rol||'') + '</span></td>' +
+      '<td class="p-1" style="font-family:monospace;font-size:0.7rem">' + escHtml(l.direccionIp||'') + '</td>' +
+      '<td class="p-1">' + escHtml(l.dispositivo||'') + '</td>' +
+      '<td class="p-1" style="font-size:0.7rem">' + escHtml(l.navegador||'') + '</td>' +
+      '<td class="p-1">' + escHtml(l.sistemaOperativo||'') + '</td>' +
+      '<td class="p-1"><span class="status-badge" style="background:var(--gray-100)">' + escHtml(l.modulo||'') + '</span></td>' +
+      '<td class="p-1">' + escHtml(l.submodulo||'') + '</td>' +
+      '<td class="p-1">' + escHtml(l.pacienteRelacionado||'') + '</td>' +
+      '<td class="p-1">' + escHtml(l.historiaClinica||'') + '</td>' +
+      '<td class="p-1">' + escHtml(l.accion||'') + '</td>' +
+      '<td class="p-1" style="font-size:0.7rem">' + escHtml(l.campoModificado||l.tipoRegistro||'') + '</td>' +
+      '<td class="p-1" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + escHtml(l.valorAnterior||'') + '">' + escHtml((l.valorAnterior||'').substring(0,30)) + '</td>' +
+      '<td class="p-1" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + escHtml(l.valorNuevo||'') + '">' + escHtml((l.valorNuevo||'').substring(0,30)) + '</td>' +
+      '<td class="p-1"><span class="' + resClass + ' fw-bold">' + escHtml(l.resultado||'') + '</span></td>' +
+      '<td class="p-1"><span class="' + critClass + '">' + escHtml(l.nivelCriticidad||'') + '</span></td>' +
+      '<td class="p-1" style="font-family:monospace">' + (l.tiempoEjecucionMs != null ? l.tiempoEjecucionMs + 'ms' : '') + '</td>' +
+      '<td class="p-1" style="font-family:monospace;font-size:0.65rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + escHtml(l.uuidEvento||'') + '">' + escHtml((l.uuidEvento||'').substring(0,8)) + '...</td>' +
+      '<td class="p-1 text-center"><button class="btn btn-sm btn-outline-info py-0 px-1" onclick="showAuditDetalle(' + l.id + ')" title="Ver detalle"><i class="bi bi-eye"></i></button></td>' +
+    '</tr>';
+  }).join('');
+  document.getElementById('repoTotalInfo').textContent = 'Mostrando ' + repoData.length + ' de ' + repoTotalElements + ' registros';
+  renderRepositorioPagination();
+}
+
+function renderRepositorioPagination() {
+  const nav = document.getElementById('repoPagination');
+  if (repoTotalPages <= 1) { nav.innerHTML = ''; return; }
+  let html = '';
+  html += '<li class="page-item ' + (repoPage <= 0 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="event.preventDefault();repoPage=0;loadRepositorio()"><i class="bi bi-chevron-double-left"></i></a></li>';
+  html += '<li class="page-item ' + (repoPage <= 0 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="event.preventDefault();repoPage=Math.max(0,' + (repoPage-1) + ');loadRepositorio()"><i class="bi bi-chevron-left"></i></a></li>';
+  for (let p = Math.max(0, repoPage - 2); p <= Math.min(repoTotalPages - 1, repoPage + 2); p++) {
+    html += '<li class="page-item ' + (p === repoPage ? 'active' : '') + '"><a class="page-link" href="#" onclick="event.preventDefault();repoPage=' + p + ';loadRepositorio()">' + (p + 1) + '</a></li>';
+  }
+  html += '<li class="page-item ' + (repoPage >= repoTotalPages - 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="event.preventDefault();repoPage=Math.min(' + (repoTotalPages-1) + ',' + (repoPage+1) + ');loadRepositorio()"><i class="bi bi-chevron-right"></i></a></li>';
+  html += '<li class="page-item ' + (repoPage >= repoTotalPages - 1 ? 'disabled' : '') + '"><a class="page-link" href="#" onclick="event.preventDefault();repoPage=' + (repoTotalPages-1) + ';loadRepositorio()"><i class="bi bi-chevron-double-right"></i></a></li>';
+  nav.innerHTML = html;
+}
+
+function sortRepositorio(col) {
+  if (repoSortedBy === col) repoSortedDir = repoSortedDir === 'asc' ? 'desc' : 'asc';
+  else { repoSortedBy = col; repoSortedDir = 'asc'; }
+  repoPage = 0; loadRepositorio();
+}
+
+function showAuditDetalle(id) {
+  const l = repoData.find(x => x.id === id);
+  if (!l) { showToast('Registro no encontrado', 'error'); return; }
+  const critClass = {BAJO:'success',MEDIO:'warning',ALTO:'danger',CRITICO:'danger'}[l.nivelCriticidad]||'secondary';
+  const resClass = l.resultado === 'EXITO' ? 'success' : 'danger';
+  const html = '<div class="modal fade" id="auditDetailModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header bg-dark text-white"><h6 class="mb-0"><i class="bi bi-info-circle"></i> Detalle del Evento de Auditoria</h6><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body" style="font-size:0.85rem">' +
+    '<div class="row g-2">' +
+      '<div class="col-md-6"><label class="text-muted small">UUID del Evento</label><div class="fw-bold" style="font-family:monospace;font-size:0.75rem">' + escHtml(l.uuidEvento||'N/A') + '</div></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Fecha</label><div class="fw-bold">' + (l.fecha ? new Date(l.fecha).toLocaleDateString('es-EC') : 'N/A') + '</div></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Hora</label><div class="fw-bold">' + escHtml(l.hora||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Usuario</label><div class="fw-bold">' + escHtml(l.usuario||'') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Nombre Completo</label><div>' + escHtml(l.nombreCompleto||'') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Rol</label><div><span class="badge bg-secondary">' + escHtml(l.rol||'') + '</span></div></div>' +
+      '<div class="col-md-12"><hr class="my-1"></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Direccion IP</label><div style="font-family:monospace">' + escHtml(l.direccionIp||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Dispositivo</label><div>' + escHtml(l.dispositivo||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Navegador</label><div style="font-size:0.75rem">' + escHtml(l.navegador||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Sistema Operativo</label><div>' + escHtml(l.sistemaOperativo||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Modulo</label><div><span class="status-badge" style="background:var(--gray-100)">' + escHtml(l.modulo||'') + '</span></div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Submodulo</label><div>' + escHtml(l.submodulo||'N/A') + '</div></div>' +
+      '<div class="col-md-12"><hr class="my-1"></div>' +
+      '<div class="col-md-12"><label class="text-muted small">Accion Realizada</label><div class="fw-bold">' + escHtml(l.accion||'') + '</div></div>' +
+      '<div class="col-md-12"><label class="text-muted small">Detalle</label><div>' + escHtml(l.detalle||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Paciente Relacionado</label><div>' + escHtml(l.pacienteRelacionado||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Historia Clinica</label><div>' + escHtml(l.historiaClinica||'N/A') + '</div></div>' +
+      '<div class="col-md-4"><label class="text-muted small">Campo Modificado</label><div>' + escHtml(l.tipoRegistro||l.campoModificado||'N/A') + '</div></div>' +
+      '<div class="col-md-6"><label class="text-muted small">Valor Anterior</label><div class="p-1 bg-light rounded" style="font-family:monospace;font-size:0.75rem;max-height:80px;overflow-y:auto">' + escHtml(l.valorAnterior||'N/A') + '</div></div>' +
+      '<div class="col-md-6"><label class="text-muted small">Valor Nuevo</label><div class="p-1 bg-light rounded" style="font-family:monospace;font-size:0.75rem;max-height:80px;overflow-y:auto">' + escHtml(l.valorNuevo||'N/A') + '</div></div>' +
+      '<div class="col-md-12"><hr class="my-1"></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Resultado</label><div><span class="badge bg-' + resClass + '">' + escHtml(l.resultado||'') + '</span></div></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Nivel de Criticidad</label><div><span class="badge bg-' + critClass + '">' + escHtml(l.nivelCriticidad||'BAJO') + '</span></div></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Codigo HTTP</label><div>' + (l.codigoHttp||'200') + '</div></div>' +
+      '<div class="col-md-3"><label class="text-muted small">Tiempo de Respuesta</label><div>' + (l.tiempoEjecucionMs != null ? l.tiempoEjecucionMs + ' ms' : 'N/A') + '</div></div>' +
+    '</div></div><div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button></div></div></div></div>';
+  const existing = document.getElementById('auditDetailModal');
+  if (existing) existing.remove();
+  document.body.insertAdjacentHTML('beforeend', html);
+  const modal = new bootstrap.Modal(document.getElementById('auditDetailModal'));
+  modal.show();
+  document.getElementById('auditDetailModal').addEventListener('hidden.bs.modal', () => document.getElementById('auditDetailModal').remove());
+}
+
+function exportRepositorioCSV() {
+  if (!repoData.length) { showToast('No hay datos para exportar', 'warning'); return; }
+  const BOM = '\uFEFF';
+  const cols = ['Fecha','Hora','Usuario','Nombre Completo','Rol','Direccion IP','Dispositivo','Navegador','Sistema Operativo','Modulo','Submodulo','Paciente','Historia Clinica','Accion','Campo Modificado','Valor Anterior','Valor Nuevo','Resultado','Criticidad','Tiempo Resp.','UUID','Detalle'];
+  let csv = BOM + cols.join(',') + '\n';
+  repoData.forEach(l => {
+    const row = [
+      l.fecha ? new Date(l.fecha).toISOString().split('T')[0] : '',
+      l.hora||'', l.usuario||'', l.nombreCompleto||'', l.rol||'', l.direccionIp||'',
+      l.dispositivo||'', l.navegador||'', l.sistemaOperativo||'', l.modulo||'', l.submodulo||'',
+      l.pacienteRelacionado||'', l.historiaClinica||'', l.accion||'', l.tipoRegistro||'',
+      (l.valorAnterior||'').replace(/,/g,';'), (l.valorNuevo||'').replace(/,/g,';'),
+      l.resultado||'', l.nivelCriticidad||'', l.tiempoEjecucionMs||'', l.uuidEvento||'',
+      (l.detalle||'').replace(/,/g,';')
+    ];
+    csv += row.join(',') + '\n';
+  });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'auditoria_repositorio_' + new Date().toISOString().split('T')[0] + '.csv';
+  link.click();
+  showToast('Reporte exportado como CSV', 'success');
+}
+
+function exportRepositorioExcel() {
+  if (!repoData.length) { showToast('No hay datos para exportar', 'warning'); return; }
+  const BOM = '\uFEFF';
+  const cols = ['Fecha','Hora','Usuario','Nombre Completo','Rol','Direccion IP','Dispositivo','Navegador','Sistema Operativo','Modulo','Submodulo','Paciente','Historia Clinica','Accion','Campo Modificado','Valor Anterior','Valor Nuevo','Resultado','Criticidad','Tiempo Resp.','UUID','Detalle'];
+  let csv = BOM + cols.join(';') + '\n';
+  repoData.forEach(l => {
+    const row = [
+      l.fecha ? new Date(l.fecha).toISOString().split('T')[0] : '', l.hora||'', l.usuario||'', l.nombreCompleto||'', l.rol||'', l.direccionIp||'',
+      l.dispositivo||'', l.navegador||'', l.sistemaOperativo||'', l.modulo||'', l.submodulo||'',
+      l.pacienteRelacionado||'', l.historiaClinica||'', l.accion||'', l.tipoRegistro||'',
+      (l.valorAnterior||'').replace(/;/g,','), (l.valorNuevo||'').replace(/;/g,','),
+      l.resultado||'', l.nivelCriticidad||'', l.tiempoEjecucionMs||'', l.uuidEvento||'',
+      (l.detalle||'').replace(/;/g,',')
+    ];
+    csv += row.join(';') + '\n';
+  });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'auditoria_repositorio_' + new Date().toISOString().split('T')[0] + '.xls';
+  link.click();
+  showToast('Reporte exportado como Excel', 'success');
+}
+
+function exportRepositorioPDF() {
+  if (!repoData.length) { showToast('No hay datos para exportar', 'warning'); return; }
+  const w = window.open('', '_blank');
+  let html = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Reporte de Auditoria - SOLCA Cloud</title>';
+  html += '<style>body{font-family:Arial,sans-serif;font-size:10px;margin:20px}table{width:100%;border-collapse:collapse}th{background:#064a52;color:#fff;padding:4px;text-align:left;font-size:8px}td{padding:3px;border:1px solid #ddd;font-size:8px}tr:nth-child(even){background:#f5f5f5}h2{color:#064a52;margin-bottom:5px}.meta{font-size:10px;color:#666;margin-bottom:15px}</style></head><body>';
+  html += '<h2>SOLCA Cloud - Reporte de Auditoria</h2>';
+  html += '<div class="meta">Generado: ' + new Date().toLocaleString('es-EC') + ' | Total registros: ' + repoData.length + '</div>';
+  html += '<table><thead><tr><th>#</th><th>Fecha</th><th>Hora</th><th>Usuario</th><th>Rol</th><th>Modulo</th><th>Accion</th><th>Resultado</th><th>Criticidad</th><th>Paciente</th><th>IP</th><th>UUID</th></tr></thead><tbody>';
+  repoData.forEach((l, i) => {
+    html += '<tr><td>' + (i+1) + '</td><td>' + (l.fecha ? new Date(l.fecha).toLocaleDateString('es-EC') : '') + '</td><td>' + escHtml(l.hora||'') + '</td><td>' + escHtml(l.usuario||'') + '</td><td>' + escHtml(l.rol||'') + '</td><td>' + escHtml(l.modulo||'') + '</td><td>' + escHtml(l.accion||'') + '</td><td>' + escHtml(l.resultado||'') + '</td><td>' + escHtml(l.nivelCriticidad||'') + '</td><td>' + escHtml(l.pacienteRelacionado||'') + '</td><td>' + escHtml(l.direccionIp||'') + '</td><td style="font-size:7px">' + escHtml((l.uuidEvento||'').substring(0,8)) + '</td></tr>';
+  });
+  html += '</tbody></table></body></html>';
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => { w.focus(); w.print(); }, 500);
+  showToast('Reporte listo para imprimir/PDF', 'success');
 }
 
 // SERVICE STATUS
