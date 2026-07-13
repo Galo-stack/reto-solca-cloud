@@ -1,43 +1,55 @@
 package com.solca.auditoria.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuditoriaDTO {
     @NotBlank(message = "El usuario es obligatorio")
     private String usuario;
 
+    private String nombreCompleto;
+
     @NotBlank(message = "El rol es obligatorio")
     private String rol;
 
+    private Long idUsuario;
     private String direccionIp;
+    private String dispositivo;
+    private String navegador;
+    private String sistemaOperativo;
 
     @NotBlank(message = "El modulo es obligatorio")
     private String modulo;
+
+    private String submodulo;
 
     @NotBlank(message = "La accion es obligatoria")
     private String accion;
 
     private String detalle;
+    private String valorAnterior;
+    private String valorNuevo;
+    private String pacienteRelacionado;
+    private String historiaClinica;
+    private String numeroConsulta;
+    private String tipoRegistro;
+    private String estadoRegistro;
     private String resultado;
+    private Integer codigoHttp;
+    private Long tiempoEjecucionMs;
+    private String sesionUsuario;
+    private String uuidEvento;
+    private String nivelCriticidad;
     private Long idReferencia;
     private String tipoReferencia;
-
-    public String getUsuario() { return usuario; }
-    public void setUsuario(String usuario) { this.usuario = usuario; }
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
-    public String getDireccionIp() { return direccionIp; }
-    public void setDireccionIp(String direccionIp) { this.direccionIp = direccionIp; }
-    public String getModulo() { return modulo; }
-    public void setModulo(String modulo) { this.modulo = modulo; }
-    public String getAccion() { return accion; }
-    public void setAccion(String accion) { this.accion = accion; }
-    public String getDetalle() { return detalle; }
-    public void setDetalle(String detalle) { this.detalle = detalle; }
-    public String getResultado() { return resultado; }
-    public void setResultado(String resultado) { this.resultado = resultado; }
-    public Long getIdReferencia() { return idReferencia; }
-    public void setIdReferencia(Long idReferencia) { this.idReferencia = idReferencia; }
-    public String getTipoReferencia() { return tipoReferencia; }
-    public void setTipoReferencia(String tipoReferencia) { this.tipoReferencia = tipoReferencia; }
+    private LocalDateTime fecha;
 }

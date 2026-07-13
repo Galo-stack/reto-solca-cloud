@@ -1,10 +1,20 @@
 package com.solca.auditoria.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "auditorias")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +29,32 @@ public class Auditoria {
     @Column(nullable = false, length = 50)
     private String usuario;
 
+    @Column(length = 150)
+    private String nombreCompleto;
+
     @Column(nullable = false, length = 30)
     private String rol;
+
+    @Column
+    private Long idUsuario;
 
     @Column(length = 50)
     private String direccionIp;
 
+    @Column(length = 100)
+    private String dispositivo;
+
+    @Column(length = 100)
+    private String navegador;
+
+    @Column(length = 100)
+    private String sistemaOperativo;
+
     @Column(nullable = false, length = 50)
     private String modulo;
+
+    @Column(length = 100)
+    private String submodulo;
 
     @Column(nullable = false, length = 100)
     private String accion;
@@ -34,37 +62,51 @@ public class Auditoria {
     @Column(columnDefinition = "TEXT")
     private String detalle;
 
+    @Column(columnDefinition = "TEXT")
+    private String valorAnterior;
+
+    @Column(columnDefinition = "TEXT")
+    private String valorNuevo;
+
+    @Column(length = 20)
+    private String pacienteRelacionado;
+
+    @Column(length = 50)
+    private String historiaClinica;
+
+    @Column(length = 20)
+    private String numeroConsulta;
+
+    @Column(length = 50)
+    private String tipoRegistro;
+
+    @Column(length = 50)
+    private String estadoRegistro;
+
     @Column(nullable = false, length = 20)
     private String resultado;
+
+    @Column
+    @Builder.Default
+    private Integer codigoHttp = 200;
+
+    @Column
+    @Builder.Default
+    private Long tiempoEjecucionMs = 0L;
+
+    @Column(length = 100)
+    private String sesionUsuario;
+
+    @Column(length = 36)
+    private String uuidEvento;
+
+    @Column(length = 10)
+    @Builder.Default
+    private String nivelCriticidad = "BAJO";
 
     @Column
     private Long idReferencia;
 
     @Column(length = 50)
     private String tipoReferencia;
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public LocalDateTime getFecha() { return fecha; }
-    public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
-    public String getHora() { return hora; }
-    public void setHora(String hora) { this.hora = hora; }
-    public String getUsuario() { return usuario; }
-    public void setUsuario(String usuario) { this.usuario = usuario; }
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
-    public String getDireccionIp() { return direccionIp; }
-    public void setDireccionIp(String direccionIp) { this.direccionIp = direccionIp; }
-    public String getModulo() { return modulo; }
-    public void setModulo(String modulo) { this.modulo = modulo; }
-    public String getAccion() { return accion; }
-    public void setAccion(String accion) { this.accion = accion; }
-    public String getDetalle() { return detalle; }
-    public void setDetalle(String detalle) { this.detalle = detalle; }
-    public String getResultado() { return resultado; }
-    public void setResultado(String resultado) { this.resultado = resultado; }
-    public Long getIdReferencia() { return idReferencia; }
-    public void setIdReferencia(Long idReferencia) { this.idReferencia = idReferencia; }
-    public String getTipoReferencia() { return tipoReferencia; }
-    public void setTipoReferencia(String tipoReferencia) { this.tipoReferencia = tipoReferencia; }
 }

@@ -34,6 +34,15 @@ public class ImagenologiaService {
                 .descripcion(dto.getDescripcion())
                 .hallazgos(dto.getHallazgos())
                 .tamanoBytes(dto.getTamanoBytes())
+                .informeRadiologico(dto.getInformeRadiologico())
+                .recomendaciones(dto.getRecomendaciones())
+                .tecnicaUtilizada(dto.getTecnicaUtilizada())
+                .firmaRadiologo(dto.getFirmaRadiologo() != null ? dto.getFirmaRadiologo() : "")
+                .regionAnatomica(dto.getRegionAnatomica())
+                .lateralidad(dto.getLateralidad())
+                .requiereContraste(dto.getRequiereContraste() != null ? dto.getRequiereContraste() : false)
+                .solicitudId(dto.getSolicitudId())
+                .estado(dto.getEstado() != null ? dto.getEstado() : "PENDIENTE")
                 .activo(true)
                 .build();
 
@@ -76,6 +85,15 @@ public class ImagenologiaService {
         estudio.setSede(dto.getSede());
         estudio.setFechaEstudio(dto.getFechaEstudio());
         estudio.setTamanoBytes(dto.getTamanoBytes());
+        estudio.setInformeRadiologico(dto.getInformeRadiologico());
+        estudio.setRecomendaciones(dto.getRecomendaciones());
+        estudio.setTecnicaUtilizada(dto.getTecnicaUtilizada());
+        estudio.setFirmaRadiologo(dto.getFirmaRadiologo());
+        estudio.setRegionAnatomica(dto.getRegionAnatomica());
+        estudio.setLateralidad(dto.getLateralidad());
+        estudio.setRequiereContraste(dto.getRequiereContraste());
+        estudio.setSolicitudId(dto.getSolicitudId());
+        if (dto.getEstado() != null) estudio.setEstado(dto.getEstado());
 
         EstudioImagen saved = imagenologiaRepository.save(estudio);
         log.info("Estudio de imagen actualizado ID: {}", saved.getId());
@@ -97,6 +115,15 @@ public class ImagenologiaService {
                 .descripcion(e.getDescripcion())
                 .hallazgos(e.getHallazgos())
                 .tamanoBytes(e.getTamanoBytes())
+                .informeRadiologico(e.getInformeRadiologico())
+                .recomendaciones(e.getRecomendaciones())
+                .tecnicaUtilizada(e.getTecnicaUtilizada())
+                .firmaRadiologo(e.getFirmaRadiologo())
+                .regionAnatomica(e.getRegionAnatomica())
+                .lateralidad(e.getLateralidad())
+                .requiereContraste(e.getRequiereContraste())
+                .solicitudId(e.getSolicitudId())
+                .estado(e.getEstado())
                 .build();
     }
 }

@@ -65,4 +65,25 @@ public class ResultadoLaboratorio {
     @Column(name = "anormal")
     @Builder.Default
     private Boolean anormal = false;
+
+    @Column(name = "firma_digital", length = 255)
+    @Builder.Default
+    private String firmaDigital = "";
+
+    @Column(name = "validado_por", length = 100)
+    @Builder.Default
+    private String validadoPor = "";
+
+    @Column(name = "fecha_validacion")
+    private LocalDateTime fechaValidacion;
+
+    @Column(name = "interpretacion", columnDefinition = "TEXT")
+    private String interpretacion;
+
+    @Column(name = "solicitud_id")
+    private Long solicitudId;
+
+    @Column(name = "estado", length = 20)
+    @Builder.Default
+    private String estado = "PENDIENTE";
 }

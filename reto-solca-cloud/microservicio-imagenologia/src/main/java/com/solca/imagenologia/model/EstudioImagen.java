@@ -61,6 +61,36 @@ public class EstudioImagen {
     @CreationTimestamp
     private LocalDateTime fechaRegistro;
 
+    @Column(name = "informe_radiologico", columnDefinition = "TEXT")
+    private String informeRadiologico;
+
+    @Column(columnDefinition = "TEXT")
+    private String recomendaciones;
+
+    @Column(name = "tecnica_utilizada", columnDefinition = "TEXT")
+    private String tecnicaUtilizada;
+
+    @Column(name = "firma_radiologo", length = 100)
+    @Builder.Default
+    private String firmaRadiologo = "";
+
+    @Column(name = "region_anatomica", length = 100)
+    private String regionAnatomica;
+
+    @Column(length = 20)
+    private String lateralidad;
+
+    @Column(name = "requiere_contraste")
+    @Builder.Default
+    private Boolean requiereContraste = false;
+
+    @Column(name = "solicitud_id")
+    private Long solicitudId;
+
+    @Column(length = 20)
+    @Builder.Default
+    private String estado = "PENDIENTE";
+
     @Column(name = "activo")
     @Builder.Default
     private Boolean activo = true;

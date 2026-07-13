@@ -38,4 +38,9 @@ public class LaboratorioDTO {
     private String observaciones;
     private LocalDate fechaResultado;
     private Boolean anormal;
+    private String firmaDigital;
+    private String validadoPor;
+    private String interpretacion;
+    private Long solicitudId;
+    private String estado;
 }

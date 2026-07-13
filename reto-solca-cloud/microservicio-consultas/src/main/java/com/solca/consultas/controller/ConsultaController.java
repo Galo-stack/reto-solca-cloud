@@ -61,4 +61,17 @@ public class ConsultaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarConsulta(@PathVariable Long id, @Valid @RequestBody ConsultaDTO dto) {
+        log.info("PUT /api/consultas/{} - Actualizando consulta", id);
+        ConsultaDTO result = consultaService.actualizarConsulta(id, dto);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Consulta actualizada exitosamente");
+        response.put("data", result);
+
+        return ResponseEntity.ok(response);
+    }
 }

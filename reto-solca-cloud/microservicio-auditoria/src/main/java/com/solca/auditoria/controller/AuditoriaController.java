@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -47,12 +46,15 @@ public class AuditoriaController {
     }
 
     @GetMapping("/usuario/{usuario}")
-    public ResponseEntity<ApiResponse<List<Auditoria>>> listarPorUsuario(@PathVariable String usuario) {
-        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorUsuario(usuario)));
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorUsuario(
+            @PathVariable String usuario,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorUsuario(usuario, page, size)));
     }
 
     @GetMapping("/modulo/{modulo}")
-    public ResponseEntity<ApiResponse<?>> listarPorModulo(
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorModulo(
             @PathVariable String modulo,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size) {
@@ -60,18 +62,103 @@ public class AuditoriaController {
     }
 
     @GetMapping("/accion/{accion}")
-    public ResponseEntity<ApiResponse<List<Auditoria>>> listarPorAccion(@PathVariable String accion) {
-        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorAccion(accion)));
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorAccion(
+            @PathVariable String accion,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorAccion(accion, page, size)));
+    }
+
+    @GetMapping("/criticidad/{criticidad}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorCriticidad(
+            @PathVariable String criticidad,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorCriticidad(criticidad, page, size)));
+    }
+
+    @GetMapping("/paciente/{paciente}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorPaciente(
+            @PathVariable String paciente,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorPaciente(paciente, page, size)));
+    }
+
+    @GetMapping("/rol/{rol}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorRol(
+            @PathVariable String rol,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorRol(rol, page, size)));
+    }
+
+    @GetMapping("/submodulo/{submodulo}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorSubmodulo(
+            @PathVariable String submodulo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorSubmodulo(submodulo, page, size)));
+    }
+
+    @GetMapping("/resultado/{resultado}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorResultado(
+            @PathVariable String resultado,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorResultado(resultado, page, size)));
+    }
+
+    @GetMapping("/ip/{ip}")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorIp(
+            @PathVariable String ip,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorIp(ip, page, size)));
     }
 
     @GetMapping("/fecha")
-    public ResponseEntity<ApiResponse<List<Auditoria>>> listarPorFecha(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
-        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorFecha(fecha)));
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorFecha(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorFecha(fecha, page, size)));
+    }
+
+    @GetMapping("/rango")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> listarPorRango(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(auditoriaService.listarPorRangoFechas(desde, hasta, page, size)));
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<ApiResponse<Page<Auditoria>>> buscar(
+            @RequestParam(required = false) String usuario,
+            @RequestParam(required = false) String rol,
+            @RequestParam(required = false) String modulo,
+            @RequestParam(required = false) String accion,
+            @RequestParam(required = false) String criticidad,
+            @RequestParam(required = false) String resultado,
+            @RequestParam(required = false) String paciente,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        return ResponseEntity.ok(ApiResponse.success(
+            auditoriaService.searchAudits(usuario, rol, modulo, accion, criticidad, resultado, paciente, desde, hasta, page, size)));
     }
 
     @GetMapping("/contar")
-    public ResponseEntity<ApiResponse<Map<String, Long>>> contar() {
-        return ResponseEntity.ok(ApiResponse.success(Map.of("total", auditoriaService.contarAuditorias())));
+    public ResponseEntity<ApiResponse<Map<String, Object>>> contar() {
+        Map<String, Object> stats = Map.of(
+            "total", auditoriaService.contarAuditorias(),
+            "porModulo", auditoriaService.contarPorModulo(),
+            "porAccion", auditoriaService.contarPorAccion(),
+            "porDia", auditoriaService.contarPorDia()
+        );
+        return ResponseEntity.ok(ApiResponse.success(stats));
     }
 }

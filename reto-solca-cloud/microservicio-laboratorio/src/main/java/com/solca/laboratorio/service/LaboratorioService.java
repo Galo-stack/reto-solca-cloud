@@ -34,6 +34,11 @@ public class LaboratorioService {
                 .observaciones(dto.getObservaciones())
                 .fechaResultado(dto.getFechaResultado())
                 .anormal(dto.getAnormal() != null ? dto.getAnormal() : false)
+                .firmaDigital(dto.getFirmaDigital() != null ? dto.getFirmaDigital() : "")
+                .validadoPor(dto.getValidadoPor() != null ? dto.getValidadoPor() : "")
+                .interpretacion(dto.getInterpretacion())
+                .solicitudId(dto.getSolicitudId())
+                .estado(dto.getEstado() != null ? dto.getEstado() : "PENDIENTE")
                 .activo(true)
                 .build();
 
@@ -76,6 +81,11 @@ public class LaboratorioService {
         resultado.setAnormal(dto.getAnormal() != null ? dto.getAnormal() : false);
         resultado.setSede(dto.getSede());
         resultado.setFechaEjecucion(dto.getFechaEjecucion());
+        resultado.setFirmaDigital(dto.getFirmaDigital());
+        resultado.setValidadoPor(dto.getValidadoPor());
+        resultado.setInterpretacion(dto.getInterpretacion());
+        resultado.setSolicitudId(dto.getSolicitudId());
+        if (dto.getEstado() != null) resultado.setEstado(dto.getEstado());
 
         ResultadoLaboratorio saved = laboratorioRepository.save(resultado);
         log.info("Resultado de laboratorio actualizado ID: {}", saved.getId());
@@ -97,6 +107,11 @@ public class LaboratorioService {
                 .observaciones(r.getObservaciones())
                 .fechaResultado(r.getFechaResultado())
                 .anormal(r.getAnormal())
+                .firmaDigital(r.getFirmaDigital())
+                .validadoPor(r.getValidadoPor())
+                .interpretacion(r.getInterpretacion())
+                .solicitudId(r.getSolicitudId())
+                .estado(r.getEstado())
                 .build();
     }
 }

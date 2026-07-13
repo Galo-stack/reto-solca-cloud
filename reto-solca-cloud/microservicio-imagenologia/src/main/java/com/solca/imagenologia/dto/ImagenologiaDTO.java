@@ -40,4 +40,13 @@ public class ImagenologiaDTO {
     private String descripcion;
     private String hallazgos;
     private Long tamanoBytes;
+    private String informeRadiologico;
+    private String recomendaciones;
+    private String tecnicaUtilizada;
+    private String firmaRadiologo;
+    private String regionAnatomica;
+    private String lateralidad;
+    private Boolean requiereContraste;
+    private Long solicitudId;
+    private String estado;
 }
