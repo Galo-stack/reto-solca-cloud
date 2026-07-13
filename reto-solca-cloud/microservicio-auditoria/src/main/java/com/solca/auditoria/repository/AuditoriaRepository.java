@@ -36,9 +36,9 @@ public interface AuditoriaRepository extends JpaRepository<Auditoria, Long> {
            "(:nivelCriticidad IS NULL OR a.nivelCriticidad = :nivelCriticidad) AND " +
            "(:resultado IS NULL OR a.resultado = :resultado) AND " +
            "(:paciente IS NULL OR a.pacienteRelacionado = :paciente) AND " +
+           "(:direccionIp IS NULL OR a.direccionIp LIKE %:direccionIp%) AND " +
            "(:desde IS NULL OR a.fecha >= :desde) AND " +
-           "(:hasta IS NULL OR a.fecha <= :hasta) " +
-           "ORDER BY a.fecha DESC")
+           "(:hasta IS NULL OR a.fecha <= :hasta)")
     Page<Auditoria> searchAudits(
         @Param("usuario") String usuario,
         @Param("rol") String rol,
@@ -47,6 +47,7 @@ public interface AuditoriaRepository extends JpaRepository<Auditoria, Long> {
         @Param("nivelCriticidad") String nivelCriticidad,
         @Param("resultado") String resultado,
         @Param("paciente") String paciente,
+        @Param("direccionIp") String direccionIp,
         @Param("desde") LocalDateTime desde,
         @Param("hasta") LocalDateTime hasta,
         Pageable pageable);

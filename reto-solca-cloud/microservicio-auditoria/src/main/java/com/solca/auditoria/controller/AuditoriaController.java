@@ -6,6 +6,8 @@ import com.solca.auditoria.model.Auditoria;
 import com.solca.auditoria.service.AuditoriaService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -143,12 +145,12 @@ public class AuditoriaController {
             @RequestParam(required = false) String criticidad,
             @RequestParam(required = false) String resultado,
             @RequestParam(required = false) String paciente,
+            @RequestParam(required = false) String ip,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size) {
+            @PageableDefault(size = 50) Pageable pageable) {
         return ResponseEntity.ok(ApiResponse.success(
-            auditoriaService.searchAudits(usuario, rol, modulo, accion, criticidad, resultado, paciente, desde, hasta, page, size)));
+            auditoriaService.searchAudits(usuario, rol, modulo, accion, criticidad, resultado, paciente, ip, desde, hasta, pageable)));
     }
 
     @GetMapping("/contar")

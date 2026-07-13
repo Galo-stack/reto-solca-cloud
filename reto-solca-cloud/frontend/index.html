@@ -1783,7 +1783,8 @@ function resetRepositorioFiltros() {
 
 function repoQuery() {
   const params = new URLSearchParams();
-  params.set('page', 0); params.set('size', 500);
+  params.set('sort', repoSortedBy + ',' + repoSortedDir);
+  params.set('page', repoPage); params.set('size', repoSize);
   const u = $('repoUsuario').value.trim(); if (u) params.set('usuario', u);
   const r = $('repoRol').value; if (r) params.set('rol', r);
   const m = $('repoModulo').value; if (m) params.set('modulo', m);
@@ -1791,30 +1792,10 @@ function repoQuery() {
   const res = $('repoResultado').value; if (res) params.set('resultado', res);
   const p = $('repoPaciente').value.trim(); if (p) params.set('paciente', p);
   const a = $('repoAccion').value; if (a) params.set('accion', a);
+  const ip = $('repoIp').value.trim(); if (ip) params.set('ip', ip);
   const fd = $('repoFechaDesde').value; if (fd) params.set('desde', fd);
   const fh = $('repoFechaHasta').value; if (fh) params.set('hasta', fh);
   return params.toString();
-}
-
-function repoFilterClientSide(data) {
-  const q = $('repoSearch').value.trim().toLowerCase();
-  const ip = $('repoIp').value.trim().toLowerCase();
-  let filtered = data;
-  if (q) filtered = filtered.filter(l => JSON.stringify(l).toLowerCase().includes(q));
-  if (ip) filtered = filtered.filter(l => (l.direccionIp||'').toLowerCase().includes(ip));
-  return filtered;
-}
-
-function repoSortClientSide(data) {
-  const col = repoSortedBy;
-  const dir = repoSortedDir === 'asc' ? 1 : -1;
-  return data.sort((a, b) => {
-    const va = (a[col]||'').toString().toLowerCase();
-    const vb = (b[col]||'').toString().toLowerCase();
-    if (col === 'fecha') return dir * (new Date(va) - new Date(vb));
-    if (col === 'tiempoEjecucionMs') return dir * ((a[col]||0) - (b[col]||0));
-    return va < vb ? -dir : va > vb ? dir : 0;
-  });
 }
 
 async function loadRepositorio() {
@@ -1823,14 +1804,10 @@ async function loadRepositorio() {
     const resp = await apiCall(API.auditoria + '/auditorias/buscar?' + repoQuery());
     if (!resp) { hideLoading(); return; }
     const d = await resp.json();
-    let allData = d.data ? (d.data.content || d.data || []) : [];
     const pageInfo = d.data || d;
-    allData = repoFilterClientSide(allData);
-    allData = repoSortClientSide(allData);
-    repoTotalElements = allData.length;
-    const start = repoPage * repoSize;
-    repoData = allData.slice(start, start + repoSize);
-    repoTotalPages = Math.ceil(allData.length / repoSize) || 1;
+    repoData = pageInfo.content || pageInfo || [];
+    repoTotalPages = pageInfo.totalPages || 1;
+    repoTotalElements = pageInfo.totalElements || repoData.length;
     renderRepositorioTable();
   } catch(e) {
     document.getElementById('repoTableBody').innerHTML = '<tr><td colspan="23" class="text-center text-danger p-3">Error: ' + e.message + '</td></tr>';

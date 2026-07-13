@@ -116,11 +116,11 @@ public class AuditoriaService {
 
     public Page<Auditoria> searchAudits(String usuario, String rol, String modulo, String accion,
                                           String nivelCriticidad, String resultado, String paciente,
-                                          LocalDate desde, LocalDate hasta, int page, int size) {
+                                          String direccionIp, LocalDate desde, LocalDate hasta, Pageable pageable) {
         LocalDateTime desdeDt = desde != null ? desde.atStartOfDay() : null;
         LocalDateTime hastaDt = hasta != null ? hasta.atTime(LocalTime.MAX) : null;
         return auditoriaRepository.searchAudits(usuario, rol, modulo, accion, nivelCriticidad,
-            resultado, paciente, desdeDt, hastaDt, PageRequest.of(page, size));
+            resultado, paciente, direccionIp, desdeDt, hastaDt, pageable);
     }
 
     public long contarAuditorias() {
