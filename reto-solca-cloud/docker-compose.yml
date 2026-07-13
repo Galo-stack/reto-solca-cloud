@@ -122,6 +122,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-pacientes:3306/db_pacientes?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      SPRING_FLYWAY_OUT_OF_ORDER: "true"
     ports:
       - "8081:8081"
     networks:
@@ -158,6 +159,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-laboratorio:3306/db_laboratorio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      SPRING_FLYWAY_OUT_OF_ORDER: "true"
     ports:
       - "8083:8083"
     networks:
@@ -176,6 +178,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-imagenologia:3306/db_imagenologia?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      SPRING_FLYWAY_OUT_OF_ORDER: "true"
     ports:
       - "8084:8084"
     networks:
