@@ -226,10 +226,14 @@ services:
     networks:
       - solca-network
     depends_on:
-      - paciente-service
-      - consulta-service
-      - laboratorio-service
-      - imagenologia-service
+      paciente-service:
+        condition: service_started
+      consulta-service:
+        condition: service_started
+      laboratorio-service:
+        condition: service_started
+      imagenologia-service:
+        condition: service_started
       mysql-repositorio:
         condition: service_healthy
     restart: unless-stopped
