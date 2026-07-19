@@ -49,6 +49,8 @@ body.login-active { background: var(--primary-dark); overflow: hidden; }
 .topbar .user-area { display: flex; align-items: center; gap: 1rem; }
 .topbar .user-area .user-badge { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1rem 0.4rem 0.6rem; background: var(--gray-50); border-radius: 50px; border: 1px solid var(--gray-200); font-size: 0.85rem; }
 .topbar .user-area .user-badge .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-gradient); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.ec-clock { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--gray-700); background: #f8f9fa; padding: 0.35rem 0.85rem; border-radius: 50px; border: 1px solid #e9ecef; white-space: nowrap; }
+.ec-clock .ec-icon { color: var(--primary); font-size: 0.85rem; }
 .role-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 .role-MEDICO { background: #dbeafe; color: #1e40af; }
 .role-LABORATORIO { background: #d1fae5; color: #065f46; }
@@ -399,6 +401,7 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
       <div class="avatar"><i class="bi bi-person"></i></div>
       <span id="userDisplay"><i class="bi bi-shield-lock"></i> No autenticado</span>
     </div>
+    <div class="ec-clock" id="ecClock"></div>
     <button class="btn btn-sm btn-outline-primary d-none" id="logoutBtn" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Salir</button>
   </div>
 </div>
@@ -1091,6 +1094,7 @@ async function doLogin() {
       currentUser = d.data.usuario;
       currentToken = d.data.token;
       renderUserInfo();
+      startEcuadorClock();
       showToast('Bienvenido al sistema SOLCA Cloud', 'success');
       switchTab('dashboard');
       loadAllData();
@@ -1139,6 +1143,24 @@ function renderUserInfo() {
   }
 }
 
+function todayEcuador() {
+  const d = new Date(new Date().toLocaleString('en-US', {timeZone:'America/Guayaquil'}));
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function startEcuadorClock() {
+  function update() {
+    const el = $('ecClock');
+    if (!el) return;
+    const d = new Date(new Date().toLocaleString('en-US', {timeZone:'America/Guayaquil'}));
+    const dateStr = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth() + 1).padStart(2,'0') + '/' + d.getFullYear();
+    const timeStr = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0') + ':' + String(d.getSeconds()).padStart(2,'0');
+    el.innerHTML = '<i class="bi bi-calendar3 ec-icon"></i> ' + dateStr + ' <i class="bi bi-clock ec-icon"></i> ' + timeStr + ' <span style="font-size:0.65rem;color:#888">EC</span>';
+  }
+  update();
+  setInterval(update, 1000);
+}
+
 function switchTab(tabName) {
   if (tabName !== 'login' && !currentUser) { showToast('Debe iniciar sesion primero', 'warning'); return; }
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1173,6 +1195,7 @@ function checkExistingSession() {
     currentUser = user;
     currentToken = token;
     renderUserInfo();
+    startEcuadorClock();
     switchTab('dashboard');
     loadAllData();
     checkServices();
@@ -1349,7 +1372,7 @@ function openPatientModal() {
     '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informacion Personal</div>' +
     '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="pNombres" class="form-control" required></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="pApellidos" class="form-control" required></div></div>' +
     '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">Cedula (10 dig.) *</label><input type="text" id="pCedula" class="form-control" maxlength="10" required><small id="pCedulaHelp" class="text-muted">Ingrese cedula ecuatoriana</small></div>' +
-    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="pFechaNac" class="form-control" required></div>' +
+    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="pFechaNac" class="form-control" required max="' + todayEcuador() + '"></div>' +
     '<div class="col-md-2"><label class="form-label">Genero *</label><select id="pGenero" class="form-select"><option value="M">Masculino</option><option value="F">Femenino</option></select></div>' +
     '<div class="col-md-3"><label class="form-label">Grupo Sanguineo</label><select id="pGrupoSanguineo" class="form-select"><option value="">Seleccione...</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div></div>' +
     '<div class="form-section-title mt-3"><i class="bi bi-telephone"></i> Contacto</div>' +
@@ -1390,6 +1413,7 @@ async function savePatient() {
   const n=$('pNombres').value.trim(), a=$('pApellidos').value.trim(), c=$('pCedula').value.trim(), f=$('pFechaNac').value, g=$('pGenero').value;
   if (!n||!a||!c||!f) { showToast('Complete los campos obligatorios (*)','warning'); return; }
   if (!/^\d{10}$/.test(c)) { showToast('Cedula debe tener 10 digitos validos','warning'); return; }
+  if (f > todayEcuador()) { showToast('La fecha de nacimiento no puede ser mayor a la fecha actual','warning'); return; }
   showLoading();
   try {
     const body = {
@@ -2403,7 +2427,7 @@ function editPatient(rid) {
     '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informacion Personal</div>' +
     '<div class="row g-2"><div class="col-md-6"><label class="form-label">Nombres *</label><input type="text" id="epNombres" class="form-control" value="' + escHtml(p.nombres||'') + '"></div><div class="col-md-6"><label class="form-label">Apellidos *</label><input type="text" id="epApellidos" class="form-control" value="' + escHtml(p.apellidos||'') + '"></div></div>' +
     '<div class="row g-2 mt-2"><div class="col-md-4"><label class="form-label">Cedula (10 dig.) *</label><input type="text" id="epCedula" class="form-control" maxlength="10" value="' + escHtml(p.cedula||'') + '"></div>' +
-    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="epFechaNac" class="form-control" value="' + (p.fechaNacimiento||'') + '"></div>' +
+    '<div class="col-md-3"><label class="form-label">Fecha Nac. *</label><input type="date" id="epFechaNac" class="form-control" max="' + todayEcuador() + '" value="' + (p.fechaNacimiento||'') + '"></div>' +
     '<div class="col-md-2"><label class="form-label">Genero *</label><select id="epGenero" class="form-select"><option value="M"' + (p.genero==='M'?' selected':'') + '>Masculino</option><option value="F"' + (p.genero==='F'?' selected':'') + '>Femenino</option></select></div>' +
     '<div class="col-md-3"><label class="form-label">Grupo Sanguineo</label><select id="epGrupoSanguineo" class="form-select"><option value="">Seleccione...</option>' + ['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g => '<option value="' + g + '"' + (p.grupoSanguineo===g?' selected':'') + '>' + g + '</option>').join('') + '</select></div></div>' +
     '<div class="form-section-title mt-3"><i class="bi bi-telephone"></i> Contacto</div>' +
@@ -2439,6 +2463,7 @@ async function saveEditPatient() {
   const n=$('epNombres').value.trim(), a=$('epApellidos').value.trim(), c=$('epCedula').value.trim(), f=$('epFechaNac').value, g=$('epGenero').value;
   if (!n||!a||!c||!f) { showToast('Complete los campos obligatorios (*)','warning'); return; }
   if (!/^\d{10}$/.test(c)) { showToast('Cedula debe tener 10 digitos validos','warning'); return; }
+  if (f > todayEcuador()) { showToast('La fecha de nacimiento no puede ser mayor a la fecha actual','warning'); return; }
   showLoading();
   try {
     const body = {
