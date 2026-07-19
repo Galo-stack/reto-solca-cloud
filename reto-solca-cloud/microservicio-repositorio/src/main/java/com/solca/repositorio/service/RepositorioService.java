@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -46,9 +48,13 @@ public class RepositorioService {
                 .errores(new HashMap<>())
                 .build();
 
+        // Capture request context for async threads (JWT forwarding)
+        RequestAttributes requestAttrs = RequestContextHolder.getRequestAttributes();
+
         // Parallel async calls to all microservices
         CompletableFuture<Map<String, Object>> pacienteFuture =
                 CompletableFuture.supplyAsync(() -> {
+                    RequestContextHolder.setRequestAttributes(requestAttrs);
                     try { return obtenerDatosPaciente(idPacienteRegional); }
                     catch (Exception e) {
                         log.error("Error al obtener paciente: {}", e.getMessage());
@@ -58,6 +64,7 @@ public class RepositorioService {
 
         CompletableFuture<List<Map<String, Object>>> consultasFuture =
                 CompletableFuture.supplyAsync(() -> {
+                    RequestContextHolder.setRequestAttributes(requestAttrs);
                     try { return obtenerConsultas(idPacienteRegional); }
                     catch (Exception e) {
                         log.error("Error al obtener consultas: {}", e.getMessage());
@@ -67,6 +74,7 @@ public class RepositorioService {
 
         CompletableFuture<List<Map<String, Object>>> laboratorioFuture =
                 CompletableFuture.supplyAsync(() -> {
+                    RequestContextHolder.setRequestAttributes(requestAttrs);
                     try { return obtenerLaboratorio(idPacienteRegional); }
                     catch (Exception e) {
                         log.error("Error al obtener laboratorio: {}", e.getMessage());
@@ -76,6 +84,7 @@ public class RepositorioService {
 
         CompletableFuture<List<Map<String, Object>>> imagenesFuture =
                 CompletableFuture.supplyAsync(() -> {
+                    RequestContextHolder.setRequestAttributes(requestAttrs);
                     try { return obtenerImagenes(idPacienteRegional); }
                     catch (Exception e) {
                         log.error("Error al obtener imagenes: {}", e.getMessage());
