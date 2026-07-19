@@ -292,6 +292,7 @@ services:
       - mysql-imagenologia
       - mysql-seguridad
       - mysql-auditoria
+      - mysql-repositorio
     restart: unless-stopped
 
 volumes:
