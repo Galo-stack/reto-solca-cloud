@@ -1752,7 +1752,7 @@ function rcPrintHistory() {
 
 async function rcLoadActivity() {
   try {
-    const r = await apiCall(API.repositorio+'/recientes');
+    const r = await apiCall(API.repositorio+'/repositorio/recientes');
     if (!r) { $('rcActivityContent').innerHTML='<div style="text-align:center;padding:2rem;color:var(--gray-500)"><i class="bi bi-inbox"></i> Sin actividad registrada</div>'; return; }
     const d = await r.json();
     const logs = Array.isArray(d) ? d : (d.data || []);
