@@ -113,6 +113,25 @@ services:
       timeout: 5s
       retries: 5
 
+  mysql-repositorio:
+    image: mysql:8.0
+    container_name: mysql-repositorio
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: db_repositorio
+    ports:
+      - "3313:3306"
+    volumes:
+      - mysql-repositorio-data:/var/lib/mysql
+    networks:
+      - solca-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   paciente-service:
     build:
       context: ./microservicio-pacientes
@@ -198,6 +217,10 @@ services:
       SERVICES_CONSULTAS_URL: http://consulta-service:8082
       SERVICES_LABORATORIO_URL: http://laboratorio-service:8083
       SERVICES_IMAGENOLOGIA_URL: http://imagenologia-service:8084
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-repositorio:3306/db_repositorio?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+      SPRING_FLYWAY_OUT_OF_ORDER: "true"
     ports:
       - "8085:8085"
     networks:
@@ -207,6 +230,8 @@ services:
       - consulta-service
       - laboratorio-service
       - imagenologia-service
+      mysql-repositorio:
+        condition: service_healthy
     restart: unless-stopped
 
   seguridad-service:
@@ -249,8 +274,9 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin-solca
     environment:
-      PMA_HOSTS: mysql-pacientes,mysql-consultas,mysql-laboratorio,mysql-imagenologia,mysql-seguridad,mysql-auditoria
+      PMA_HOSTS: mysql-pacientes,mysql-consultas,mysql-laboratorio,mysql-imagenologia,mysql-seguridad,mysql-auditoria,mysql-repositorio
       PMA_ARBITRARY: 1
+      PMA_ABSOLUTE_URI: https://vmi3432748.contaboserver.net/phpmyadmin/
     ports:
       - "8080:80"
     networks:
@@ -271,6 +297,7 @@ volumes:
   mysql-consultas-data:
   mysql-laboratorio-data:
   mysql-imagenologia-data:
+  mysql-repositorio-data:
 
 networks:
   solca-network:

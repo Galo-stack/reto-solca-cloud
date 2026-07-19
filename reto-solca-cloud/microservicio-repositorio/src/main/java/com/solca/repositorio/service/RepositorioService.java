@@ -10,7 +10,9 @@ import org.springframework.web.reactive.function.client.WebClientRequestExceptio
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -29,62 +31,152 @@ public class RepositorioService {
     @Qualifier("imagenologiaWebClient")
     private final WebClient imagenologiaWebClient;
 
-    public RepositorioResponse obtenerInformacionConsolidada(String idPacienteRegional) {
-        log.info("Consultando información consolidada para paciente: {}", idPacienteRegional);
+    @Qualifier("auditoriaWebClient")
+    private final WebClient auditoriaWebClient;
+
+    private final ConsultaCacheService consultaCacheService;
+
+    public RepositorioResponse obtenerInformacionConsolidada(
+            String idPacienteRegional, String username, String rol,
+            String nombres, String apellidos, String ip) {
+        log.info("Consultando informacion consolidada para paciente: {}", idPacienteRegional);
 
         RepositorioResponse response = RepositorioResponse.builder()
                 .status("COMPLETE")
                 .errores(new HashMap<>())
                 .build();
 
-        // 1. Obtener paciente
+        // Parallel async calls to all microservices
+        CompletableFuture<Map<String, Object>> pacienteFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try { return obtenerDatosPaciente(idPacienteRegional); }
+                    catch (Exception e) {
+                        log.error("Error al obtener paciente: {}", e.getMessage());
+                        return null;
+                    }
+                });
+
+        CompletableFuture<List<Map<String, Object>>> consultasFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try { return obtenerConsultas(idPacienteRegional); }
+                    catch (Exception e) {
+                        log.error("Error al obtener consultas: {}", e.getMessage());
+                        return null;
+                    }
+                });
+
+        CompletableFuture<List<Map<String, Object>>> laboratorioFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try { return obtenerLaboratorio(idPacienteRegional); }
+                    catch (Exception e) {
+                        log.error("Error al obtener laboratorio: {}", e.getMessage());
+                        return null;
+                    }
+                });
+
+        CompletableFuture<List<Map<String, Object>>> imagenesFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    try { return obtenerImagenes(idPacienteRegional); }
+                    catch (Exception e) {
+                        log.error("Error al obtener imagenes: {}", e.getMessage());
+                        return null;
+                    }
+                });
+
+        // Wait for all to complete
+        CompletableFuture.allOf(pacienteFuture, consultasFuture, laboratorioFuture, imagenesFuture).join();
+
+        // Process results
         try {
-            Map<String, Object> paciente = obtenerDatosPaciente(idPacienteRegional);
+            Map<String, Object> paciente = pacienteFuture.get();
             response.setPaciente(paciente);
-            log.info("Datos del paciente obtenidos exitosamente");
         } catch (Exception e) {
-            log.error("Error al obtener paciente: {}", e.getMessage());
             response.setStatus("PARTIAL");
-            response.getErrores().put("paciente", "SERVICIO NO DISPONIBLE");
+            response.getErrores().put("paciente", "SERVICIO NO DISPONIBLE: " + e.getMessage());
         }
 
-        // 2. Obtener consultas
         try {
-            List<Map<String, Object>> consultas = obtenerConsultas(idPacienteRegional);
+            List<Map<String, Object>> consultas = consultasFuture.get();
             response.setConsultas(consultas != null ? consultas : new ArrayList<>());
-            log.info("Consultas obtenidas: {}", consultas != null ? consultas.size() : 0);
         } catch (Exception e) {
-            log.error("Error al obtener consultas: {}", e.getMessage());
             response.setConsultas(new ArrayList<>());
             response.setStatus("PARTIAL");
-            response.getErrores().put("consultas", "SERVICIO NO DISPONIBLE");
+            response.getErrores().put("consultas", "SERVICIO NO DISPONIBLE: " + e.getMessage());
         }
 
-        // 3. Obtener laboratorio
         try {
-            List<Map<String, Object>> laboratorio = obtenerLaboratorio(idPacienteRegional);
+            List<Map<String, Object>> laboratorio = laboratorioFuture.get();
             response.setLaboratorio(laboratorio != null ? laboratorio : new ArrayList<>());
-            log.info("Resultados de laboratorio obtenidos: {}", laboratorio != null ? laboratorio.size() : 0);
         } catch (Exception e) {
-            log.error("Error al obtener laboratorio: {}", e.getMessage());
             response.setLaboratorio(new ArrayList<>());
             response.setStatus("PARTIAL");
-            response.getErrores().put("laboratorio", "SERVICIO NO DISPONIBLE");
+            response.getErrores().put("laboratorio", "SERVICIO NO DISPONIBLE: " + e.getMessage());
         }
 
-        // 4. Obtener imágenes
         try {
-            List<Map<String, Object>> imagenes = obtenerImagenes(idPacienteRegional);
+            List<Map<String, Object>> imagenes = imagenesFuture.get();
             response.setImagenes(imagenes != null ? imagenes : new ArrayList<>());
-            log.info("Imágenes obtenidas: {}", imagenes != null ? imagenes.size() : 0);
         } catch (Exception e) {
-            log.error("Error al obtener imágenes: {}", e.getMessage());
             response.setImagenes(new ArrayList<>());
             response.setStatus("PARTIAL");
-            response.getErrores().put("imagenes", "SERVICIO NO DISPONIBLE");
+            response.getErrores().put("imagenes", "SERVICIO NO DISPONIBLE: " + e.getMessage());
+        }
+
+        // Asynchronous audit logging (fire-and-forget)
+        String nombreCompleto = (nombres != null ? nombres : "") + " " + (apellidos != null ? apellidos : "");
+        registrarAuditoria(username, rol, nombreCompleto.trim(), ip,
+                idPacienteRegional, response.getStatus());
+
+        // Save to local database
+        try {
+            Map<String, Object> p = response.getPaciente();
+            String cedula = p != null ? (String) p.getOrDefault("cedula", "") : "";
+            String pNombres = p != null ? (String) p.getOrDefault("nombres", "") : "";
+            String pApellidos = p != null ? (String) p.getOrDefault("apellidos", "") : "";
+            String estado = response.getStatus();
+            consultaCacheService.registrarConsulta(
+                idPacienteRegional, pNombres, pApellidos, cedula,
+                username, rol, estado,
+                "Consulta de historia clinica consolidada", null
+            );
+        } catch (Exception e) {
+            log.warn("Error al guardar en cache local: {}", e.getMessage());
         }
 
         return response;
+    }
+
+    private void registrarAuditoria(String username, String rol, String nombreCompleto,
+                                     String ip, String idPacienteRegional, String resultado) {
+        try {
+            Map<String, Object> auditBody = new HashMap<>();
+            auditBody.put("usuario", username);
+            auditBody.put("nombreCompleto", nombreCompleto);
+            auditBody.put("rol", rol);
+            auditBody.put("direccionIp", ip);
+            auditBody.put("modulo", "REPOSITORIO");
+            auditBody.put("submodulo", "Historia Clinica");
+            auditBody.put("accion", "CONSULTA DE HISTORIA CLINICA");
+            auditBody.put("detalle", "Consulta de historia clinica consolidada del paciente: " + idPacienteRegional);
+            auditBody.put("pacienteRelacionado", idPacienteRegional);
+            auditBody.put("resultado", resultado);
+            auditBody.put("nivelCriticidad", "BAJO");
+            auditBody.put("fecha", LocalDateTime.now().toString());
+
+            auditoriaWebClient.post()
+                    .uri("/auditorias")
+                    .bodyValue(auditBody)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .subscribe(
+                            success -> log.info("Auditoria registrada exitosamente"),
+                            error -> log.warn("No se pudo registrar auditoria: {}", error.getMessage())
+                    );
+
+            log.info("Auditoria enviada para consulta de paciente: {}", idPacienteRegional);
+        } catch (Exception e) {
+            log.warn("Error al enviar auditoria (no bloqueante): {}", e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")

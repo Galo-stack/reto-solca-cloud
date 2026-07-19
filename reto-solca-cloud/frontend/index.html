@@ -159,6 +159,133 @@ body.login-active { background: var(--primary-dark); overflow: hidden; }
 .cie10-item:hover, .cie10-item.active { background: var(--primary-light); }
 .cie10-item .code { font-weight: 700; color: var(--primary); }
 .cie10-item .desc { color: var(--gray-600); font-size: 0.8rem; }
+/* ======= HISTORY CONSOLIDATED - PROFESSIONAL ======= */
+.history-container { max-width: 1400px; margin: 0 auto; }
+.hist-search-card { background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+.hist-search-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.hist-search-row input { flex: 1; min-width: 250px; border: 2px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.25rem; font-size: 0.95rem; transition: all 0.2s; }
+.hist-search-row input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(10,108,117,0.1); outline: none; }
+.hist-search-row button { padding: 0.85rem 2rem; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.hist-search-row .btn-search { background: var(--primary-gradient); color: #fff; }
+.hist-search-row .btn-search:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10,108,117,0.3); }
+
+/* Patient Summary Card */
+.patient-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+.patient-card-header { background: var(--primary-gradient); padding: 1.5rem 2rem; color: #fff; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.patient-card-header .pc-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 3px solid rgba(255,255,255,0.3); }
+.patient-card-header .pc-name { flex: 1; }
+.patient-card-header .pc-name h2 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+.patient-card-header .pc-name .pc-meta { display: flex; gap: 1rem; margin-top: 0.3rem; font-size: 0.85rem; opacity: 0.9; flex-wrap: wrap; }
+.patient-card-header .pc-status { padding: 0.4rem 1.2rem; border-radius: 50px; background: rgba(255,255,255,0.2); font-size: 0.8rem; font-weight: 600; }
+.patient-card-body { padding: 1.5rem 2rem; }
+.patient-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.patient-grid .pg-item { padding: 0.5rem 0; }
+.patient-grid .pg-item .pg-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.8px; color: #718096; font-weight: 600; }
+.patient-grid .pg-item .pg-value { font-size: 0.92rem; font-weight: 500; color: #2d3748; margin-top: 0.15rem; }
+.patient-grid .pg-item .pg-value .badge-gen { display: inline-block; padding: 0.2rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+.badge-m { background: #dbeafe; color: #1e40af; }
+.badge-f { background: #fce4ec; color: #c62828; }
+.bg-blood { background: #f0e6ff; color: #6b21a8; }
+.bg-civil { background: #e0f2fe; color: #0369a1; }
+
+/* Timeline */
+.timeline-container { position: relative; padding: 1rem 0; margin-bottom: 1.5rem; }
+.timeline-container::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--primary), #e2e8f0); }
+.timeline-item { position: relative; padding: 0 0 1.5rem 4rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot { position: absolute; left: 14px; top: 0; width: 22px; height: 22px; border-radius: 50%; border: 3px solid #fff; z-index: 1; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; }
+.timeline-dot.consulta { background: var(--primary); }
+.timeline-dot.lab { background: #059669; }
+.timeline-dot.img { background: #d97706; }
+.timeline-card { background: #fff; border-radius: 12px; padding: 1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 3px solid #e2e8f0; cursor: pointer; transition: all 0.2s; }
+.timeline-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); transform: translateX(4px); }
+.timeline-card.consulta-card { border-left-color: var(--primary); }
+.timeline-card.lab-card { border-left-color: #059669; }
+.timeline-card.img-card { border-left-color: #d97706; }
+.timeline-card .tc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+.timeline-card .tc-header .tc-title { font-weight: 600; font-size: 0.92rem; color: #2d3748; }
+.timeline-card .tc-header .tc-date { font-size: 0.78rem; color: #718096; }
+.timeline-card .tc-body { font-size: 0.85rem; color: #4a5568; }
+.timeline-card .tc-tag { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 50px; font-size: 0.68rem; font-weight: 600; margin-right: 0.4rem; }
+.tag-consulta { background: #e0f2fe; color: #0369a1; }
+.tag-lab { background: #d1fae5; color: #065f46; }
+.tag-img { background: #fef3c7; color: #92400e; }
+.timeline-empty { text-align: center; padding: 3rem; color: #a0aec0; }
+.timeline-empty i { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+/* History Tabs */
+.hist-tabs { display: flex; gap: 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 0; position: sticky; top: 0; z-index: 5; }
+.hist-tab-btn { flex: 1; padding: 1rem 1.5rem; border: none; background: #f8fafc; font-weight: 600; font-size: 0.85rem; color: #718096; cursor: pointer; transition: all 0.2s; border-bottom: 3px solid transparent; position: relative; }
+.hist-tab-btn:hover { background: #f1f5f9; color: var(--primary); }
+.hist-tab-btn.active { background: #fff; color: var(--primary); border-bottom-color: var(--primary); }
+.hist-tab-btn .tab-count { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700; margin-left: 0.4rem; background: #e2e8f0; color: #4a5568; }
+.hist-tab-btn.active .tab-count { background: var(--primary); color: #fff; }
+
+.hist-pane { display: none; padding: 1.5rem 0; }
+.hist-pane.active { display: block; }
+
+/* Data Tables */
+.hist-table-wrap { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; }
+.hist-table { width: 100%; border-collapse: collapse; }
+.hist-table th { background: #f8fafc; padding: 0.85rem 1rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--primary); font-weight: 700; border-bottom: 2px solid #e2e8f0; text-align: left; white-space: nowrap; }
+.hist-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; color: #4a5568; vertical-align: top; }
+.hist-table tr:hover td { background: #f8fafc; }
+.hist-table .clickable-row { cursor: pointer; }
+.hist-table .clickable-row:hover td { background: #eef2ff; }
+.empty-state-table { text-align: center; padding: 3rem; color: #a0aec0; }
+.empty-state-table i { font-size: 2.5rem; display: block; margin-bottom: 0.8rem; }
+
+/* Detail Modal */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.show { display: flex; }
+.modal-content { background: #fff; border-radius: 16px; max-width: 800px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; z-index: 1; border-radius: 16px 16px 0 0; }
+.modal-header h3 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #2d3748; }
+.modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: #f1f5f9; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #718096; transition: all 0.2s; }
+.modal-close:hover { background: #e2e8f0; color: #2d3748; }
+.modal-body { padding: 1.5rem; }
+.modal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.modal-grid .mg-item { padding: 0.5rem 0; }
+.modal-grid .mg-item .mg-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.8px; color: #718096; font-weight: 600; }
+.modal-grid .mg-item .mg-value { font-size: 0.92rem; font-weight: 500; color: #2d3748; margin-top: 0.15rem; }
+.modal-grid .mg-item.full { grid-column: 1 / -1; }
+@media (max-width: 600px) { .modal-grid { grid-template-columns: 1fr; } }
+
+/* Skeleton loaders */
+.skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; border-radius: 8px; }
+@keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-line { height: 14px; margin-bottom: 8px; width: 100%; }
+.skeleton-line.w60 { width: 60%; }
+.skeleton-line.w40 { width: 40%; }
+.skeleton-line.w80 { width: 80%; }
+.skeleton-card { height: 120px; margin-bottom: 1rem; }
+.skeleton-table { height: 200px; }
+
+/* Service Errors */
+.service-errors { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.service-errors .se-title { font-weight: 600; color: #92400e; margin-bottom: 0.5rem; }
+.service-errors .se-item { font-size: 0.85rem; color: #78350f; padding: 0.25rem 0; }
+
+/* Status badges */
+.status-pendiente { background: #fef3c7; color: #92400e; }
+.status-completado { background: #d1fae5; color: #065f46; }
+.status-urgente { background: #fce4ec; color: #c62828; }
+.status-anormal { color: #dc2626; font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hist-search-row { flex-direction: column; }
+  .hist-search-row input { min-width: 100%; }
+  .patient-card-header { flex-direction: column; text-align: center; }
+  .patient-grid { grid-template-columns: 1fr 1fr; }
+  .hist-tabs { flex-wrap: wrap; }
+  .hist-tab-btn { flex: auto; font-size: 0.78rem; padding: 0.75rem 1rem; }
+  .timeline-container::before { left: 16px; }
+  .timeline-item { padding-left: 3rem; }
+  .timeline-dot { left: 8px; width: 18px; height: 18px; font-size: 0.5rem; }
+}
+/* ======= END HISTORY CONSOLIDATED ======= */
+
 .history-section { border: 1px solid var(--gray-200); border-radius: var(--radius); margin-bottom: 1rem; overflow: hidden; transition: box-shadow 0.2s; }
 .history-section:hover { box-shadow: var(--shadow); }
 .history-section .hs-header { background: linear-gradient(135deg, var(--gray-50), #fff); padding: 0.9rem 1.25rem; border-bottom: 3px solid var(--primary); font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; letter-spacing: 0.5px; }
@@ -216,6 +343,45 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 .empty-state { text-align: center; padding: 2.5rem; color: var(--gray-600); }
 .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 .empty-state p { font-size: 0.9rem; }
+/* ======= REPOSITORIO CLINICO REGIONAL ======= */
+.rc-preview-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.08); margin-bottom:1.25rem; }
+.rc-preview-header { background:var(--primary-gradient); padding:1.5rem 2rem; color:#fff; display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; }
+.rc-preview-header .rc-avatar { width:72px; height:72px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:2rem; border:3px solid rgba(255,255,255,0.3); }
+.rc-preview-header .rc-name-block { flex:1; }
+.rc-preview-header .rc-name-block h2 { margin:0; font-size:1.4rem; font-weight:700; }
+.rc-preview-header .rc-name-block h2 small { font-weight:400; font-size:0.8rem; opacity:0.8; }
+.rc-preview-header .rc-name-block .rc-meta { display:flex; gap:1rem; margin-top:0.3rem; font-size:0.85rem; opacity:0.9; flex-wrap:wrap; }
+.rc-preview-header .rc-status-badge { padding:0.4rem 1.2rem; border-radius:50px; background:rgba(255,255,255,0.2); font-size:0.8rem; font-weight:600; }
+.rc-preview-body { padding:1.5rem 2rem; }
+.rc-preview-body .rc-section-title { font-size:0.85rem; font-weight:700; color:var(--primary); margin:1.25rem 0 0.75rem; padding-bottom:0.4rem; border-bottom:2px solid var(--primary-light); display:flex; align-items:center; gap:0.5rem; }
+.rc-preview-body .rc-section-title:first-child { margin-top:0; }
+.rc-preview-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:0.75rem; }
+.rc-preview-grid .rc-item .rc-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.8px; color:#718096; font-weight:600; }
+.rc-preview-grid .rc-item .rc-value { font-size:0.92rem; font-weight:500; color:#2d3748; margin-top:0.15rem; }
+.rc-stats-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:0.75rem; margin:1rem 0; }
+.rc-stat-card { padding:1rem; border-radius:12px; color:#fff; text-align:center; transition:transform 0.2s,box-shadow 0.2s; }
+.rc-stat-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+.rc-stat-card .rc-stat-icon { font-size:1.5rem; margin-bottom:0.3rem; opacity:0.9; }
+.rc-stat-card .rc-stat-value { font-size:1.5rem; font-weight:800; line-height:1.2; }
+.rc-stat-card .rc-stat-label { font-size:0.65rem; opacity:0.85; margin-top:0.15rem; font-weight:500; text-transform:uppercase; letter-spacing:0.5px; }
+.rc-alert { padding:0.85rem 1rem; border-radius:10px; margin-bottom:0.6rem; display:flex; align-items:flex-start; gap:0.75rem; font-size:0.88rem; }
+.rc-alert i { font-size:1.1rem; margin-top:0.1rem; flex-shrink:0; }
+.rc-alert-danger { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; }
+.rc-alert-warning { background:#fffbeb; border:1px solid #fde68a; color:#92400e; }
+.rc-alert-info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
+.rc-actions { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1.25rem; align-items:center; }
+.rc-actions .btn:disabled { opacity:0.4; cursor:not-allowed; transform:none !important; }
+.rc-preview-loading { padding:1rem; }
+.empty-state-rc { text-align:center; padding:2.5rem; color:var(--gray-600); }
+.empty-state-rc i { font-size:3rem; opacity:0.3; margin-bottom:0.75rem; display:block; }
+.empty-state-rc p { font-size:0.9rem; }
+@media(max-width:768px) {
+  .rc-preview-header { flex-direction:column; text-align:center; }
+  .rc-preview-grid { grid-template-columns:1fr 1fr; }
+  .rc-stats-row { grid-template-columns:1fr 1fr; }
+  .rc-actions { flex-direction:column; }
+  .rc-actions .btn { width:100%; }
+}
 </style>
 </head>
 <body>
@@ -245,6 +411,7 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
   <button class="nav-btn protected" data-tab="consultation" data-roles="MEDICO"><i class="bi bi-chat-dots"></i> Consulta Medica</button>
   <button class="nav-btn protected" data-tab="laboratorio" data-roles="MEDICO,LABORATORIO,ADMIN"><i class="bi bi-droplet"></i> Laboratorio</button>
   <button class="nav-btn protected" data-tab="imagenes" data-roles="MEDICO,IMAGENOLOGIA,ADMIN"><i class="bi bi-image"></i> Imagenologia</button>
+  <button class="nav-btn protected" data-tab="repositorio-clinico" data-roles="MEDICO,ADMIN,AUDITOR"><i class="bi bi-hospital"></i> Repositorio Clinico</button>
   <button class="nav-btn protected" data-tab="auditoria" data-roles="ADMIN,AUDITOR"><i class="bi bi-shield-check"></i> Auditoria</button>
   <button class="nav-btn protected" data-tab="services" data-roles="MEDICO,LABORATORIO,IMAGENOLOGIA,ADMIN"><i class="bi bi-hdd-stack"></i> Servicios</button>
 </div>
@@ -333,20 +500,52 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
   </div>
 </div>
 
-<!-- TAB: HISTORY -->
+<!-- TAB: HISTORY - HISTORIA CLINICA CONSOLIDADA -->
 <div class="tab-content" id="tab-history">
-  <div class="card">
-    <div class="card-header" style="background:var(--primary-gradient);color:#fff"><i class="bi bi-file-medical"></i> Historia Clinica Consolidada <button class="btn btn-light btn-sm ms-auto no-print" onclick="printHistory()"><i class="bi bi-printer"></i> Imprimir</button></div>
-    <div class="card-body">
-      <div class="patient-search mb-3">
-        <input type="text" id="historySearch" class="form-control" placeholder="Buscar paciente por ID regional o cedula...">
-        <div class="results-dropdown" id="historyResults"></div>
+  <div class="history-container">
+    <!-- Search -->
+    <div class="hist-search-card">
+      <div class="hist-search-row">
+        <i class="bi bi-search" style="color:var(--primary);font-size:1.2rem"></i>
+        <input type="text" id="historySearch" placeholder="Buscar por cédula o ID regional del paciente...">
+        <button class="btn-search" onclick="searchAndLoadHistory()"><i class="bi bi-file-medical"></i> Ver Historia Clínica</button>
+        <button class="btn btn-light btn-sm" onclick="printHistory()" title="Imprimir"><i class="bi bi-printer"></i></button>
       </div>
-      <div class="selected-patient-badge" id="historySelected">
-        <span><i class="bi bi-person-check-fill text-success"></i> <span id="historyPatientName">-</span> <span class="text-muted" id="historyPatientId"></span></span>
-        <button class="btn btn-sm btn-outline-secondary" onclick="clearHistory()"><i class="bi bi-x"></i> Cambiar</button>
+      <div class="results-dropdown" id="historyResults"></div>
+    </div>
+
+    <!-- Selected Patient Bar -->
+    <div id="historySelected" style="display:none;background:#fff;border-radius:12px;padding:0.8rem 1.25rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);display:none;align-items:center;gap:1rem;flex-wrap:wrap">
+      <i class="bi bi-person-check-fill" style="color:var(--success);font-size:1.2rem"></i>
+      <span style="font-weight:600" id="historyPatientName">-</span>
+      <code style="color:var(--primary);font-weight:600" id="historyPatientId"></code>
+      <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="clearHistory()"><i class="bi bi-x"></i> Cambiar Paciente</button>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div id="historySkeleton" style="display:none">
+      <div class="skeleton skeleton-card"></div>
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+        <div class="skeleton" style="height:48px;flex:1"></div>
+        <div class="skeleton" style="height:48px;flex:1"></div>
+        <div class="skeleton" style="height:48px;flex:1"></div>
+        <div class="skeleton" style="height:48px;flex:1"></div>
       </div>
-      <div id="historyContent" class="mt-3"></div>
+      <div class="skeleton skeleton-table"></div>
+    </div>
+
+    <!-- Content -->
+    <div id="historyContent"></div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Detalle</h3>
+          <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -575,6 +774,104 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
   </div>
 </div>
 
+<!-- TAB: REPOSITORIO CLINICO REGIONAL -->
+<div class="tab-content" id="tab-repositorio-clinico">
+  <div class="history-container">
+    <div class="card">
+      <div class="card-header" style="background:linear-gradient(135deg,#0a6c75,#0e8c97);color:#fff"><i class="bi bi-hospital"></i> Repositorio Clinico Regional</div>
+      <div class="card-body">
+        <!-- Step 1: Search -->
+        <div class="rc-search-section">
+          <div class="hist-search-card" style="margin-bottom:0">
+            <div class="hist-search-row">
+              <i class="bi bi-search" style="color:var(--primary);font-size:1.2rem"></i>
+              <input type="text" id="repoClinicoSearch" placeholder="Buscar paciente por: ID Regional, cédula, nombres, apellidos, historia clínica..." autocomplete="off">
+              <button class="btn-search" onclick="rcBuscarPaciente()"><i class="bi bi-search"></i> Buscar Paciente</button>
+            </div>
+            <div class="results-dropdown" id="repoClinicoResults"></div>
+          </div>
+        </div>
+
+        <!-- Step 2: Patient Preview (hidden until patient selected) -->
+        <div id="rcPreviewSection" style="display:none;margin-top:1.5rem">
+          <!-- Selected Patient Bar -->
+          <div id="rcSelectedBar" style="display:flex;background:#fff;border-radius:12px;padding:0.8rem 1.25rem;margin-bottom:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,0.08);align-items:center;gap:1rem;flex-wrap:wrap">
+            <i class="bi bi-person-check-fill" style="color:var(--success);font-size:1.2rem"></i>
+            <span style="font-weight:600" id="rcPatientName">-</span>
+            <code style="color:var(--primary);font-weight:600" id="rcPatientId"></code>
+            <span style="font-size:0.8rem;color:var(--gray-600)" id="rcPatientCedula"></span>
+            <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="rcClearPreview()"><i class="bi bi-x"></i> Cambiar Paciente</button>
+          </div>
+
+          <!-- Patient Preview Card -->
+          <div class="rc-preview-card" id="rcPreviewCard">
+            <!-- Loading State -->
+            <div id="rcPreviewSkeleton" style="display:none">
+              <div class="rc-preview-loading">
+                <div class="skeleton" style="height:180px;width:100%"></div>
+                <div style="display:flex;gap:1rem;margin-top:1rem">
+                  <div class="skeleton" style="height:80px;flex:1"></div>
+                  <div class="skeleton" style="height:80px;flex:1"></div>
+                  <div class="skeleton" style="height:80px;flex:1"></div>
+                  <div class="skeleton" style="height:80px;flex:1"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Content injected by JS -->
+            <div id="rcPreviewContent"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="rc-actions" id="rcActionButtons">
+            <button class="btn btn-primary btn-lg" id="rcBtnHistory" disabled onclick="rcLoadFullHistory()">
+              <i class="bi bi-file-medical"></i> Consultar Historia Clinica Completa
+            </button>
+            <button class="btn btn-outline-success" id="rcBtnPdf" disabled onclick="rcDownloadPDF()">
+              <i class="bi bi-filetype-pdf"></i> Descargar PDF
+            </button>
+            <button class="btn btn-outline-primary" id="rcBtnPrint" disabled onclick="rcPrintHistory()">
+              <i class="bi bi-printer"></i> Imprimir
+            </button>
+            <button class="btn btn-outline-secondary" onclick="rcClearPreview()">
+              <i class="bi bi-arrow-left"></i> Cambiar Paciente
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Full History (hidden until loaded) -->
+        <div id="rcHistorySection" style="display:none;margin-top:1.5rem">
+          <div id="rcHistorySkeleton" style="display:none">
+            <div class="skeleton skeleton-card"></div>
+            <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+              <div class="skeleton" style="height:48px;flex:1"></div>
+              <div class="skeleton" style="height:48px;flex:1"></div>
+              <div class="skeleton" style="height:48px;flex:1"></div>
+              <div class="skeleton" style="height:48px;flex:1"></div>
+            </div>
+            <div class="skeleton skeleton-table"></div>
+          </div>
+          <div id="rcHistoryContent"></div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div style="margin-top:1.5rem">
+          <div onclick="var n=this.nextElementSibling;n.style.display=n.style.display==='none'?'block':'none';this.querySelector('i.bi').classList.toggle('bi-chevron-down');this.querySelector('i.bi').classList.toggle('bi-chevron-up')" style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;padding:0.75rem 1rem;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;user-select:none">
+            <i class="bi bi-activity" style="color:var(--primary);font-size:1.2rem"></i>
+            <span style="font-weight:600;color:#2d3748;flex:1">Actividad Reciente del Repositorio</span>
+            <span id="rcActivityCount" style="background:var(--primary);color:#fff;padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem">0</span>
+            <i class="bi bi-chevron-down" style="color:var(--gray-500)"></i>
+          </div>
+          <div id="rcActivitySection" style="display:none;margin-top:0.75rem">
+            <div id="rcActivityContent" style="max-height:400px;overflow-y:auto">
+              <div style="text-align:center;padding:2rem;color:var(--gray-500)"><i class="bi bi-clock-history"></i> Cargando actividad reciente...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- TAB: AUDITORIA -->
 <div class="tab-content" id="tab-auditoria">
   <div class="card">
@@ -582,7 +879,7 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
     <div class="card-body">
       <div class="sub-tabs mb-3">
         <button class="sub-tab active" onclick="switchAuditSubTab('dashboard',this)"><i class="bi bi-speedometer2"></i> Dashboard</button>
-        <button class="sub-tab" onclick="switchAuditSubTab('repositorio',this)"><i class="bi bi-archive"></i> Repositorio</button>
+        <button class="sub-tab" onclick="switchAuditSubTab('repositorio',this)"><i class="bi bi-archive"></i> Repositorio de Auditoria</button>
       </div>
       <div id="auditDashboard">
         <div class="row g-2 mb-3">
@@ -689,14 +986,17 @@ pre.json-view { background: #1e293b; color: #e2e8f0; border-radius: var(--radius
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+const API_BASE = (window.location.port === '3000' || window.location.port === '8080')
+  ? window.location.protocol + '//' + window.location.hostname
+  : '';
 const API = {
-  pacientes: '/api',
-  consultas: '/api',
-  laboratorio: '/api',
-  imagenes: '/api',
-  repositorio: '/api',
-  seguridad: '/api',
-  auditoria: '/api'
+  pacientes: API_BASE + '/api',
+  consultas: API_BASE + '/api',
+  laboratorio: API_BASE + '/api',
+  imagenes: API_BASE + '/api',
+  repositorio: API_BASE + '/api',
+  seguridad: API_BASE + '/api',
+  auditoria: API_BASE + '/api'
 };
 
 let cie10Catalog = [];
@@ -850,6 +1150,7 @@ function switchTab(tabName) {
   document.querySelector('.topbar').style.display = tabName === 'login' ? 'none' : '';
   document.querySelector('.nav-bar').style.display = tabName === 'login' ? 'none' : '';
   if (tabName === 'history') clearHistory();
+  else if (tabName === 'repositorio-clinico') { rcClearPreview(); rcLoadActivity(); }
   else if (tabName === 'consultation') clearConsult();
   else if (tabName === 'laboratorio') clearLab();
   else if (tabName === 'imagenes') clearImg();
@@ -1117,113 +1418,978 @@ async function savePatient() {
   hideLoading();
 }
 
+// ============ REPOSITORIO CLINICO REGIONAL ============
+
+let repoClinicoData = null;
+let repoClinicoTimeout = null;
+let repoClinicoCurrentPatient = null;
+
+function rcClearPreview() {
+  $('rcPreviewSection').style.display = 'none';
+  $('rcHistorySection').style.display = 'none';
+  $('rcHistoryContent').innerHTML = '';
+  $('repoClinicoSearch').value = '';
+  $('repoClinicoResults').style.display = 'none';
+  repoClinicoData = null;
+  repoClinicoCurrentPatient = null;
+  $('rcBtnHistory').disabled = true;
+  $('rcBtnPdf').disabled = true;
+  $('rcBtnPrint').disabled = true;
+}
+
+function rcSelectPatient(p) {
+  repoClinicoCurrentPatient = p;
+  $('rcPatientName').textContent = p.nombres + ' ' + p.apellidos;
+  $('rcPatientId').textContent = p.idPacienteRegional;
+  $('rcPatientCedula').textContent = 'CI: ' + (p.cedula || '-');
+  $('repoClinicoResults').style.display = 'none';
+  $('rcPreviewSection').style.display = 'block';
+  $('rcPreviewSkeleton').style.display = 'block';
+  $('rcPreviewContent').innerHTML = '';
+  $('rcHistorySection').style.display = 'none';
+  $('rcBtnHistory').disabled = true;
+  $('rcBtnPdf').disabled = true;
+  $('rcBtnPrint').disabled = true;
+  rcRenderPatientPreview(p);
+}
+
+function rcRenderPatientPreview(p) {
+  const edad = p.fechaNacimiento ? calcEdad(p.fechaNacimiento) : '-';
+  const genero = p.genero === 'M' ? 'Masculino' : p.genero === 'F' ? 'Femenino' : p.genero || '-';
+  const genClass = p.genero === 'M' ? 'badge-m' : p.genero === 'F' ? 'badge-f' : '';
+  const estadoPaciente = p.activo !== false ? 'Activo' : 'Inactivo';
+  const estadoClass = p.activo !== false ? 'status-completado' : 'status-pendiente';
+  const contactEmerg = typeof p.contactoEmergencia === 'string' ? safeJsonParse(p.contactoEmergencia) : (p.contactoEmergencia || {});
+
+  // Quick stats - will be populated after consulting repositorio
+  let statsHtml = '<div class="rc-stats-row">' +
+    '<div class="rc-stat-card bg-primary-gradient"><div class="rc-stat-icon"><i class="bi bi-person"></i></div><div class="rc-stat-value" id="rcStatConsultas">-</div><div class="rc-stat-label">Consultas</div></div>' +
+    '<div class="rc-stat-card bg-success-gradient"><div class="rc-stat-icon"><i class="bi bi-droplet"></i></div><div class="rc-stat-value" id="rcStatLab">-</div><div class="rc-stat-label">Examenes Lab.</div></div>' +
+    '<div class="rc-stat-card bg-warning-gradient"><div class="rc-stat-icon"><i class="bi bi-image"></i></div><div class="rc-stat-value" id="rcStatImg">-</div><div class="rc-stat-label">Estudios Imagen</div></div>' +
+    '<div class="rc-stat-card bg-info-gradient"><div class="rc-stat-icon"><i class="bi bi-clipboard-pulse"></i></div><div class="rc-stat-value" id="rcStatDiagnosticos">-</div><div class="rc-stat-label">Diagnosticos</div></div>' +
+    '</div>';
+
+  // Clinical alerts
+  let alertsHtml = '';
+  if (p.alergias) alertsHtml += '<div class="rc-alert rc-alert-danger"><i class="bi bi-exclamation-triangle-fill"></i><div><strong>Alergias:</strong> ' + p.alergias + '</div></div>';
+  const ap = typeof p.antecedentesPersonales === 'string' ? safeJsonParse(p.antecedentesPersonales) : (p.antecedentesPersonales || {});
+  if (ap && ap.cronicas) alertsHtml += '<div class="rc-alert rc-alert-warning"><i class="bi bi-heart-pulse-fill"></i><div><strong>Enfermedades Cronicas:</strong> ' + ap.cronicas + '</div></div>';
+  if (p.enfermedadActual) alertsHtml += '<div class="rc-alert rc-alert-info"><i class="bi bi-info-circle-fill"></i><div><strong>Enfermedad Actual:</strong> ' + p.enfermedadActual + '</div></div>';
+
+  const html = '<div class="rc-preview-card">' +
+    '<div class="rc-preview-header">' +
+      '<div class="rc-avatar"><i class="bi bi-person"></i></div>' +
+      '<div class="rc-name-block">' +
+        '<h2>' + escHtml(p.nombres||'') + ' ' + escHtml(p.apellidos||'') + ' <small>(' + (p.idPacienteRegional||'') + ')</small></h2>' +
+        '<div class="rc-meta">' +
+          '<span><strong>CI:</strong> ' + (p.cedula||'-') + '</span>' +
+          '<span><strong>Edad:</strong> ' + edad + '</span>' +
+          '<span><strong>Sexo:</strong> <span class="badge-gen ' + genClass + '">' + genero + '</span></span>' +
+          '<span><strong>HC:</strong> <code>' + (p.historiaClinica || p.idPacienteRegional || '-') + '</code></span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="rc-status-badge ' + estadoClass + '"><i class="bi bi-check-circle"></i> ' + estadoPaciente + '</div>' +
+    '</div>' +
+    '<div class="rc-preview-body">' +
+      // Personal Info
+      '<div class="rc-section-title"><i class="bi bi-person-badge"></i> Informacion Personal</div>' +
+      '<div class="rc-preview-grid">' +
+        rcGridItem('ID Regional', '<code>' + (p.idPacienteRegional||'-') + '</code>') +
+        rcGridItem('Historia Clinica', '<code>' + (p.historiaClinica || p.idPacienteRegional || '-') + '</code>') +
+        rcGridItem('Cedula', p.cedula||'-') +
+        rcGridItem('Nombres', p.nombres||'-') +
+        rcGridItem('Apellidos', p.apellidos||'-') +
+        rcGridItem('Fecha Nacimiento', p.fechaNacimiento||'-') +
+        rcGridItem('Edad', edad) +
+        rcGridItem('Sexo', '<span class="badge-gen ' + genClass + '">' + genero + '</span>') +
+        rcGridItem('Estado Civil', p.estadoCivil||'-') +
+        rcGridItem('Nacionalidad', p.nacionalidad||'Ecuatoriana') +
+        rcGridItem('Grupo Sanguineo', '<span class="badge-gen bg-blood">' + (p.grupoSanguineo||'-') + '</span>') +
+        rcGridItem('Estado', '<span class="badge-gen ' + estadoClass + '">' + estadoPaciente + '</span>') +
+      '</div>' +
+      // Contact
+      '<div class="rc-section-title"><i class="bi bi-telephone"></i> Informacion de Contacto</div>' +
+      '<div class="rc-preview-grid">' +
+        rcGridItem('Direccion', p.direccion||'-') +
+        rcGridItem('Provincia', p.provincia||'-') +
+        rcGridItem('Canton', p.canton||'-') +
+        rcGridItem('Parroquia', p.parroquia||'-') +
+        rcGridItem('Telefono', p.telefono||'-') +
+        rcGridItem('Correo Electronico', p.email||'-') +
+        rcGridItem('Contacto Emergencia', contactEmerg.nombre||'-') +
+        rcGridItem('Telefono Emergencia', contactEmerg.telefono||'-') +
+      '</div>' +
+      // Quick Stats
+      '<div class="rc-section-title"><i class="bi bi-graph-up"></i> Indicadores Clinicos</div>' +
+      statsHtml +
+      // Clinical Alerts
+      (alertsHtml ? '<div class="rc-section-title"><i class="bi bi-exclamation-triangle"></i> Alertas Clinicas</div>' + alertsHtml : '') +
+    '</div></div>';
+
+  $('rcPreviewContent').innerHTML = html;
+  $('rcPreviewSkeleton').style.display = 'none';
+  $('rcBtnHistory').disabled = false;
+  $('rcBtnPdf').disabled = false;
+  $('rcBtnPrint').disabled = false;
+
+  // Fetch repositorio data in background to populate stats
+  rcLoadStats(p.idPacienteRegional);
+}
+
+function rcGridItem(label, value) {
+  return '<div class="rc-item"><div class="rc-label">' + label + '</div><div class="rc-value">' + value + '</div></div>';
+}
+
+async function rcLoadStats(rid) {
+  try {
+    const r = await apiCall(API.repositorio+'/repositorio/paciente/'+rid);
+    if (!r) return;
+    const d = await r.json();
+    if (!d || !d.paciente) return;
+    const consultas = d.consultas || [];
+    const lab = d.laboratorio || [];
+    const img = d.imagenes || [];
+    const diags = new Set();
+    consultas.forEach(c => { if (c.diagnosticoPrincipalCie10) diags.add(c.diagnosticoPrincipalCie10); });
+    const ultimaConsulta = consultas.length ? consultas[consultas.length-1] : null;
+
+    $('rcStatConsultas').textContent = consultas.length;
+    $('rcStatLab').textContent = lab.length;
+    $('rcStatImg').textContent = img.length;
+    $('rcStatDiagnosticos').textContent = diags.size;
+
+    if (ultimaConsulta) {
+      const lastStats = '<div style="margin-top:0.5rem;padding:0.75rem;background:#f8fafc;border-radius:8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem">' +
+        rcGridItem('Ultima Consulta', ultimaConsulta.fechaConsulta||'-') +
+        rcGridItem('Ultimo Medico', ultimaConsulta.medico||'-') +
+        rcGridItem('Hospital', ultimaConsulta.sede||'-') +
+        rcGridItem('Especialidad', ultimaConsulta.especialidad||'-') +
+      '</div>';
+      const existing = $('rcPreviewContent').querySelector('.rc-section-title:last-of-type');
+      if (existing) existing.insertAdjacentHTML('afterend', lastStats);
+    }
+  } catch(e) { /* stats are non-critical */ }
+}
+
+async function rcBuscarPaciente() {
+  const val = $('repoClinicoSearch').value.trim();
+  if (!val) { showToast('Ingrese un criterio de busqueda', 'warning'); return; }
+  showLoading();
+  try {
+    const searchLower = val.toLowerCase();
+    const results = pacientesList.filter(p =>
+      (p.idPacienteRegional && p.idPacienteRegional.toLowerCase().includes(searchLower)) ||
+      (p.cedula && p.cedula.includes(val)) ||
+      (p.nombres && p.nombres.toLowerCase().includes(searchLower)) ||
+      (p.apellidos && p.apellidos.toLowerCase().includes(searchLower)) ||
+      (p.historiaClinica && p.historiaClinica.toLowerCase().includes(searchLower))
+    );
+    if (results.length === 1) { rcSelectPatient(results[0]); hideLoading(); return; }
+    if (results.length > 1) {
+      const dd = $('repoClinicoResults');
+      dd.innerHTML = results.map(p =>
+        '<div class="result-item" onclick="rcSelectPatient(pacientesList.find(x=>x.idPacienteRegional===\''+p.idPacienteRegional+'\'))">' +
+        '<div class="name">' + p.nombres + ' ' + p.apellidos + '</div>' +
+        '<div class="detail">ID: <code>' + p.idPacienteRegional + '</code> | CI: ' + (p.cedula||'-') + ' | HC: ' + (p.historiaClinica||'-') + ' | ' + (p.genero==='M'?'Masculino':'Femenino') + '</div></div>'
+      ).join('');
+      dd.style.display = 'block';
+      hideLoading(); return;
+    }
+    let r = await apiCall(API.pacientes+'/pacientes/cedula/'+encodeURIComponent(val));
+    if (r && r.ok) { const d = await r.json(); const data = d && d.data; if (data && data.idPacienteRegional) { rcSelectPatient(data); hideLoading(); return; } }
+    r = await apiCall(API.pacientes+'/pacientes/'+encodeURIComponent(val));
+    if (r && r.ok) { const d = await r.json(); const data = d && d.data; if (data && data.idPacienteRegional) { rcSelectPatient(data); hideLoading(); return; } }
+    showToast('Paciente no encontrado con los criterios ingresados', 'error');
+    hideLoading();
+  } catch(e) { hideLoading(); showToast('Error al buscar paciente', 'error'); }
+}
+
+$('repoClinicoSearch').addEventListener('input', function() {
+  const dd = $('repoClinicoResults');
+  clearTimeout(repoClinicoTimeout);
+  const val = this.value.trim();
+  if (val.length < 2) { dd.style.display = 'none'; return; }
+  repoClinicoTimeout = setTimeout(() => {
+    const searchLower = val.toLowerCase();
+    const matches = pacientesList.filter(p =>
+      (p.idPacienteRegional && p.idPacienteRegional.toLowerCase().includes(searchLower)) ||
+      (p.cedula && p.cedula.includes(val)) ||
+      (p.nombres && p.nombres.toLowerCase().includes(searchLower)) ||
+      (p.apellidos && p.apellidos.toLowerCase().includes(searchLower)) ||
+      (p.historiaClinica && p.historiaClinica.toLowerCase().includes(searchLower))
+    ).slice(0, 8);
+    if (matches.length) {
+      dd.innerHTML = matches.map(p =>
+        '<div class="result-item" onclick="rcSelectPatient(pacientesList.find(x=>x.idPacienteRegional===\''+p.idPacienteRegional+'\'))">' +
+        '<div class="name">' + p.nombres + ' ' + p.apellidos + '</div>' +
+        '<div class="detail">ID: <code>' + p.idPacienteRegional + '</code> | CI: ' + (p.cedula||'-') + ' | HC: ' + (p.historiaClinica||'-') + ' | ' + (p.genero==='M'?'Masculino':'Femenino') + '</div></div>'
+      ).join('');
+      dd.style.display = 'block';
+    } else { dd.style.display = 'none'; }
+  }, 300);
+});
+
+$('repoClinicoSearch').addEventListener('blur', function() {
+  setTimeout(() => { $('repoClinicoResults').style.display = 'none'; }, 200);
+});
+
+$('repoClinicoSearch').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') { $('repoClinicoResults').style.display = 'none'; rcBuscarPaciente(); }
+});
+
+async function rcLoadFullHistory() {
+  const p = repoClinicoCurrentPatient;
+  if (!p) { showToast('Seleccione un paciente primero', 'warning'); return; }
+  $('rcHistorySkeleton').style.display = 'block';
+  $('rcHistoryContent').innerHTML = '';
+  try {
+    const r = await apiCall(API.repositorio+'/repositorio/paciente/'+p.idPacienteRegional);
+    $('rcHistorySkeleton').style.display = 'none';
+    if (!r) { $('rcHistoryContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error de conexion con el repositorio</div>'; return; }
+    const d = await r.json();
+    if (!d || d.status==='ERROR' || !d.paciente) {
+      $('rcHistoryContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Paciente no encontrado en el repositorio regional</div>';
+      return;
+    }
+    repoClinicoData = d;
+    historyData = d;
+    $('rcHistorySection').style.display = 'block';
+    renderFullHistory(d, p.idPacienteRegional, 'rcHistoryContent');
+    sendAudit('REPOSITORIO', 'Consulta de historia clinica consolidada', 'Paciente: ' + p.idPacienteRegional, 'EXITO', { paciente: p.idPacienteRegional, submodulo: 'Repositorio Clinico Regional' });
+  } catch(e) {
+    $('rcHistorySkeleton').style.display = 'none';
+    $('rcHistoryContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia clinica</div>';
+  }
+}
+
+function rcDownloadPDF() {
+  if (!repoClinicoCurrentPatient) { showToast('Seleccione un paciente primero', 'warning'); return; }
+  const p = repoClinicoCurrentPatient;
+  const data = repoClinicoData;
+  if (!data) { showToast('Cargue la historia clinica primero', 'warning'); return; }
+
+  const consultas = data.consultas || [];
+  const lab = data.laboratorio || [];
+  const img = data.imagenes || [];
+  const ahora = new Date().toLocaleString('es-EC');
+  const user = currentUser ? currentUser.nombres + ' ' + currentUser.apellidos : 'Sistema';
+  const docId = 'SOLCA-RCR-' + p.idPacienteRegional + '-' + Date.now();
+
+  let html = '<html><head><title>Historia Clinica - ' + (p.nombres||'') + ' ' + (p.apellidos||'') + '</title>';
+  html += '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">';
+  html += '<style>' +
+    'body{font-family:"Inter","Segoe UI",sans-serif;padding:2rem;color:#2d3748;font-size:12px}' +
+    '.pdf-header{text-align:center;margin-bottom:1.5rem;border-bottom:3px solid #0a6c75;padding-bottom:1rem}' +
+    '.pdf-header img{height:60px}' +
+    '.pdf-header h1{color:#0a6c75;font-size:1.3rem;margin:0.5rem 0 0.2rem}' +
+    '.pdf-header p{color:#6c757d;font-size:10px;margin:0}' +
+    '.pdf-meta{display:flex;justify-content:space-between;font-size:9px;color:#6c757d;margin-bottom:1rem;padding:0.5rem;background:#f8f9fa;border-radius:6px}' +
+    '.pdf-section{margin:1rem 0;padding:0.75rem;border:1px solid #dee2e6;border-radius:8px}' +
+    '.pdf-section h3{color:#0a6c75;font-size:0.95rem;margin:0 0 0.5rem;padding-bottom:0.3rem;border-bottom:2px solid #0a6c75}' +
+    'table{width:100%;border-collapse:collapse;margin:0.5rem 0;font-size:10px}' +
+    'th{background:#f0fdf4;padding:0.4rem 0.5rem;font-weight:700;color:#0a6c75;border-bottom:2px solid #0a6c75;text-align:left;font-size:8px;text-transform:uppercase}' +
+    'td{padding:0.35rem 0.5rem;border-bottom:1px solid #e2e8f0}' +
+    '.pdf-footer{text-align:center;margin-top:1.5rem;padding-top:0.75rem;border-top:2px solid #0a6c75;font-size:9px;color:#6c757d}' +
+    '.pdf-qr{text-align:center;margin:1rem 0}' +
+    '@media print{body{padding:0.5rem;font-size:10px}}' +
+    '</style></head><body>';
+
+  html += '<div class="pdf-header">' +
+    '<h1>SOCiedad de Lucha contra el Cancer (SOLCA)</h1>' +
+    '<p>Sistema de Gestion Clinica Regional - Repositorio Clinico Regional</p></div>' +
+    '<div class="pdf-meta">' +
+    '<span><strong>Documento:</strong> ' + docId + '</span>' +
+    '<span><strong>Generado:</strong> ' + ahora + '</span>' +
+    '<span><strong>Usuario:</strong> ' + user + '</span>' +
+    '</div>';
+
+  html += '<div class="pdf-section"><h3>Datos del Paciente</h3>' +
+    '<table><tr><td><strong>ID Regional:</strong> ' + (p.idPacienteRegional||'-') + '</td><td><strong>Cedula:</strong> ' + (p.cedula||'-') + '</td><td><strong>HC:</strong> ' + (p.historiaClinica||p.idPacienteRegional||'-') + '</td></tr>' +
+    '<tr><td><strong>Nombres:</strong> ' + (p.nombres||'-') + '</td><td><strong>Apellidos:</strong> ' + (p.apellidos||'-') + '</td><td><strong>Edad:</strong> ' + calcEdad(p.fechaNacimiento) + '</td></tr>' +
+    '<tr><td><strong>Sexo:</strong> ' + (p.genero==='M'?'Masculino':p.genero==='F'?'Femenino':p.genero||'-') + '</td><td><strong>Estado Civil:</strong> ' + (p.estadoCivil||'-') + '</td><td><strong>Telefono:</strong> ' + (p.telefono||'-') + '</td></tr>' +
+    '<tr><td><strong>Direccion:</strong> ' + (p.direccion||'-') + '</td><td colspan="2"><strong>Email:</strong> ' + (p.email||'-') + '</td></tr></table></div>';
+
+  if (consultas.length) {
+    html += '<div class="pdf-section"><h3>Consultas Clinicas (' + consultas.length + ')</h3><table><tr><th>Fecha</th><th>Medico</th><th>Especialidad</th><th>Diagnostico</th><th>CIE-10</th><th>Tratamiento</th></tr>';
+    consultas.forEach(c => {
+      html += '<tr><td>' + (c.fechaConsulta||'-') + '</td><td>' + (c.medico||'-') + '</td><td>' + (c.especialidad||'-') + '</td><td>' + (c.diagnosticoPrincipalDesc||c.diagnostico||'-') + '</td><td><code>' + (c.diagnosticoPrincipalCie10||'-') + '</code></td><td>' + (c.tratamiento||'-').substring(0,60) + '</td></tr>';
+    });
+    html += '</table></div>';
+  }
+
+  if (lab.length) {
+    html += '<div class="pdf-section"><h3>Resultados de Laboratorio (' + lab.length + ')</h3><table><tr><th>Tipo</th><th>Fecha</th><th>Resultado</th><th>Valores Ref.</th><th>Interpretacion</th><th>Responsable</th></tr>';
+    lab.forEach(l => {
+      html += '<tr><td>' + (l.tipoExamen||'-') + '</td><td>' + (l.fechaEjecucion||l.fechaResultado||'-') + '</td><td>' + (l.resultado||'-').substring(0,40) + '</td><td>' + (l.valoresReferencia||'-') + '</td><td>' + (l.interpretacion||'-').substring(0,40) + '</td><td>' + (l.validadoPor||l.firmaDigital||'-') + '</td></tr>';
+    });
+    html += '</table></div>';
+  }
+
+  if (img.length) {
+    html += '<div class="pdf-section"><h3>Estudios de Imagenologia (' + img.length + ')</h3><table><tr><th>Tipo</th><th>Modalidad</th><th>Fecha</th><th>Medico</th><th>Hallazgos</th><th>Conclusion</th></tr>';
+    img.forEach(i => {
+      html += '<tr><td>' + (i.tipoEstudio||'-') + '</td><td>' + (i.modalidad||'-') + '</td><td>' + (i.fechaEstudio||'-') + '</td><td>' + (i.medicoSolicitante||i.firmaRadiologo||'-') + '</td><td>' + (i.hallazgos||'-').substring(0,40) + '</td><td>' + (i.conclusion||i.hallazgos||'-').substring(0,40) + '</td></tr>';
+    });
+    html += '</table></div>';
+  }
+
+  html += '<div class="pdf-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' + encodeURIComponent(docId) + '" alt="QR"></div>';
+  html += '<div class="pdf-footer">' +
+    '<p>Documento generado electronicamente por SOLCA Cloud v4.0 | ID: ' + docId + ' | ' + ahora + '</p>' +
+    '<p>Este documento es valido sin firma manuscrita segun la Ley de Comercio Electronico del Ecuador</p></div>';
+  html += '</body></html>';
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => { win.print(); }, 500);
+}
+
+function rcPrintHistory() {
+  rcDownloadPDF();
+}
+
+async function rcLoadActivity() {
+  try {
+    const r = await apiCall(API.repositorio+'/recientes');
+    if (!r) { $('rcActivityContent').innerHTML='<div style="text-align:center;padding:2rem;color:var(--gray-500)"><i class="bi bi-inbox"></i> Sin actividad registrada</div>'; return; }
+    const d = await r.json();
+    const logs = Array.isArray(d) ? d : (d.data || []);
+    if (!logs.length) {
+      $('rcActivityContent').innerHTML='<div style="text-align:center;padding:2rem;color:var(--gray-500)"><i class="bi bi-inbox"></i> Sin actividad registrada</div>';
+      $('rcActivityCount').textContent = '0';
+      return;
+    }
+    $('rcActivityCount').textContent = logs.length;
+    $('rcActivityContent').innerHTML = logs.map(log => {
+      const exito = log.estado === 'EXITO' || log.estado === 'COMPLETE';
+      const usuario = log.consultadoPor || '-';
+      const paciente = (log.nombresPaciente || '') + ' ' + (log.apellidosPaciente || '');
+      const fecha = log.fechaConsulta ? (log.fechaConsulta.split('T')[0] || log.fechaConsulta) : '-';
+      const detalle = log.detalle || 'Consulta de historia clinica';
+      return '<div style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.6rem 0.75rem;border-bottom:1px solid #f1f5f9;transition:background 0.15s" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'\'">' +
+        '<div style="width:32px;height:32px;border-radius:50%;background:' + (exito?'#d1fae5':'#fee2e2') + ';display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+          '<i class="bi ' + (exito?'bi-check-lg':'bi-x-lg') + '" style="color:' + (exito?'#059669':'#dc2626') + ';font-size:0.8rem"></i>' +
+        '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-weight:500;color:#1e293b;font-size:0.85rem">' + escHtml(detalle) + '</div>' +
+          '<div style="color:var(--gray-500);font-size:0.75rem;margin-top:0.15rem">' +
+            '<i class="bi bi-person"></i> ' + escHtml(usuario) +
+            (paciente.trim() ? ' <i class="bi bi-person-badge"></i> ' + escHtml(paciente.trim()) : '') +
+            ' <i class="bi bi-clock"></i> ' + fecha +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  } catch(e) {
+    $('rcActivityContent').innerHTML='<div style="text-align:center;padding:2rem;color:var(--gray-500)"><i class="bi bi-exclamation-triangle"></i> Error al cargar actividad</div>';
+  }
+}
+
+// ============ HISTORY CONSOLIDATED ============
+
+let historyData = null;
+
 function selectHistoryPatient(p) {
-  $('historySelected').classList.add('show');
+  const sel = $('historySelected');
+  sel.style.display = 'flex';
   $('historyPatientName').textContent = p.nombres+' '+p.apellidos;
   $('historyPatientId').textContent = p.idPacienteRegional;
   loadHistory(p.idPacienteRegional);
 }
-function clearHistory() { $('historySelected').classList.remove('show'); $('historyContent').innerHTML=''; }
 
-async function loadHistory(rid) {
+function searchAndLoadHistory() {
+  const input = $('historySearch');
+  const val = input.value.trim();
+  if (!val) { showToast('Ingrese una cedula o ID regional', 'warning'); return; }
+  // Try to find in cached list first
+  const p = pacientesList.find(x => x.idPacienteRegional === val || x.cedula === val);
+  if (p) { selectHistoryPatient(p); return; }
+  // Otherwise search by cedula
   showLoading();
-  $('historyContent').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" style="width:3rem;height:3rem"></div><p class="mt-3 text-muted">Cargando historia clinica...</p></div>';
-  try {
-    const r = await apiCall(API.repositorio+'/repositorio/paciente/'+rid);
-    if (!r) { hideLoading(); return; }
-    const d = await r.json();
-    if (d.status==='ERROR'||!d.paciente) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Paciente no encontrado en el repositorio regional</div>'; hideLoading(); return; }
-    const p=d.paciente||{}, consultas=d.consultas||[], lab=d.laboratorio||[], img=d.imagenes||[];
-    let html = '<div class="history-section"><div class="hs-header"><i class="bi bi-person-badge"></i> FICHA DEL PACIENTE</div><div class="hs-body">' +
-      '<div class="patient-summary"><div class="ps-avatar"><i class="bi bi-person"></i></div><div class="ps-info">' +
-      '<div class="ps-item"><div class="ps-label">Nombre Completo</div><div class="ps-value">'+(p.nombres||'')+' '+(p.apellidos||'')+'</div></div>' +
-      '<div class="ps-item"><div class="ps-label">ID Regional</div><div class="ps-value"><code>'+(p.idPacienteRegional||'-')+'</code></div></div>' +
-      '<div class="ps-item"><div class="ps-label">Cedula</div><div class="ps-value">'+(p.cedula||'-')+'</div></div>' +
-      '<div class="ps-item"><div class="ps-label">Genero</div><div class="ps-value">'+(p.genero==='M'?'Masculino':p.genero==='F'?'Femenino':p.genero||'-')+'</div></div>' +
-      '<div class="ps-item"><div class="ps-label">Grupo Sanguineo</div><div class="ps-value"><span class="status-badge" style="background:var(--primary-light);color:var(--primary)">'+(p.grupoSanguineo||'No registrado')+'</span></div></div>' +
-      (p.ocupacion ? '<div class="ps-item"><div class="ps-label">Ocupacion</div><div class="ps-value">'+p.ocupacion+'</div></div>' : '') +
-      '<div class="ps-item"><div class="ps-label">Telefono</div><div class="ps-value">'+(p.telefono||'-')+'</div></div>' +
-      (p.email ? '<div class="ps-item"><div class="ps-label">Email</div><div class="ps-value">'+p.email+'</div></div>' : '') +
-      (p.estadoCivil ? '<div class="ps-item"><div class="ps-label">Estado Civil</div><div class="ps-value">'+p.estadoCivil+'</div></div>' : '') +
-      (p.direccion ? '<div class="ps-item"><div class="ps-label">Direccion</div><div class="ps-value">'+p.direccion+'</div></div>' : '') +
-      '</div></div></div></div>';
-    const ce = p.contactoEmergencia;
-    if (ce&&(ce.nombre||ce.telefono)) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-telephone-forward"></i> CONTACTO DE EMERGENCIA</div><div class="hs-body"><div class="history-grid">'+
-        '<div class="history-item"><div class="h-label">Nombre</div><div class="h-value">'+(ce.nombre||'-')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Telefono</div><div class="h-value">'+(ce.telefono||'-')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Parentesco</div><div class="h-value">'+(ce.parentesco||'-')+'</div></div>'+
-        '</div></div></div>';
-    }
-    if (consultas.length&&consultas[consultas.length-1].diagnostico) {
-      const ult=consultas[consultas.length-1];
-      html+='<div class="history-section"><div class="hs-header" style="border-bottom-color:var(--success)"><i class="bi bi-clipboard-pulse text-success"></i> DIAGNOSTICO PRINCIPAL</div><div class="hs-body"><div class="history-grid">'+
-        '<div class="history-item"><div class="h-label">CIE-10</div><div class="h-value"><code>'+(ult.codigoCie10||ult.diagnostico||'-')+'</code></div></div>'+
-        '<div class="history-item"><div class="h-label">Descripcion</div><div class="h-value">'+(ult.diagnostico||'-')+'</div></div>'+
-        (ult.medico?'<div class="history-item"><div class="h-label">Medico</div><div class="h-value">'+ult.medico+'</div></div>':'')+
-        '</div></div></div>';
-    }
-    if (p.alergias) {
-      html+='<div class="history-section"><div class="hs-header" style="border-bottom-color:var(--danger)"><i class="bi bi-exclamation-triangle text-danger"></i> ALERGIAS</div><div class="hs-body"><div class="alert alert-danger mb-0"><i class="bi bi-exclamation-circle"></i> '+p.alergias+'</div></div></div>';
-    }
-    if (p.enfermedadActual) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-heart-pulse"></i> ENFERMEDAD ACTUAL</div><div class="hs-body"><div class="bg-soft-primary p-3 rounded">'+p.enfermedadActual+'</div></div></div>';
-    }
-    const ap = p.antecedentesPersonales;
-    if (ap&&(ap.cronicas||ap.cirugias||ap.otros)) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-clipboard-data"></i> ANTECEDENTES PATOLOGICOS PERSONALES</div><div class="hs-body"><div class="history-grid">'+
-        '<div class="history-item"><div class="h-label">Enfermedades Cronicas</div><div class="h-value">'+(ap.cronicas||'Ninguna')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Cirugias Previas</div><div class="h-value">'+(ap.cirugias||'Ninguna')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Otros</div><div class="h-value">'+(ap.otros||'Ninguno')+'</div></div></div></div></div>';
-    }
-    const af = p.antecedentesFamiliares;
-    if (af&&(typeof af==='string'?af:(af.padre||af.madre||af.hermanos||af.hijos))) {
-      html+='<div class="history-section"><div class="hs-header"><i class="bi bi-people"></i> ANTECEDENTES PATOLOGICOS FAMILIARES</div><div class="hs-body">'+
-        (typeof af==='string'?'<p class="mb-0">'+af+'</p>':
-        '<div class="history-grid">'+
-        '<div class="history-item"><div class="h-label">Padre</div><div class="h-value">'+(af.padre||'No registrado')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Madre</div><div class="h-value">'+(af.madre||'No registrado')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Hermanos</div><div class="h-value">'+(af.hermanos||'No registrado')+'</div></div>'+
-        '<div class="history-item"><div class="h-label">Hijos</div><div class="h-value">'+(af.hijos||'No registrado')+'</div></div></div>')+'</div></div>';
-    }
-    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-chat-dots"></i> CONSULTAS MEDICAS</div><div class="hs-body">'+
-      (consultas.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Especialidad</th><th>Diagnostico</th><th>Medico</th><th>Tratamiento</th><th>Ex.Fisico</th></tr></thead><tbody>'+
-      consultas.map(c=>'<tr><td><strong>'+(c.fechaConsulta||'-')+'</strong></td><td><span class="status-badge" style="background:var(--primary-light);color:var(--primary)">'+(c.especialidad||'-')+'</span></td><td>'+(c.diagnostico||'-')+'</td><td>'+(c.medico||'-')+'</td><td>'+(c.tratamiento||'-')+'</td><td>'+(c.examenFisico||'-')+'</td></tr>').join('')+
-      '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin consultas registradas</p></div>')+'</div></div>';
-    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-droplet"></i> RESULTADOS DE LABORATORIO</div><div class="hs-body">'+
-      (lab.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Examen</th><th>Resultado</th><th>Referencia</th><th>Area</th></tr></thead><tbody>'+
-      lab.map(l=>'<tr><td>'+(l.fechaEjecucion||'-')+'</td><td><strong>'+(l.tipoExamen||'-')+'</strong></td><td>'+(l.resultado||'-')+'</td><td class="text-muted">'+(l.valoresReferencia||'-')+'</td><td>'+(l.area||'-')+'</td></tr>').join('')+
-      '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin resultados de laboratorio</p></div>')+'</div></div>';
-    html += '<div class="history-section"><div class="hs-header"><i class="bi bi-image"></i> ESTUDIOS DE IMAGENOLOGIA</div><div class="hs-body">'+
-      (img.length ? '<div class="table-responsive"><table class="consult-table"><thead><tr><th>Fecha</th><th>Estudio</th><th>Hallazgos</th><th>Modalidad</th></tr></thead><tbody>'+
-      img.map(i=>'<tr><td>'+(i.fechaEstudio||'-')+'</td><td><strong>'+(i.tipoEstudio||'-')+'</strong></td><td>'+(i.hallazgos||'-')+'</td><td><span class="status-badge" style="background:var(--gray-100);color:var(--gray-800)">'+(i.modalidad||'-')+'</span></td></tr>').join('')+
-      '</tbody></table></div>' : '<div class="empty-state"><i class="bi bi-inbox"></i><p>Sin estudios de imagenologia</p></div>')+'</div></div>';
-    if (d.errores&&Object.keys(d.errores).length) html+='<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> <strong>Nota:</strong> Algunos servicios no respondieron: '+Object.values(d.errores).join(', ')+'</div>';
-    $('historyContent').innerHTML = html;
-    sendAudit('CONSULTAS', 'Consulta de historia clinica', 'Paciente: ' + rid, 'EXITO', { paciente: rid, submodulo: 'Historia Clinica' });
-  } catch(e) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia clinica. Verifique que todos los microservicios esten activos.</div>'; }
-  hideLoading();
+  apiCall(API.pacientes+'/pacientes/cedula/'+encodeURIComponent(val))
+    .then(r => r && r.json())
+    .then(d => {
+      const data = d && d.data;
+      if (data && data.idPacienteRegional) { selectHistoryPatient(data); return; }
+      return apiCall(API.pacientes+'/pacientes/'+encodeURIComponent(val)).then(r => r && r.json());
+    })
+    .then(d => {
+      if (!d) return;
+      const data = d && d.data;
+      if (data && data.idPacienteRegional) selectHistoryPatient(data);
+      else showToast('Paciente no encontrado', 'error');
+    })
+    .catch(() => showToast('Error al buscar paciente', 'error'))
+    .finally(() => hideLoading());
 }
 
+function clearHistory() {
+  $('historySelected').style.display = 'none';
+  $('historyContent').innerHTML = '';
+  $('historySearch').value = '';
+  historyData = null;
+}
+
+function showSkeleton() { $('historySkeleton').style.display = 'block'; $('historyContent').innerHTML = ''; }
+function hideSkeleton() { $('historySkeleton').style.display = 'none'; }
+
+async function loadHistory(rid) {
+  if (!rid) return;
+  showSkeleton();
+  try {
+    const r = await apiCall(API.repositorio+'/repositorio/paciente/'+rid);
+    hideSkeleton();
+    if (!r) { $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error de conexion</div>'; return; }
+    const d = await r.json();
+    if (!d || d.status==='ERROR' || !d.paciente) {
+      $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Paciente no encontrado en el repositorio regional</div>';
+      return;
+    }
+    historyData = d;
+    renderFullHistory(d, rid);
+    sendAudit('REPOSITORIO', 'Consulta de historia clinica consolidada', 'Paciente: ' + rid, 'EXITO', { paciente: rid, submodulo: 'Historia Clinica' });
+  } catch(e) {
+    hideSkeleton();
+    $('historyContent').innerHTML='<div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> Error al cargar la historia clinica. Verifique que todos los microservicios esten activos.</div>';
+  }
+}
+
+function renderFullHistory(d, rid, containerId) {
+  containerId = containerId || 'historyContent';
+  const p = d.paciente || {};
+  const consultas = d.consultas || [];
+  const lab = d.laboratorio || [];
+  const img = d.imagenes || [];
+
+  let html = '';
+
+  // Errors banner
+  if (d.errores && Object.keys(d.errores).length) {
+    html += '<div class="service-errors"><div class="se-title"><i class="bi bi-exclamation-triangle"></i> Algunos servicios no respondieron</div>'+
+      Object.entries(d.errores).map(([k,v]) => '<div class="se-item"><strong>'+k+'</strong>: '+v+'</div>').join('') + '</div>';
+  }
+
+  // Patient Card
+  html += renderPatientCard(p);
+
+  // Tabs
+  html += '<div class="hist-tabs" id="histTabs-' + containerId + '">'+
+    '<button class="hist-tab-btn active" onclick="switchHistTab(\'patient-data\',this)" data-tab="patient-data"><i class="bi bi-person-badge"></i> Datos del Paciente</button>'+
+    '<button class="hist-tab-btn" onclick="switchHistTab(\'consultas\',this)" data-tab="consultas">Consultas <span class="tab-count">'+consultas.length+'</span></button>'+
+    '<button class="hist-tab-btn" onclick="switchHistTab(\'laboratorio\',this)" data-tab="laboratorio">Laboratorio <span class="tab-count">'+lab.length+'</span></button>'+
+    '<button class="hist-tab-btn" onclick="switchHistTab(\'imagenologia\',this)" data-tab="imagenologia">Imagenologia <span class="tab-count">'+img.length+'</span></button>'+
+    '</div>';
+
+  // Panes
+  html += '<div class="hist-pane active" id="histPane-' + containerId + '-patient-data">' + renderPatientDataTab(p) + '</div>';
+  html += '<div class="hist-pane" id="histPane-' + containerId + '-consultas">' + renderConsultasTab(consultas) + '</div>';
+  html += '<div class="hist-pane" id="histPane-' + containerId + '-laboratorio">' + renderLaboratorioTab(lab) + '</div>';
+  html += '<div class="hist-pane" id="histPane-' + containerId + '-imagenologia">' + renderImagenologiaTab(img) + '</div>';
+
+  // Timeline at the bottom
+  if (consultas.length || lab.length || img.length) {
+    html += '<div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid #e2e8f0">';
+    html += '<h5 style="font-weight:700;color:#2d3748;margin-bottom:0.75rem"><i class="bi bi-clock-history" style="color:var(--primary)"></i> Linea de Tiempo Clinica</h5>';
+    html += renderTimeline(consultas, lab, img);
+    html += '</div>';
+  }
+
+  $(containerId).innerHTML = html;
+}
+
+function switchHistTab(tabId, btn) {
+  document.querySelectorAll('.hist-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.hist-pane').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const parent = btn ? btn.closest('.tab-content, #rcHistorySection') : document;
+  const panes = parent ? parent.querySelectorAll('.hist-pane') : document.querySelectorAll('.hist-pane');
+  panes.forEach(p => {
+    if (p.id.endsWith('-' + tabId) || p.id === 'histPane-' + tabId) p.classList.add('active');
+  });
+}
+
+// ===== PATIENT CARD =====
+function renderPatientCard(p) {
+  const edad = p.fechaNacimiento ? calcEdad(p.fechaNacimiento) : '-';
+  const genero = p.genero === 'M' ? 'Masculino' : p.genero === 'F' ? 'Femenino' : p.genero || '-';
+  const genClass = p.genero === 'M' ? 'badge-m' : p.genero === 'F' ? 'badge-f' : '';
+  return '<div class="patient-card">' +
+    '<div class="patient-card-header">' +
+      '<div class="pc-avatar"><i class="bi bi-person"></i></div>' +
+      '<div class="pc-name">' +
+        '<h2>' + (p.nombres || '') + ' ' + (p.apellidos || '') + '</h2>' +
+        '<div class="pc-meta">' +
+          '<span><strong>ID:</strong> <code>' + (p.idPacienteRegional || '-') + '</code></span>' +
+          '<span><strong>CI:</strong> ' + (p.cedula || '-') + '</span>' +
+          '<span><strong>Edad:</strong> ' + edad + '</span>' +
+          '<span><strong>Sexo:</strong> <span class="badge-gen ' + genClass + '">' + genero + '</span></span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pc-status"><i class="bi bi-check-circle"></i> ' + (p.activo !== false ? 'Activo' : 'Inactivo') + '</div>' +
+    '</div>' +
+    '<div class="patient-card-body">' +
+      '<div class="patient-grid">' +
+        gridItem('Fecha Nacimiento', p.fechaNacimiento || '-') +
+        gridItem('Edad', edad) +
+        gridItem('Sexo', '<span class="badge-gen ' + genClass + '">' + genero + '</span>') +
+        gridItem('Estado Civil', '<span class="badge-gen bg-civil">' + (p.estadoCivil || '-') + '</span>') +
+        gridItem('Grupo Sanguineo', '<span class="badge-gen bg-blood">' + (p.grupoSanguineo || '-') + '</span>') +
+        gridItem('Nacionalidad', p.nacionalidad || 'Ecuatoriana') +
+        gridItem('Ocupacion', p.ocupacion || '-') +
+        gridItem('Telefono', p.telefono || '-') +
+        gridItem('Email', p.email || '-') +
+        gridItem('Direccion', p.direccion || '-') +
+        gridItem('Provincia', p.provincia || '-') +
+        gridItem('Canton', p.canton || '-') +
+        gridItem('Parroquia', p.parroquia || '-') +
+        gridItem('Contacto Emergencia', renderContacto(p.contactoEmergencia)) +
+        gridItem('Seguro Salud', p.seguroSalud || 'No registrado') +
+        gridItem('Fecha Creacion', p.fechaRegistro || '-') +
+        gridItem('Ultima Actualizacion', p.fechaActualizacion || p.fechaRegistro || '-') +
+      '</div>' +
+      (p.alergias ? '<div style="margin-top:1rem;padding:0.75rem 1rem;background:#fef2f2;border-radius:8px;border-left:4px solid #dc2626"><strong style="color:#dc2626"><i class="bi bi-exclamation-triangle"></i> Alergias:</strong> ' + p.alergias + '</div>' : '') +
+      (p.enfermedadActual ? '<div style="margin-top:0.75rem;padding:0.75rem 1rem;background:#eff6ff;border-radius:8px;border-left:4px solid var(--primary)"><strong style="color:var(--primary)"><i class="bi bi-heart-pulse"></i> Enfermedad Actual:</strong> ' + p.enfermedadActual + '</div>' : '') +
+      renderAntecedentes(p.antecedentesPersonales, p.antecedentesFamiliares) +
+    '</div></div>';
+}
+
+function gridItem(label, value) {
+  return '<div class="pg-item"><div class="pg-label">' + label + '</div><div class="pg-value">' + value + '</div></div>';
+}
+
+function renderContacto(ce) {
+  if (!ce) return '-';
+  const c = typeof ce === 'string' ? JSON.parse(ce) : ce;
+  return (c.nombre || '-') + (c.telefono ? ' (' + c.telefono + ')' : '');
+}
+
+function renderAntecedentes(ap, af) {
+  let html = '';
+  const apObj = typeof ap === 'string' ? safeJsonParse(ap) : ap;
+  if (apObj && (apObj.cronicas || apObj.cirugias || apObj.otros)) {
+    html += '<div style="margin-top:1rem"><h6 style="font-weight:600;color:#2d3748;margin-bottom:0.5rem"><i class="bi bi-clipboard-data"></i> Antecedentes Personales</h6>'+
+      '<div class="patient-grid">' +
+      gridItem('Enfermedades Cronicas', apObj.cronicas || 'Ninguna') +
+      gridItem('Cirugias Previas', apObj.cirugias || 'Ninguna') +
+      gridItem('Otros', apObj.otros || 'Ninguno') +
+      '</div></div>';
+  }
+  const afObj = typeof af === 'string' ? safeJsonParse(af) : af;
+  if (afObj && (afObj.padre || afObj.madre || afObj.hermanos || afObj.hijos)) {
+    html += '<div style="margin-top:1rem"><h6 style="font-weight:600;color:#2d3748;margin-bottom:0.5rem"><i class="bi bi-people"></i> Antecedentes Familiares</h6>'+
+      '<div class="patient-grid">' +
+      gridItem('Padre', afObj.padre || 'No registrado') +
+      gridItem('Madre', afObj.madre || 'No registrado') +
+      gridItem('Hermanos', afObj.hermanos || 'No registrado') +
+      gridItem('Hijos', afObj.hijos || 'No registrado') +
+      '</div></div>';
+  }
+  return html;
+}
+
+function safeJsonParse(s) { try { return JSON.parse(s); } catch(e) { return null; } }
+
+// ===== TIMELINE =====
+function renderTimeline(consultas, lab, img) {
+  const events = [];
+  consultas.forEach(c => events.push({ type: 'consulta', date: c.fechaConsulta, label: 'Consulta', data: c, desc: (c.especialidad||'') + ' - ' + (c.medico||'') }));
+  lab.forEach(l => events.push({ type: 'lab', date: l.fechaEjecucion, label: 'Laboratorio', data: l, desc: (l.tipoExamen||'') + ' - ' + (l.resultado||'').substring(0,60) }));
+  img.forEach(i => events.push({ type: 'img', date: i.fechaEstudio, label: 'Imagen', data: i, desc: (i.tipoEstudio||'') + ' - ' + (i.modalidad||'') }));
+  events.sort((a, b) => { if (!a.date) return 1; if (!b.date) return -1; return b.date.localeCompare(a.date); });
+
+  if (!events.length) return '<div class="timeline-empty"><i class="bi bi-inbox"></i><p>No hay eventos clinicos registrados</p></div>';
+
+  let html = '<div class="timeline-container">';
+  const icons = { consulta: 'bi-chat-dots', lab: 'bi-droplet', img: 'bi-image' };
+  const colors = { consulta: 'consulta', lab: 'lab', img: 'img' };
+  const cardColors = { consulta: 'consulta-card', lab: 'lab-card', img: 'img-card' };
+  const tags = { consulta: 'tag-consulta Consulta', lab: 'tag-lab Laboratorio', img: 'tag-img Imagenologia' };
+
+  const maxTimeline = Math.min(events.length, 10);
+  for (let i = 0; i < maxTimeline; i++) {
+    const ev = events[i];
+    const dateStr = ev.date ? new Date(ev.date + 'T00:00:00').toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' }) : 'Sin fecha';
+    html += '<div class="timeline-item">' +
+      '<div class="timeline-dot ' + colors[ev.type] + '"><i class="bi ' + icons[ev.type] + '" style="font-size:0.6rem"></i></div>' +
+      '<div class="timeline-card ' + cardColors[ev.type] + '" onclick="showDetailModal(\'' + ev.type + '\',' + i + ')">' +
+      '<div class="tc-header"><span class="tc-title"><span class="tc-tag ' + tags[ev.type] + '"></span> ' + ev.label + '</span><span class="tc-date">' + dateStr + '</span></div>' +
+      '<div class="tc-body">' + (ev.desc || 'Sin detalles') + '</div></div></div>';
+  }
+  if (events.length > 10) html += '<div style="text-align:center;padding:0.5rem;color:#718096;font-size:0.85rem">+' + (events.length - 10) + ' eventos mas en las pestañas</div>';
+  html += '</div>';
+  return html;
+}
+
+// ===== PATIENT DATA TAB =====
+function renderPatientDataTab(p) {
+  return '<div class="hist-table-wrap">' +
+    '<div class="patient-card-body">' +
+      '<h5 style="font-weight:700;color:#2d3748;margin-bottom:1rem"><i class="bi bi-info-circle" style="color:var(--primary)"></i> Informacion Registrada</h5>' +
+      '<div class="patient-grid">' +
+        gridItem('ID Regional', '<code>' + (p.idPacienteRegional || '-') + '</code>') +
+        gridItem('Cedula', p.cedula || '-') +
+        gridItem('Nombres', p.nombres || '-') +
+        gridItem('Apellidos', p.apellidos || '-') +
+        gridItem('Fecha Nacimiento', p.fechaNacimiento || '-') +
+        gridItem('Edad', calcEdad(p.fechaNacimiento)) +
+        gridItem('Sexo', p.genero === 'M' ? 'Masculino' : p.genero === 'F' ? 'Femenino' : p.genero || '-') +
+        gridItem('Estado Civil', p.estadoCivil || '-') +
+        gridItem('Nacionalidad', p.nacionalidad || 'Ecuatoriana') +
+        gridItem('Direccion', p.direccion || '-') +
+        gridItem('Provincia', p.provincia || '-') +
+        gridItem('Canton', p.canton || '-') +
+        gridItem('Parroquia', p.parroquia || '-') +
+        gridItem('Telefono', p.telefono || '-') +
+        gridItem('Correo Electronico', p.email || '-') +
+        gridItem('Grupo Sanguineo', p.grupoSanguineo || '-') +
+        gridItem('Ocupacion', p.ocupacion || '-') +
+        gridItem('Contacto Emergencia', renderContacto(p.contactoEmergencia)) +
+        gridItem('Seguro de Salud', p.seguroSalud || 'No registrado') +
+        gridItem('Estado', p.activo !== false ? '<span style="color:#059669;font-weight:600">Activo</span>' : '<span style="color:#dc2626;font-weight:600">Inactivo</span>') +
+        gridItem('Fecha de Creacion', p.fechaRegistro ? new Date(p.fechaRegistro).toLocaleString('es-EC') : '-') +
+        gridItem('Ultima Actualizacion', p.fechaActualizacion ? new Date(p.fechaActualizacion).toLocaleString('es-EC') : (p.fechaRegistro ? new Date(p.fechaRegistro).toLocaleString('es-EC') : '-')) +
+      '</div>' +
+      renderAntecedentesSection(p) +
+    '</div></div>';
+}
+
+function renderAntecedentesSection(p) {
+  let html = '<div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e2e8f0">';
+  if (p.enfermedadActual) {
+    html += '<div style="margin-bottom:1rem;padding:0.75rem 1rem;background:#eff6ff;border-radius:8px;border-left:4px solid var(--primary)"><strong style="color:var(--primary)">Enfermedad Actual:</strong><br>' + p.enfermedadActual + '</div>';
+  }
+  const ap = typeof p.antecedentesPersonales === 'string' ? safeJsonParse(p.antecedentesPersonales) : p.antecedentesPersonales;
+  if (ap) {
+    html += '<h6 style="font-weight:600;color:#2d3748;margin-bottom:0.5rem">Antecedentes Personales</h6><div class="patient-grid">';
+    if (ap.cronicas) html += gridItem('Enfermedades Cronicas', ap.cronicas);
+    if (ap.cirugias) html += gridItem('Cirugias Previas', ap.cirugias);
+    if (ap.otros) html += gridItem('Otros', ap.otros);
+    if (ap.alergias) html += gridItem('Alergias', ap.alergias);
+    if (ap.transfusiones) html += gridItem('Transfusiones', ap.transfusiones);
+    if (ap.hospitalizaciones) html += gridItem('Hospitalizaciones', ap.hospitalizaciones);
+    if (!ap.cronicas && !ap.cirugias && !ap.otros) html += '<div style="color:#a0aec0;font-size:0.9rem">No registrados</div>';
+    html += '</div>';
+  }
+  const af = typeof p.antecedentesFamiliares === 'string' ? safeJsonParse(p.antecedentesFamiliares) : p.antecedentesFamiliares;
+  if (af) {
+    html += '<h6 style="font-weight:600;color:#2d3748;margin:1rem 0 0.5rem 0">Antecedentes Familiares</h6><div class="patient-grid">';
+    if (af.padre) html += gridItem('Padre', af.padre);
+    if (af.madre) html += gridItem('Madre', af.madre);
+    if (af.hermanos) html += gridItem('Hermanos', af.hermanos);
+    if (af.hijos) html += gridItem('Hijos', af.hijos);
+    if (af.otros) html += gridItem('Otros', af.otros);
+    if (!af.padre && !af.madre && !af.hermanos && !af.hijos) html += '<div style="color:#a0aec0;font-size:0.9rem">No registrados</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+// ===== CONSULTAS TAB =====
+function renderConsultasTab(consultas) {
+  if (!consultas.length) return '<div class="empty-state-table"><i class="bi bi-inbox"></i><p>No hay consultas medicas registradas</p></div>';
+  let html = '<div class="hist-table-wrap"><table class="hist-table"><thead><tr>' +
+    '<th>Fecha</th><th>Hora</th><th>Medico</th><th>Especialidad</th><th>Sede</th><th>Diagnostico</th><th>CIE-10</th><th>Signos Vitales</th><th>Estado</th></tr></thead><tbody>';
+  consultas.forEach((c, i) => {
+    const sv = [];
+    if (c.presionArterial) sv.push('PA: ' + c.presionArterial);
+    if (c.frecuenciaCardiaca) sv.push('FC: ' + c.frecuenciaCardiaca);
+    if (c.temperatura) sv.push('T: ' + c.temperatura + '°C');
+    if (c.saturacionOxigeno) sv.push('SpO2: ' + c.saturacionOxigeno + '%');
+    html += '<tr class="clickable-row" onclick="showConsultaModal(' + i + ')">' +
+      '<td><strong>' + (c.fechaConsulta || '-') + '</strong></td>' +
+      '<td>' + (c.horaConsulta || '-') + '</td>' +
+      '<td>' + (c.medico || '-') + '</td>' +
+      '<td><span class="badge-gen bg-civil">' + (c.especialidad || '-') + '</span></td>' +
+      '<td>' + (c.sede || '-') + '</td>' +
+      '<td>' + (c.diagnosticoPrincipalDesc || c.diagnostico || '-') + '</td>' +
+      '<td><code>' + (c.diagnosticoPrincipalCie10 || '-') + '</code></td>' +
+      '<td style="font-size:0.78rem">' + (sv.length ? sv.join(', ') : '-') + '</td>' +
+      '<td><span class="badge-gen ' + (c.activo !== false ? 'status-completado' : 'status-pendiente') + '">' + (c.activo !== false ? 'Activa' : 'Inactiva') + '</span></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function getActiveHistoryData() {
+  const activeTab = document.querySelector('.tab-content.active');
+  return activeTab && activeTab.id === 'tab-repositorio-clinico' ? repoClinicoData : historyData;
+}
+
+function showConsultaModal(i) {
+  const data = getActiveHistoryData();
+  if (!data) return;
+  const c = data.consultas[i];
+  showDetailModalContent(
+    '<i class="bi bi-chat-dots" style="color:var(--primary)"></i> Consulta - ' + (c.fechaConsulta || 'Sin fecha'),
+    '<div class="modal-grid">' +
+      modalItem('Fecha', c.fechaConsulta || '-') +
+      modalItem('Hora', c.horaConsulta || '-') +
+      modalItem('Medico Tratante', c.medico || '-') +
+      modalItem('Especialidad', c.especialidad || '-') +
+      modalItem('Hospital / Sede', c.sede || '-') +
+      modalItem('Motivo de Consulta', c.motivoConsulta || c.notas || '-', true) +
+      modalItem('Enfermedad Actual', c.enfermedadActual || '-', true) +
+      modalItem('Antecedentes', c.antecedentes || '-', true) +
+      modalItem('Examen Fisico', c.examenFisico || '-', true) +
+      modalItem('Diagnostico Principal (CIE-10)', (c.diagnosticoPrincipalCie10 ? '<code>' + c.diagnosticoPrincipalCie10 + '</code> ' : '') + (c.diagnosticoPrincipalDesc || ''), true) +
+      modalItem('Diagnosticos Secundarios', c.diagnosticoSecundarioDesc || '-', true) +
+      modalItem('Tipo Diagnostico', c.tipoDiagnostico || '-') +
+      modalItem('Tratamiento', c.tratamiento || '-', true) +
+      modalItem('Plan de Tratamiento', c.planTratamiento || '-', true) +
+      modalItem('Prescripciones', c.prescripciones || '-', true) +
+      modalItem('Evolucion Clinica', c.evolucion || c.notas || '-', true) +
+      modalItem('Observaciones', c.observaciones || '-', true) +
+      modalItem('Estado', c.activo !== false ? 'Activa' : 'Inactiva') +
+      '<div style="grid-column:1/-1;padding:0.75rem;background:#f8fafc;border-radius:8px;margin-top:0.5rem">' +
+        '<strong style="color:#2d3748">Signos Vitales</strong>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.5rem;margin-top:0.5rem">' +
+          vitalItem('PA Sistole', c.paSistole || c.presionArterial ? (c.presionArterial || '').split('/')[0] : '-') +
+          vitalItem('PA Diastole', c.paDiastole || c.presionArterial ? (c.presionArterial || '').split('/')[1] : '-') +
+          vitalItem('Presion Arterial', c.presionArterial || '-') +
+          vitalItem('Frecuencia Cardiaca', c.frecuenciaCardiaca ? c.frecuenciaCardiaca + ' lpm' : '-') +
+          vitalItem('Frecuencia Respiratoria', c.frecuenciaRespiratoria ? c.frecuenciaRespiratoria + ' rpm' : '-') +
+          vitalItem('Temperatura', c.temperatura ? c.temperatura + ' °C' : '-') +
+          vitalItem('Saturacion O2', c.saturacionOxigeno ? c.saturacionOxigeno + '%' : '-') +
+          vitalItem('Peso', c.peso ? c.peso + ' kg' : '-') +
+          vitalItem('Talla', c.talla ? c.talla + ' cm' : '-') +
+          vitalItem('IMC', c.imc || (c.peso && c.talla ? (c.peso / ((c.talla/100)*(c.talla/100))).toFixed(1) : '-')) +
+          vitalItem('Clasificacion OMS', c.clasificacionOms || '-') +
+          vitalItem('Superficie Corporal', c.superficieCorporal ? c.superficieCorporal + ' m²' : '-') +
+          vitalItem('Riesgo Cardiovascular', c.riesgoCardiovascular || '-') +
+          vitalItem('Dolor EVA', c.dolorEva || c.escalaDolor || '-') +
+          vitalItem('Perimetro Abdominal', c.perimetroAbdominal || '-') +
+          vitalItem('Glasgow', c.glasgow || '-') +
+        '</div></div>' +
+      (c.menarquia || c.gestas !== undefined ? '<div style="grid-column:1/-1;padding:0.75rem;background:#fdf2f8;border-radius:8px;margin-top:0.5rem">' +
+        '<strong style="color:#be185d">Datos Gineco-Obstetricos</strong>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.5rem;margin-top:0.5rem">' +
+          (c.menarquia ? vitalItem('Menarquia', c.menarquia + ' años') : '') +
+          (c.fum ? vitalItem('FUR', c.fum) : '') +
+          (c.fpp ? vitalItem('FPP', c.fpp) : '') +
+          (c.edadGestacional ? vitalItem('Edad Gestacional', c.edadGestacional + ' sem') : '') +
+          (c.gestas !== undefined ? vitalItem('Gestas', c.gestas) : '') +
+          (c.partos !== undefined ? vitalItem('Partos', c.partos) : '') +
+          (c.cesareas !== undefined ? vitalItem('Cesareas', c.cesareas) : '') +
+          (c.abortos !== undefined ? vitalItem('Abortos', c.abortos) : '') +
+          (c.hijosVivos !== undefined ? vitalItem('Hijos Vivos', c.hijosVivos) : '') +
+          (c.metodoAnticonceptivo ? vitalItem('Metodo Anticonceptivo', c.metodoAnticonceptivo) : '') +
+          (c.lactancia ? vitalItem('Lactancia', c.lactancia) : '') +
+          (c.pap ? vitalItem('Citologia (PAP)', c.pap) : '') +
+          (c.mamografia ? vitalItem('Mamografia', c.mamografia) : '') +
+        '</div></div>' : '') +
+    '</div>'
+  );
+}
+
+function vitalItem(l, v) {
+  return '<div><span style="font-size:0.7rem;text-transform:uppercase;color:#718096;font-weight:600">' + l + '</span><br><span style="font-weight:600;color:#2d3748">' + v + '</span></div>';
+}
+
+// ===== LABORATORIO TAB =====
+function renderLaboratorioTab(lab) {
+  if (!lab.length) return '<div class="empty-state-table"><i class="bi bi-inbox"></i><p>No hay resultados de laboratorio</p></div>';
+  let html = '<div class="hist-table-wrap"><table class="hist-table"><thead><tr>' +
+    '<th># Orden</th><th>Fecha Solicitud</th><th>Fecha Procesamiento</th><th>Tipo Examen</th><th>Resultado</th><th>Valores Ref.</th><th>Medico</th><th>Estado</th></tr></thead><tbody>';
+  lab.forEach((l, i) => {
+    html += '<tr class="clickable-row" onclick="showLabModal(' + i + ')">' +
+      '<td><code>' + (l.solicitudId || l.id || '-') + '</code></td>' +
+      '<td>' + (l.fechaSolicitud || '-') + '</td>' +
+      '<td>' + (l.fechaEjecucion || l.fechaResultado || '-') + '</td>' +
+      '<td><strong>' + (l.tipoExamen || '-') + '</strong></td>' +
+      '<td>' + (l.anormal ? '<span class="status-anormal">' : '') + (l.resultado || '-').substring(0, 50) + (l.anormal ? '</span>' : '') + '</td>' +
+      '<td style="font-size:0.78rem">' + (l.valoresReferencia || '-') + '</td>' +
+      '<td>' + (l.medicoSolicitante || '-') + '</td>' +
+      '<td><span class="badge-gen ' + getLabStatusClass(l.estado) + '">' + (l.estado || 'PENDIENTE') + '</span></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function getLabStatusClass(s) {
+  const map = { PENDIENTE: 'status-pendiente', COMPLETADO: 'status-completado', URGENTE: 'status-urgente', APROBADO: 'status-completado', RECHAZADO: 'status-urgente' };
+  return map[s] || 'status-pendiente';
+}
+
+function showLabModal(i) {
+  const data = getActiveHistoryData();
+  if (!data) return;
+  const l = data.laboratorio[i];
+  showDetailModalContent(
+    '<i class="bi bi-droplet" style="color:#059669"></i> Laboratorio - ' + (l.tipoExamen || 'Sin tipo'),
+    '<div class="modal-grid">' +
+      modalItem('Numero de Orden', l.solicitudId ? '<code>' + l.solicitudId + '</code>' : (l.id || '-')) +
+      modalItem('Fecha de Solicitud', l.fechaSolicitud || '-') +
+      modalItem('Fecha de Procesamiento', l.fechaEjecucion || l.fechaResultado || '-') +
+      modalItem('Estado', '<span class="badge-gen ' + getLabStatusClass(l.estado) + '">' + (l.estado || 'PENDIENTE') + '</span>') +
+      modalItem('Medico Solicitante', l.medicoSolicitante || '-') +
+      modalItem('Tipo de Examen', l.tipoExamen || '-') +
+      modalItem('Perfil Solicitado', l.perfil || l.tipoExamen || '-') +
+      modalItem('Resultados Completos', l.resultado || '-', true) +
+      modalItem('Valores Obtenidos', l.resultado || '-', true) +
+      modalItem('Valores de Referencia', l.valoresReferencia || '-') +
+      modalItem('Unidades', l.unidades || '-') +
+      modalItem('Interpretacion Clinica', l.interpretacion || '-', true) +
+      modalItem('Anormal', l.anormal ? '<span style="color:#dc2626;font-weight:600">SI</span>' : 'No') +
+      modalItem('Area', l.area || '-') +
+      modalItem('Metodo', l.metodo || '-') +
+      modalItem('Observaciones', l.observaciones || '-', true) +
+      modalItem('Profesional Responsable', l.validadoPor || l.firmaDigital || '-') +
+      modalItem('Fecha Validacion', l.fechaValidacion ? new Date(l.fechaValidacion).toLocaleString('es-EC') : '-') +
+    '</div>'
+  );
+}
+
+// ===== IMAGENOLOGIA TAB =====
+function renderImagenologiaTab(img) {
+  if (!img.length) return '<div class="empty-state-table"><i class="bi bi-inbox"></i><p>No hay estudios de imagenologia</p></div>';
+  let html = '<div class="hist-table-wrap"><table class="hist-table"><thead><tr>' +
+    '<th>Fecha</th><th>Tipo Estudio</th><th>Modalidad</th><th>Region Anatomica</th><th>Medico</th><th>Radiologo</th><th>Hallazgos</th><th>Estado</th></tr></thead><tbody>';
+  img.forEach((i, idx) => {
+    html += '<tr class="clickable-row" onclick="showImgModal(' + idx + ')">' +
+      '<td><strong>' + (i.fechaEstudio || '-') + '</strong></td>' +
+      '<td>' + (i.tipoEstudio || '-') + '</td>' +
+      '<td><span class="badge-gen bg-civil">' + (i.modalidad || '-') + '</span></td>' +
+      '<td>' + (i.regionAnatomica || '-') + '</td>' +
+      '<td>' + (i.medicoSolicitante || '-') + '</td>' +
+      '<td>' + (i.firmaRadiologo || i.informeRadiologico ? (i.firmaRadiologo || 'Pendiente') : '-') + '</td>' +
+      '<td>' + (i.hallazgos || '-').substring(0, 60) + '</td>' +
+      '<td><span class="badge-gen ' + getLabStatusClass(i.estado) + '">' + (i.estado || 'PENDIENTE') + '</span></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function showImgModal(idx) {
+  const data = getActiveHistoryData();
+  if (!data) return;
+  const i = data.imagenes[idx];
+  showDetailModalContent(
+    '<i class="bi bi-image" style="color:#d97706"></i> Imagenologia - ' + (i.tipoEstudio || 'Sin tipo'),
+    '<div class="modal-grid">' +
+      modalItem('Fecha del Estudio', i.fechaEstudio || '-') +
+      modalItem('Tipo de Estudio', i.tipoEstudio || '-') +
+      modalItem('Modalidad', i.modalidad || '-') +
+      modalItem('Region Anatomica', i.regionAnatomica || '-') +
+      modalItem('Lateralidad', i.lateralidad || '-') +
+      modalItem('Medico Solicitante', i.medicoSolicitante || '-') +
+      modalItem('Radiologo / Informante', i.firmaRadiologo || '-') +
+      modalItem('Estado', '<span class="badge-gen ' + getLabStatusClass(i.estado) + '">' + (i.estado || 'PENDIENTE') + '</span>') +
+      modalItem('Informe Radiologico', i.informeRadiologico || '-', true) +
+      modalItem('Hallazgos', i.hallazgos || '-', true) +
+      modalItem('Conclusion', i.conclusion || i.hallazgos || '-', true) +
+      modalItem('Observaciones', i.observaciones || '-', true) +
+      modalItem('Tecnica Utilizada', i.tecnicaUtilizada || '-', true) +
+      modalItem('Recomendaciones', i.recomendaciones || '-', true) +
+      modalItem('Requiere Contraste', i.requiereContraste ? 'SI' : 'No') +
+      modalItem('Formato', i.formato || '-') +
+      modalItem('Ruta Archivo DICOM', i.urlArchivo || '-') +
+      modalItem('Nombre Archivo', i.nombreArchivo || '-') +
+      modalItem('Tamaño', i.tamanoBytes ? formatBytes(i.tamanoBytes) : '-') +
+      modalItem('Solicitud ID', i.solicitudId ? '<code>' + i.solicitudId + '</code>' : '-') +
+    '</div>'
+  );
+}
+
+function modalItem(label, value, full) {
+  return '<div class="mg-item' + (full ? ' full' : '') + '"><div class="mg-label">' + label + '</div><div class="mg-value">' + value + '</div></div>';
+}
+
+function showDetailModalContent(titleHtml, bodyHtml) {
+  $('detailModal').classList.add('show');
+  $('modalTitle').innerHTML = titleHtml;
+  $('modalBody').innerHTML = bodyHtml;
+}
+
+function showDetailModal(type, idx) {
+  if (type === 'consulta') showConsultaModal(idx);
+  else if (type === 'lab') showLabModal(idx);
+  else if (type === 'img') showImgModal(idx);
+}
+
+function closeDetailModal() {
+  $('detailModal').classList.remove('show');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeDetailModal();
+});
+
+// Click outside to close
+$('detailModal') && $('detailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDetailModal();
+});
+
+// ===== PRINT =====
 function printHistory() {
   const content = $('historyContent').innerHTML;
-  if (!content || content.includes('Cargando')) { showToast('Cargue una historia clinica primero', 'warning'); return; }
+  if (!content || !historyData) { showToast('Cargue una historia clinica primero', 'warning'); return; }
   const title = $('historyPatientName').textContent;
   const win = window.open('', '_blank');
-  win.document.write('<html><head><title>Historia Clinica - ' + title + '</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
-  win.document.write('<style>body{font-family:"Inter",sans-serif;padding:2rem;color:#2d3748}table{width:100%;border-collapse:collapse;margin:1rem 0}th{background:#f8f9fa;padding:0.75rem;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.8px;color:#0a6c75;border-bottom:3px solid #0a6c75;text-align:left}td{padding:0.75rem;border-bottom:1px solid #dee2e6;font-size:0.9rem}.h-section{border:1px solid #dee2e6;border-radius:8px;margin-bottom:1rem;overflow:hidden}.h-section .h-header{background:#f8f9fa;padding:0.9rem 1.25rem;border-bottom:3px solid #0a6c75;font-weight:700;color:#0a6c75;font-size:0.85rem}.h-section .h-body{padding:1.25rem}.badge-props{display:inline-block;padding:0.25rem 0.85rem;border-radius:50px;font-size:0.75rem;background:#e0f2f4;color:#0a6c75}.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}.grid-item{padding:0.5rem 0}.grid-item .lbl{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;font-weight:600}.grid-item .val{font-size:0.95rem;margin-top:0.15rem;font-weight:500}@media print{body{padding:0.5rem}}</style></head><body>');
-  win.document.write('<div style="text-align:center;margin-bottom:2rem;border-bottom:3px solid #0a6c75;padding-bottom:1rem"><h2 style="color:#0a6c75;margin:0">SOLCA Cloud</h2><p style="color:#6c757d;margin:0">Historia Clinica Consolidada - ' + title + '</p></div>');
-  win.document.write('<div>' + content.replace(/<button[\s\S]*?<\/button>/g, '').replace(/onclick="[^"]*"/g, '').replace(/class="no-print"/g, '') + '</div>');
-  win.document.write('<div style="text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #dee2e6;color:#6c757d;font-size:0.78rem">Documento generado por SOLCA Cloud - ' + new Date().toLocaleString('es-EC') + '</div>');
+  win.document.write('<html><head><title>Historia Clinica - ' + title + '</title>');
+  win.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
+  win.document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">');
+  win.document.write('<style>' +
+    'body{font-family:"Inter","Segoe UI",sans-serif;padding:2rem;color:#2d3748;font-size:12px}' +
+    'table{width:100%;border-collapse:collapse;margin:0.75rem 0;font-size:11px}' +
+    'th{background:#f8f9fa;padding:0.5rem 0.6rem;font-weight:700;color:#0a6c75;border-bottom:2px solid #0a6c75;text-align:left;text-transform:uppercase;font-size:9px;letter-spacing:0.5px}' +
+    'td{padding:0.4rem 0.6rem;border-bottom:1px solid #dee2e6}' +
+    '.patient-card{border:1px solid #dee2e6;border-radius:8px;margin-bottom:0.75rem;overflow:hidden}' +
+    '.patient-card-header{background:#0a6c75;color:#fff;padding:1rem 1.25rem}' +
+    '.patient-card-header h2{margin:0;font-size:1.1rem}' +
+    '.patient-card-body{padding:1rem 1.25rem}' +
+    '.patient-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem}' +
+    '.pg-item{padding:0.25rem 0}' +
+    '.pg-item .pg-label{font-size:9px;text-transform:uppercase;color:#6c757d;font-weight:600}' +
+    '.pg-item .pg-value{font-size:11px;font-weight:500;margin-top:0.1rem}' +
+    '.hist-tabs,.timeline-container,.service-errors,.modal-overlay,.btn{display:none!important}' +
+    '.hist-pane{display:block!important;padding:0.5rem 0}' +
+    '.badge-gen{display:inline-block;padding:0.1rem 0.4rem;border-radius:4px;font-size:9px}' +
+    '.badge-m{background:#dbeafe;color:#1e40af}' +
+    '.badge-f{background:#fce4ec;color:#c62828}' +
+    '.status-completado{background:#d1fae5;color:#065f46}' +
+    '.status-pendiente{background:#fef3c7;color:#92400e}' +
+    '.skeleton{display:none!important}' +
+    'h5{font-size:0.9rem;margin:1rem 0 0.5rem}' +
+    'h6{font-size:0.8rem;margin:0.75rem 0 0.3rem}' +
+    '@media print{body{padding:0.3rem;font-size:10px}}' +
+    '</style></head><body>');
+  win.document.write('<div style="text-align:center;margin-bottom:1rem;border-bottom:2px solid #0a6c75;padding-bottom:0.75rem">' +
+    '<h2 style="color:#0a6c75;margin:0;font-size:1.2rem">SOLCA Cloud - Historia Clinica Consolidada</h2>' +
+    '<p style="color:#6c757d;margin:0.3rem 0 0;font-size:11px">Paciente: ' + title + ' | ' + new Date().toLocaleString('es-EC') + '</p></div>');
+  win.document.write('<div>' + content.replace(/<button[\s\S]*?<\/button>/g, '').replace(/onclick="[^"]*"/g, '') + '</div>');
+  win.document.write('<div style="text-align:center;margin-top:1rem;padding-top:0.5rem;border-top:1px solid #dee2e6;color:#6c757d;font-size:9px">Documento generado por SOLCA Cloud v4.0 - ' + new Date().toLocaleString('es-EC') + '</div>');
   win.document.write('</body></html>');
   win.document.close();
   setTimeout(() => { win.print(); }, 500);
 }
 
+function formatBytes(bytes) {
+  if (!bytes) return '-';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+function calcEdad(fechaNac) {
+  if (!fechaNac) return '-';
+  const nac = new Date(fechaNac + (fechaNac.includes('T') ? '' : 'T00:00:00'));
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nac.getFullYear();
+  const m = hoy.getMonth() - nac.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+  return edad + ' años';
+}
+
 function viewPatientHistory(rid) {
   if (!currentUser) { showToast('Debe iniciar sesion primero', 'warning'); return; }
-  const p=pacientesList.find(x=>x.idPacienteRegional===rid);
-  if(p) { $('historySelected').classList.add('show'); $('historyPatientName').textContent=p.nombres+' '+p.apellidos; $('historyPatientId').textContent=p.idPacienteRegional; switchTab('history'); loadHistory(rid); }
+  const p = pacientesList.find(x => x.idPacienteRegional === rid);
+  if (p) { selectHistoryPatient(p); switchTab('history'); } else { showToast('Paciente no encontrado', 'error'); }
 }
 
 function editPatient(rid) {
@@ -2037,15 +3203,14 @@ function exportRepositorioPDF() {
 
 // SERVICE STATUS
 async function checkServices() {
-  const hn = window.location.hostname;
   const services = [
-    {name:'Pacientes', port:8081, url:`http://${hn}:8081/api/actuator/health`},
-    {name:'Consultas', port:8082, url:`http://${hn}:8082/api/actuator/health`},
-    {name:'Laboratorio', port:8083, url:`http://${hn}:8083/api/actuator/health`},
-    {name:'Imagenologia', port:8084, url:`http://${hn}:8084/api/actuator/health`},
-    {name:'Repositorio', port:8085, url:`http://${hn}:8085/api/actuator/health`},
-    {name:'Seguridad', port:8086, url:`http://${hn}:8086/actuator/health`},
-    {name:'Auditoria', port:8087, url:`http://${hn}:8087/actuator/health`}
+    {name:'Pacientes', port:8081, url:API_BASE + '/api/health/pacientes'},
+    {name:'Consultas', port:8082, url:API_BASE + '/api/health/consultas'},
+    {name:'Laboratorio', port:8083, url:API_BASE + '/api/health/laboratorio'},
+    {name:'Imagenologia', port:8084, url:API_BASE + '/api/health/imagenologia'},
+    {name:'Repositorio', port:8085, url:API_BASE + '/api/health/repositorio'},
+    {name:'Seguridad', port:8086, url:API_BASE + '/api/health/seguridad'},
+    {name:'Auditoria', port:8087, url:API_BASE + '/api/health/auditoria'}
   ];
   const grid = $('servicesGrid');
   grid.innerHTML = services.map(s =>

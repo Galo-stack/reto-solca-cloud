@@ -33,6 +33,9 @@ public class WebClientConfig {
     @Value("${services.imagenologia.url}")
     private String imagenologiaUrl;
 
+    @Value("${services.auditoria.url}")
+    private String auditoriaUrl;
+
     @Bean
     public HttpClient httpClient() {
         return HttpClient.create(
@@ -87,5 +90,10 @@ public class WebClientConfig {
     @Bean
     public WebClient imagenologiaWebClient(WebClient webClient) {
         return webClient.mutate().baseUrl(imagenologiaUrl + "/api").build();
+    }
+
+    @Bean
+    public WebClient auditoriaWebClient(WebClient webClient) {
+        return webClient.mutate().baseUrl(auditoriaUrl + "/api").build();
     }
 }
