@@ -2,6 +2,7 @@ services:
   mysql-seguridad:
     image: mysql:8.0
     container_name: mysql-seguridad
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_seguridad
@@ -21,6 +22,7 @@ services:
   mysql-auditoria:
     image: mysql:8.0
     container_name: mysql-auditoria
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_auditoria
@@ -40,6 +42,7 @@ services:
   mysql-pacientes:
     image: mysql:8.0
     container_name: mysql-pacientes
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_pacientes
@@ -59,6 +62,7 @@ services:
   mysql-consultas:
     image: mysql:8.0
     container_name: mysql-consultas
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_consultas
@@ -78,6 +82,7 @@ services:
   mysql-laboratorio:
     image: mysql:8.0
     container_name: mysql-laboratorio
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_laboratorio
@@ -97,6 +102,7 @@ services:
   mysql-imagenologia:
     image: mysql:8.0
     container_name: mysql-imagenologia
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_imagenologia
@@ -116,6 +122,7 @@ services:
   mysql-repositorio:
     image: mysql:8.0
     container_name: mysql-repositorio
+    command: --innodb-buffer-pool-size=192M --max-connections=20 --performance-schema=OFF
     environment:
       MYSQL_ROOT_PASSWORD: root123
       MYSQL_DATABASE: db_repositorio
@@ -142,6 +149,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
+      JAVA_TOOL_OPTIONS: "-Xmx192m -Xms96m -XX:+UseParallelGC"
     ports:
       - "8081:8081"
     networks:
@@ -160,6 +168,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-consultas:3306/db_consultas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
     ports:
       - "8082:8082"
     networks:
@@ -179,6 +188,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
+      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
     ports:
       - "8083:8083"
     networks:
@@ -198,6 +208,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
+      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
     ports:
       - "8084:8084"
     networks:
@@ -221,6 +232,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
+      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
     ports:
       - "8085:8085"
     networks:
@@ -247,6 +259,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-seguridad:3306/db_seguridad?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      JAVA_TOOL_OPTIONS: "-Xmx192m -Xms96m -XX:+UseParallelGC"
     ports:
       - "8086:8086"
     networks:
@@ -265,6 +278,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-auditoria:3306/db_auditoria?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
+      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
     ports:
       - "8087:8087"
     networks:

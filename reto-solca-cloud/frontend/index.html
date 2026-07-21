@@ -1387,289 +1387,23 @@ function renderPatientsTable() {
 async function loadPatients() { await loadPatientsList(); renderPatientsTable(); }
 
 
-// ECUADOR ADMINISTRATIVE DIVISIONS DATA
-var ECUADOR = {
-  "AZUAY": {
-    "nombre": "Azuay",
-    "cantones": {
-      "CUENCA": {
-        "nombre": "Cuenca",
-        "parroquias": ["Bellavista","Cañaribamba","El Batán","El Sagrario","El Vecino","Gil Ramírez Dávalos","Hermano Miguel","Huayna Cápac","Machángara","Monay","San Blas","San Sebastián","Sucre","Totoracocha","Yanuncay","Baños","Chiquintad","Checa","Cumbe","Llacao","Molleturo","Nulti","Octavio Cordero","Paccha","Quingeo","Ricaurte","San Joaquín","Santa Ana","Sayausí","Sidcay","Sinincay","Turi","Valle de los Ríos","Victoria del Portete"]
-      },
-      "GIRON": {"nombre":"Girón","parroquias":["Girón","Asunción","San Gerardo"]},
-      "GUALACEO": {"nombre":"Gualaceo","parroquias":["Gualaceo","Chordeleg","Daniel Córdova","Jadán","Mariano Moreno","Principal","Remigio Crespo","San Juan","Zhidmad","Luis Cordero","Simón Bolívar"]},
-      "NABON": {"nombre":"Nabón","parroquias":["Nabón","Cochapata","El Progreso","Las Nieves"]},
-      "PAUTE": {"nombre":"Paute","parroquias":["Paute","Amaluza","Chicán","El Cabo","San Cristóbal","Tomebamba","Dug Dug","Bulán"]},
-      "PUCARA": {"nombre":"Pucará","parroquias":["Pucará","San Miguel de Porotos","San Rafael de Sharug","Uzhcurrumi"]},
-      "SAN_FERNANDO": {"nombre":"San Fernando","parroquias":["San Fernando","Chumblín"]},
-      "SANTA_ISABEL": {"nombre":"Santa Isabel","parroquias":["Santa Isabel","Abdón Calderón","Shaglí","San José de Raranga"]},
-      "SEVILLA_DE_ORO": {"nombre":"Sevilla de Oro","parroquias":["Sevilla de Oro","Amaluza","Palmas"]},
-      "SIGSIG": {"nombre":"Sígsig","parroquias":["Sígsig","Cuchil","Gima","Ludo","San Bartolomé","San José de Raranga"]},
-      "CAMILO_PONCE": {"nombre":"Camilo Ponce Enríquez","parroquias":["Camilo Ponce Enríquez","El Carmen"]},
-      "CHORDELEG": {"nombre":"Chordeleg","parroquias":["Chordeleg","Principal","La Unión"]},
-      "EL_PAN": {"nombre":"El Pan","parroquias":["El Pan","San Vicente"]},
-      "GUACHAPALA": {"nombre":"Guachapala","parroquias":["Guachapala"]},
-      "OÑA": {"nombre":"Oña","parroquias":["Oña","San Felipe"]}
-    }
-  },
-  "BOLIVAR": {"nombre":"Bolívar","cantones":{
-    "GUARANDA": {"nombre":"Guaranda","parroquias":["Guaranda","Ángel Polibio Chaves","Gabriel Ignacio Veintimilla","Guanujo","Julio E. Moreno","Salinas","San Luis de Pambil","San Simón","Simiatug","Turupamba"]},
-    "CALDERON": {"nombre":"Calderón","parroquias":["Calderón","San Pablo","Facundo Vela"]},
-    "CHILLANES": {"nombre":"Chillanes","parroquias":["Chillanes","San José del Tambo"]},
-    "CHIMBO": {"nombre":"Chimbo","parroquias":["Chimbo","Asunción","Magdalena"]},
-    "ECHEANDIA": {"nombre":"Echeandía","parroquias":["Echeandía"]},
-    "SAN_MIGUEL": {"nombre":"San Miguel","parroquias":["San Miguel","Balsapamba","Bilovín","Régulo de Mora","San Pablo","Santiago"]},
-    "CALUMA": {"nombre":"Caluma","parroquias":["Caluma"]},
-    "LAS_NAVES": {"nombre":"Las Naves","parroquias":["Las Naves"]}
-  }},
-  "CAÑAR": {"nombre":"Cañar","cantones":{
-    "AZOGUES": {"nombre":"Azogues","parroquias":["Azogues","Borrero","San Francisco","Guapán","Javier Loyola","Luis Cordero","Pindilig","Rivera","San Miguel","Taday","Cojitambo","Tutor"]},
-    "BIBLIAN": {"nombre":"Biblián","parroquias":["Biblián","Nazón","San Francisco de Sageo","Turupamba"]},
-    "CAÑAR": {"nombre":"Cañar","parroquias":["Cañar","Chontamarca","Chorocopte","Ducaur","Gualleturo","Ingapirca","Juncal","San Antonio","Zhud","Ventura"]},
-    "LA_TRONCAL": {"nombre":"La Troncal","parroquias":["La Troncal","Manuel J. Calle","Pancho Negro"]},
-    "EL_TAMBO": {"nombre":"El Tambo","parroquias":["El Tambo"]},
-    "DELEG": {"nombre":"Déleg","parroquias":["Déleg","Solano"]},
-    "SUSCAL": {"nombre":"Suscal","parroquias":["Suscal"]}
-  }},
-  "CARCHI": {"nombre":"Carchi","cantones":{
-    "TULCAN": {"nombre":"Tulcán","parroquias":["Tulcán","El Carmelo","Julio Andrade","Maldonado","Pioter","Tobar Donoso","Tufiño","Urbina","Santa Martha de Cuba"]},
-    "BOLIVAR": {"nombre":"Bolívar","parroquias":["Bolívar","Los Andes","San Gabriel"]},
-    "ESPEJO": {"nombre":"Espejo","parroquias":["Espejo","El Ángel","El Goaltal","La Libertad","San Isidro"]},
-    "MIRA": {"nombre":"Mira","parroquias":["Mira","Concepción","Jijón y Caamaño"]},
-    "MONTUFAR": {"nombre":"Montúfar","parroquias":["Montúfar","Fernández Salvador","González Suárez","San José"]},
-    "SAN_PEDRO_DE_HUACA": {"nombre":"San Pedro de Huaca","parroquias":["San Pedro de Huaca"]}
-  }},
-  "CHIMBORAZO": {"nombre":"Chimborazo","cantones":{
-    "RIOBAMBA": {"nombre":"Riobamba","parroquias":["Riobamba","Cacha","Calpi","Cubijíes","Flores","Licán","Licto","Pungalá","Quimiag","San Juan","San Luis","Yaruquíes","Veloz"]},
-    "ALAUSI": {"nombre":"Alausí","parroquias":["Alausí","Achupallas","Guasuntos","Huigra","Multitud","Pistishí","Pumallacta","Sevilla","Tixán"]},
-    "COLTA": {"nombre":"Colta","parroquias":["Colta","Cajabamba","Sicalpa","Villa La Unión","Cañi"]},
-    "CHAMBO": {"nombre":"Chambo","parroquias":["Chambo"]},
-    "CHUNCHI": {"nombre":"Chunchi","parroquias":["Chunchi","Capzol","Compud"]},
-    "GUAMOTE": {"nombre":"Guamote","parroquias":["Guamote","Cebadas","Palmira"]},
-    "GUANO": {"nombre":"Guano","parroquias":["Guano","Ilapo","San Andrés","San Gerardo de Pacaicahuán","San Isidro de Patulú","Valparaíso"]},
-    "PALLATANGA": {"nombre":"Pallatanga","parroquias":["Pallatanga"]},
-    "PENIPE": {"nombre":"Penipe","parroquias":["Penipe","Bilbao","El Altar","Matus","Puela","San Antonio de Bayushig"]},
-    "CUMANDA": {"nombre":"Cumandá","parroquias":["Cumandá"]}
-  }},
-  "COTOPAXI": {"nombre":"Cotopaxi","cantones":{
-    "LATACUNGA": {"nombre":"Latacunga","parroquias":["Latacunga","Aláquez","Belisario Quevedo","Guaytacama","Joseguango Bajo","Las Pampas","Mulalillo","Once de Noviembre","Poaló","San Juan de Pastocalle","Tanicuchí","Toacaso","Eloy Alfaro"]},
-    "LA_MANA": {"nombre":"La Maná","parroquias":["La Maná","El Carmen","La Victoria","Las Naves","San Lorenzo"]},
-    "PANGUA": {"nombre":"Pangua","parroquias":["Pangua","El Corazón","Moraspungo","Ramón Campaña"]},
-    "PUJILI": {"nombre":"Pujilí","parroquias":["Pujilí","Angamarca","Chantilín","La Victoria","Pilaló","Tingo"]},
-    "SALCEDO": {"nombre":"Salcedo","parroquias":["Salcedo","Cusubamba","Mulalillo","Mulliquindil","Panquil","San Miguel"]},
-    "SAQUISILI": {"nombre":"Saquisilí","parroquias":["Saquisilí","Canchagua","Chantilín","Cochasquí"]},
-    "SIGCHOS": {"nombre":"Sigchos","parroquias":["Sigchos","Chugchillán","Isinliví","Las Pampas","Palo Quemado","Apagua"]}
-  }},
-  "EL_ORO": {"nombre":"El Oro","cantones":{
-    "MACHALA": {"nombre":"Machala","parroquias":["Machala","La Providencia","El Cambio","Puerto Bolívar","Nueve de Octubre","Jambelí","El Retiro"]},
-    "ARENILLAS": {"nombre":"Arenillas","parroquias":["Arenillas","Chacras","La Libertad","Palmales","Carcabón"]},
-    "ATAHUALPA": {"nombre":"Atahualpa","parroquias":["Atahualpa","Ayapamba","Milagro","San José"]},
-    "BALSAS": {"nombre":"Balsas","parroquias":["Balsas"]},
-    "CHILLA": {"nombre":"Chilla","parroquias":["Chilla"]},
-    "EL_GUABO": {"nombre":"El Guabo","parroquias":["El Guabo","Barbones","La Iberia","Tendales"]},
-    "HUAQUILLAS": {"nombre":"Huaquillas","parroquias":["Huaquillas","El Paraíso"]},
-    "MARCABELI": {"nombre":"Marcabelí","parroquias":["Marcabelí"]},
-    "PASAJE": {"nombre":"Pasaje","parroquias":["Pasaje","Bolívar","Casacay","La Peaña","Mercedes","Progreso","Uzhcurrumi","Santa Rosa"]},
-    "PIÑAS": {"nombre":"Piñas","parroquias":["Piñas","Capiro","La Bocana","Moromoro","Piedras","San Roque","Saracay"]},
-    "PORTOVELO": {"nombre":"Portovelo","parroquias":["Portovelo","Curtincapa","Malingas","Salatí"]},
-    "SANTA_ROSA": {"nombre":"Santa Rosa","parroquias":["Santa Rosa","Bellavista","Jambelí","La Avanzada","San Antonio","Torata","Victoria"]},
-    "ZARUMA": {"nombre":"Zaruma","parroquias":["Zaruma","Abañín","Arcapamba","Guanazán","Güell","Huertas","Malvas","Muluncay","Salvias","Sinsao"]},
-    "LAS_LAJAS": {"nombre":"Las Lajas","parroquias":["Las Lajas","La Victoria","Platanillos","Valle Hermoso"]}
-  }},
-  "ESMERALDAS": {"nombre":"Esmeraldas","cantones":{
-    "ESMERALDAS": {"nombre":"Esmeraldas","parroquias":["Esmeraldas","Ángel Sotomayor","Camarones","Coronel Carlos Concha","Chinca","Majua","Pimpil","San Mateo","Simón Plata Torres","Tabiazo","Vuelta Larga","Tachina"]},
-    "ELOY_ALFARO": {"nombre":"Eloy Alfaro","parroquias":["Eloy Alfaro","Borbón","La Tola","Luis Vargas Torres","Maldonado","Pichimba","Rosa Zarate","San Francisco","Santo Domingo","Valdez"]},
-    "MUISNE": {"nombre":"Muisne","parroquias":["Muisne","Bolívar","Dáule","El Cabo","Galera","Quingue","San Gregorio","Salima","Tongorachí"]},
-    "QUININDE": {"nombre":"Quinindé","parroquias":["Quinindé","Cubita","Chura","Malimpia","Viche","Rosa Zarate"]},
-    "RIOVERDE": {"nombre":"Rioverde","parroquias":["Rioverde","Chontaduro","Chumundé","Lagarto","Montalvo","Rocafuerte"]},
-    "SAN_LOBENZO": {"nombre":"San Lorenzo","parroquias":["San Lorenzo","Alto Tambo","Ancón","Calderón","Carpio","Concepción","San Javier","Santa Rita","Urbina"]},
-    "ATACAMES": {"nombre":"Atacames","parroquias":["Atacames","Súa","Tonchigüe","La Unión"]}
-  }},
-  "GALAPAGOS": {"nombre":"Galápagos","cantones":{
-    "SAN_CRISTOBAL": {"nombre":"San Cristóbal","parroquias":["San Cristóbal","El Progreso","Isla Santa María","Isla Española"]},
-    "ISABELA": {"nombre":"Isabela","parroquias":["Isabela","Tomás de Berlanga","Isla Darwin","Isla Wolf"]},
-    "SANTA_CRUZ": {"nombre":"Santa Cruz","parroquias":["Santa Cruz","Bellavista","Canal de Itabaca","Isla Baltra","Isla Floreana","Isla Genovesa","Isla Marchena","Isla Seymour Norte","Isla Pinta","Isla Rábida"]}
-  }},
-  "GUAYAS": {"nombre":"Guayas","cantones":{
-    "GUAYAQUIL": {"nombre":"Guayaquil","parroquias":["Guayaquil","Ayacucho","Bolívar","Carbo","Febres Cordero","García Moreno","Letamendi","Nueve de Octubre","Olmedo","Roca","Rocafuerte","Sucre","Tarqui","Urdaneta","Ximena","Chongón","Pascuales","El Morro","Puná","Tenguel"]},
-    "ALFREDO_BAQUERIZO": {"nombre":"Alfredo Baquerizo Moreno","parroquias":["Alfredo Baquerizo Moreno"]},
-    "BALAO": {"nombre":"Balao","parroquias":["Balao"]},
-    "BALZAR": {"nombre":"Balzar","parroquias":["Balzar"]},
-    "COLIMES": {"nombre":"Colimes","parroquias":["Colimes"]},
-    "DAULE": {"nombre":"Daule","parroquias":["Daule","La Aurora","Los Lojas"]},
-    "DURAN": {"nombre":"Durán","parroquias":["Durán","El Recreo"]},
-    "EL_EMPALME": {"nombre":"El Empalme","parroquias":["El Empalme","Velasco Ibarra"]},
-    "EL_TRIUNFO": {"nombre":"El Triunfo","parroquias":["El Triunfo"]},
-    "MILAGRO": {"nombre":"Milagro","parroquias":["Milagro","Mariscal Sucre"]},
-    "NARANJAL": {"nombre":"Naranjal","parroquias":["Naranjal","Santa Rosa de Flandes","Taura"]},
-    "NARANJITO": {"nombre":"Naranjito","parroquias":["Naranjito"]},
-    "PALESTINA": {"nombre":"Palestina","parroquias":["Palestina"]},
-    "PEDRO_CARBO": {"nombre":"Pedro Carbo","parroquias":["Pedro Carbo","Valle de la Virgen"]},
-    "SAMBORONDON": {"nombre":"Samborondón","parroquias":["Samborondón","La Puntilla"]},
-    "SANTA_LUCIA": {"nombre":"Santa Lucía","parroquias":["Santa Lucía"]},
-    "SALITRE": {"nombre":"Salitre","parroquias":["El Salitre","La Victoria"]},
-    "SAN_JACINTO": {"nombre":"San Jacinto de Yaguachi","parroquias":["San Jacinto de Yaguachi","Virgen de Fátima"]},
-    "PLAYAS": {"nombre":"Playas","parroquias":["Playas"]},
-    "SIMON_BOLIVAR": {"nombre":"Simón Bolívar","parroquias":["Simón Bolívar"]},
-    "CORONEL_MARCELINO": {"nombre":"Coronel Marcelino Maridueña","parroquias":["Coronel Marcelino Maridueña"]},
-    "LOMAS_DE_SARGENTILLO": {"nombre":"Lomas de Sargentillo","parroquias":["Lomas de Sargentillo"]},
-    "NOBOL": {"nombre":"Nobol","parroquias":["Nobol"]},
-    "ISIDRO_AYORA": {"nombre":"Isidro Ayora","parroquias":["Isidro Ayora"]},
-    "GENERAL_ANTONIO_ELIZALDE": {"nombre":"General Antonio Elizalde","parroquias":["General Antonio Elizalde"]}
-  }},
-  "IMBABURA": {"nombre":"Imbabura","cantones":{
-    "IBARRA": {"nombre":"Ibarra","parroquias":["Ibarra","Alpachaca","Ambuquí","Angochagua","Caranqui","La Dolorosa del Priorato","San Antonio","San Francisco","San Miguel de Urcuquí","El Sagrario"]},
-    "ANTONIO_ANTE": {"nombre":"Antonio Ante","parroquias":["Antonio Ante","Andrade Marín","Atuntaqui","Imbaya","San Francisco de Natabuela","San José de Chaltura"]},
-    "COTACACHI": {"nombre":"Cotacachi","parroquias":["Cotacachi","Apuela","García Moreno","Imantag","Peñaherrera","Playa Rica","Quiroga","San Francisco de Sigüs","Saguangal","6 de Julio de Cuellaje","Vacas Galindo"]},
-    "OTAVALO": {"nombre":"Otavalo","parroquias":["Otavalo","Cotama","Dr. Miguel Egas","Eugenio Espejo","González Suárez","Pataquí","Quinchuquí","San Juan de Ilumán","San Pablo","San Rafael"]},
-    "PIMAMPIRO": {"nombre":"Pimampiro","parroquias":["Pimampiro","Mariano Acosta","San Francisco de Sigsipamba"]},
-    "URCUQUI": {"nombre":"Urcuquí","parroquias":["Urcuquí","Cahuasquí","La Merced de Buenos Aires","Pablo Arenas","San Blas","Tumbabiro"]}
-  }},
-  "LOJA": {"nombre":"Loja","cantones":{
-    "LOJA": {"nombre":"Loja","parroquias":["Loja","Carigán","Chuquiribamba","El Cisne","Gualel","Jimbilla","Malacatos","Quinara","San Lucas","San Pedro de Vilcabamba","Santiago","Taquil","Vilcabamba","El Valle","Sucre","Punzara","El Sagrario","San Sebastián"]},
-    "CALVAS": {"nombre":"Calvas","parroquias":["Calvas","Cariamanga","Colaisaca","El Lucero","Utuana","Sanguillín"]},
-    "CATAMAYO": {"nombre":"Catamayo","parroquias":["Catamayo","El Tambo","Guayquichuma","San Pedro de la Bendita","Zambi"]},
-    "CELICA": {"nombre":"Celica","parroquias":["Celica","Cruzpamba","Pozul","San Juan","Teniente Maximino Rodríguez"]},
-    "CHAGUARPAMBA": {"nombre":"Chaguarpamba","parroquias":["Chaguarpamba","Buenavista","El Rosario","Santa Rufina"]},
-    "ESPINDOLA": {"nombre":"Espíndola","parroquias":["Espíndola","Amaluza","Bellavista","Santa Teresita","Jimbura"]},
-    "GONZANAMA": {"nombre":"Gonzanamá","parroquias":["Gonzanamá","Changaimina","Purunuma","Sacapalca","Nambacola"]},
-    "MACARA": {"nombre":"Macará","parroquias":["Macará","Larama","La Victoria","Sabianago","San Pedro","Yaguachi"]},
-    "PALTAS": {"nombre":"Paltas","parroquias":["Paltas","Catacocha","Cangonamá","Guachinamá","Lauro Guerrero","Mercadillo","Yamana","Tambo"]},
-    "PUYANGO": {"nombre":"Puyango","parroquias":["Puyango","Alamor","Ciano","El Arenal","El Limo","Mercadillo","Vicente Rocafuerte"]},
-    "SARAGURO": {"nombre":"Saraguro","parroquias":["Saraguro","El Paraíso de Celén","La Manzana","Lluzhapa","San Antonio de Cumbaratza","San Pablo de Tenta","San Sebastián de Yuluc","Selva Alegre","Sumaypamba","Tambopamba","Urdaneta"]},
-    "SOZORANGA": {"nombre":"Sozoranga","parroquias":["Sozoranga","Tacamoros","Nueva Fátima"]},
-    "ZAPOTILLO": {"nombre":"Zapotillo","parroquias":["Zapotillo","Cazaderos","Garzareal","Limonplayo","Paletillas","Bolaspamba"]},
-    "PINDAL": {"nombre":"Pindal","parroquias":["Pindal","Chaquinal","Milagros","Pueblo Nuevo"]},
-    "QUILANGA": {"nombre":"Quilanga","parroquias":["Quilanga","Fundochamba","San Antonio"]},
-    "OLMEDO": {"nombre":"Olmedo","parroquias":["Olmedo","La Tingue"]}
-  }},
-  "LOS_RIOS": {"nombre":"Los Ríos","cantones":{
-    "BABAHOYO": {"nombre":"Babahoyo","parroquias":["Babahoyo","Barreiro","Caracol","Febres Cordero","La Unión","Pimocha","Clemente Baquerizo"]},
-    "BABA": {"nombre":"Baba","parroquias":["Baba","Guare","Isla de Bejucal"]},
-    "MONTALVO": {"nombre":"Montalvo","parroquias":["Montalvo"]},
-    "PUEBLOVIEJO": {"nombre":"Puebloviejo","parroquias":["Puebloviejo","San Juan","Puerto Pechiche"]},
-    "QUEVEDO": {"nombre":"Quevedo","parroquias":["Quevedo","San Cristóbal","San José","Guayacán","La Esperanza","Venus del Río Quevedo","Nicolás Infante Díaz","Siete de Octubre","24 de Mayo","Viva Alfaro"]},
-    "URDANETA": {"nombre":"Urdaneta","parroquias":["Urdaneta","Catarama","Ricaurte"]},
-    "VENTANAS": {"nombre":"Ventanas","parroquias":["Ventanas","Zapotal","Quinsaloma","10 de Noviembre"]},
-    "VINCES": {"nombre":"Vinces","parroquias":["Vinces","Palmar de la Virgen","Antonio Sotomayor"]},
-    "PALENQUE": {"nombre":"Palenque","parroquias":["Palenque"]},
-    "BUENA_FE": {"nombre":"Buena Fe","parroquias":["Buena Fe","San Jacinto de Buena Fe","Patricia Pilar"]},
-    "VALENCIA": {"nombre":"Valencia","parroquias":["Valencia"]},
-    "MOCACHE": {"nombre":"Mocache","parroquias":["Mocache"]},
-    "QUINSALOMA": {"nombre":"Quinsaloma","parroquias":["Quinsaloma"]}
-  }},
-  "MANABI": {"nombre":"Manabí","cantones":{
-    "PORTOVIEJO": {"nombre":"Portoviejo","parroquias":["Portoviejo","Abdón Calderón","Alajuela","Calderón","Chirijos","Picoazá","Riocautín","San Plácido","Colón","Pueblo Nuevo","Franco","12 de Marzo","18 de Octubre","Andrés de Vera"]},
-    "BOLIVAR": {"nombre":"Bolívar","parroquias":["Bolívar","Calceta","Quiroga","Membrillo"]},
-    "CHONE": {"nombre":"Chone","parroquias":["Chone","Boyacá","Canuto","Convento","Chibunga","Eloy Alfaro","Ricaurte","San Antonio","San Vicente","Santa Rita"]},
-    "EL_CARMEN": {"nombre":"El Carmen","parroquias":["El Carmen","4 de Diciembre","Wilfrido Loor Moreira","Coronel"]},
-    "FLAVIO_ALFARO": {"nombre":"Flavio Alfaro","parroquias":["Flavio Alfaro","Zapallo","San Francisco de Novillo"]},
-    "JIPIJAPA": {"nombre":"Jipijapa","parroquias":["Jipijapa","América","El Anegado","Julcuy","La Unión","Machalilla","Membrillal","Pedro Pablo Gómez","Puerto de Cayo","San Lorenzo"]},
-    "JUNIN": {"nombre":"Junín","parroquias":["Junín"]},
-    "MANTA": {"nombre":"Manta","parroquias":["Manta","Eloy Alfaro","Los Esteros","San Mateo","Tarqui","San Lorenzo"]},
-    "MONTECRISTI": {"nombre":"Montecristi","parroquias":["Montecristi","Aníbal San Andrés","Colorado","General Eloy Alfaro","La Pila","Leónidas Proaño"]},
-    "PAJAN": {"nombre":"Paján","parroquias":["Paján","Cascol","Campanilla"]},
-    "PICHINCHA": {"nombre":"Pichincha","parroquias":["Pichincha","Barraganete","San Sebastián"]},
-    "ROCAFUERTE": {"nombre":"Rocafuerte","parroquias":["Rocafuerte"]},
-    "SANTA_ANA": {"nombre":"Santa Ana","parroquias":["Santa Ana","Lodana","Santa Ana de Vuelta Larga","Ayacucho","Honorato Vásquez","La Unión"]},
-    "SUCRE": {"nombre":"Sucre","parroquias":["Sucre","Bahía de Caráquez","Canoa","Cojimíes","Charapotó","San Isidro","San Vicente","Tosagua"]},
-    "TOSAGUA": {"nombre":"Tosagua","parroquias":["Tosagua","Bachillero","La Concordia"]},
-    "VEINTICUATRO_DE_MAYO": {"nombre":"24 de Mayo","parroquias":["24 de Mayo","Bellavista","Noboa"]},
-    "PEDERNALES": {"nombre":"Pedernales","parroquias":["Pedernales","Cojimíes","10 de Agosto","Atahualpa"]},
-    "OLMEDO": {"nombre":"Olmedo","parroquias":["Olmedo"]},
-    "PUERTO_LOPEZ": {"nombre":"Puerto López","parroquias":["Puerto López","Machalilla","Salango"]},
-    "JAMA": {"nombre":"Jama","parroquias":["Jama"]},
-    "JARAMIJO": {"nombre":"Jaramijó","parroquias":["Jaramijó"]},
-    "SAN_VICENTE": {"nombre":"San Vicente","parroquias":["San Vicente","Canoa"]}
-  }},
-  "MORONA_SANTIAGO": {"nombre":"Morona Santiago","cantones":{
-    "MORONA": {"nombre":"Morona","parroquias":["Morona","Alshi","General Proaño","San Isidro","Sevilla Don Bosco","Zúñac","Amazoonas","Cuchaentza","Río Blanco","Chiguaza"]},
-    "GUALAQUIZA": {"nombre":"Gualaquiza","parroquias":["Gualaquiza","Amazonas","Bomboiza","Chiguinda","El Rosario","Nueva Tarqui","San Miguel de Cuyes","Shella"]},
-    "LIMON": {"nombre":"Limón Indanza","parroquias":["Limón Indanza","San Miguel de Conchay","Paña","San Antonio","Yunganza"]},
-    "PALORA": {"nombre":"Palora","parroquias":["Palora","Arapicos","Cumandá","Sangay","16 de Agosto"]},
-    "SANTIAGO": {"nombre":"Santiago","parroquias":["Santiago","San José de Morona","Santiago de Méndez","Patuca"]},
-    "SUCUA": {"nombre":"Sucúa","parroquias":["Sucúa","Asunción","La Vieja","Huambi"]},
-    "HUAMBOYA": {"nombre":"Huamboya","parroquias":["Huamboya","Chiguaza"]},
-    "SAN_JUAN_BOSCO": {"nombre":"San Juan Bosco","parroquias":["San Juan Bosco","Pan de Azúcar","San Carlos de Limón","Santiago de Pananza"]},
-    "TAISHA": {"nombre":"Taisha","parroquias":["Taisha","Huasaga","Macuma","Quimi","Tuna"]},
-    "LOGROÑO": {"nombre":"Logroño","parroquias":["Logroño","Yaupi","Shimpis"]},
-    "PABLO_SEXTO": {"nombre":"Pablo Sexto","parroquias":["Pablo Sexto"]},
-    "TIGRE": {"nombre":"Tigre","parroquias":["Tigre"]}
-  }},
-  "NAPO": {"nombre":"Napo","cantones":{
-    "TENA": {"nombre":"Tena","parroquias":["Tena","Ahuano","Archidona","Chontapunta","Puerto Misahuallí","Puerto Napo","Talag","San Juan de Muyuna"]},
-    "ARCHIDONA": {"nombre":"Archidona","parroquias":["Archidona","Cotundo","San Pablo de Ushpayacu"]},
-    "EL_CHACO": {"nombre":"El Chaco","parroquias":["El Chaco","Gonzalo Díaz de Pineda","Linares","Oyacachi","Sardinas","Santa Rosa"]},
-    "QUIJOS": {"nombre":"Quijos","parroquias":["Quijos","Baeza","Cosanga","Cuyuja","Papallacta","San Francisco de Borja","Sumaco"]},
-    "CARLOS_JULIO_AROSEMENA": {"nombre":"Carlos Julio Arosemena Tola","parroquias":["Carlos Julio Arosemena Tola"]}
-  }},
-  "ORELLANA": {"nombre":"Orellana","cantones":{
-    "FRANCISCO_DE_ORELLANA": {"nombre":"Francisco de Orellana","parroquias":["Francisco de Orellana","Dayuma","Taracoa","El Dorado","La Belleza","San Luis de Armenia","Inés Arango","La Joya de los Sachas","Puerto Francisco de Orellana","Loreto","Michellena"]},
-    "LA_JOYA_DE_LOS_SACHAS": {"nombre":"La Joya de los Sachas","parroquias":["La Joya de los Sachas","Enokanqui","San Carlos","Pompeya","San Sebastián del Coca","Lago San Pedro","Rumipamba"]},
-    "LORETO": {"nombre":"Loreto","parroquias":["Loreto","Avila","Puerto Murialdo","San José de Payamino","San Vicente de Huaticocha","El Edén"]},
-    "AGUARICO": {"nombre":"Aguarico","parroquias":["Aguarico","Tiputini","Yasuní","Santa María de Huiririma","Capitán Augusto Rivadeneyra","Cononaco","Nuevo Rocafuerte","Secoya"]}
-  }},
-  "PASTAZA": {"nombre":"Pastaza","cantones":{
-    "PASTAZA": {"nombre":"Pastaza","parroquias":["Pastaza","Canelos","Diez de Agosto","El Triunfo","Fátima","Montalvo","Puyo","Río Corrientes","Río Tigre","San José de Canelos","Santa Clara","Sarayaku","Simón Bolívar","Tarikua","Teniente Hugo Ortiz","Veracruz","Mera"]},
-    "MERA": {"nombre":"Mera","parroquias":["Mera","Shell"]},
-    "SANTA_CLARA": {"nombre":"Santa Clara","parroquias":["Santa Clara"]},
-    "ARAJUNO": {"nombre":"Arajuno","parroquias":["Arajuno","Curaray"]}
-  }},
-  "PICHINCHA": {"nombre":"Pichincha","cantones":{
-    "QUITO": {"nombre":"Quito","parroquias":["Quito","Belisario Quevedo","Carcelén","Centro Histórico","Cotocollao","El Condado","El Inca","Guamaní","Iñaquito","Itchimbía","Jipijapa","Kennedy","La Argelia","La Carolión","La Ecuatoriana","La Ferroviaria","La Libertad","La Magdalena","La Mena","Mariscal Sucre","Ponceano","Puengasí","Quitumbe","Rumipamba","San Bartolo","San Juan","Solanda","Turubamba","Calacalí","Calderón","Conocoto","Cumbayá","Chavezpamba","Checa","El Quinche","Gualea","Guayllabamba","La Merced","Llano Chico","Lloa","Nanegal","Nanegalito","Nayón","Nono","Pacto","Pedregal","Perucho","Pifo","Pintag","Pomasqui","Puembo","Píntag","San Antonio de Pichincha","San José de Minas","Tababela","Tumbaco","Yaruquí","Zambiza","Puerto Quito"]},
-    "CAYAMBE": {"nombre":"Cayambe","parroquias":["Cayambe","Ascázubi","Cangahua","Olmedo","Otón","Santa Rosa de Cusubamba"]},
-    "MEJIA": {"nombre":"Mejía","parroquias":["Mejía","Alóag","Aloasí","El Chaupi","El Corazón","Cutuglagua","Manuel Cornejo Astorga","Tambillo","Uyumbicho"]},
-    "PEDRO_MONCAYO": {"nombre":"Pedro Moncayo","parroquias":["Pedro Moncayo","Tabacundo","La Esperanza","Malchinguí","Tocachi"]},
-    "RUMIÑAHUI": {"nombre":"Rumiñahui","parroquias":["Rumiñahui","Sangolquí","San Pedro de Taboada","San Rafael","Cotogchoa","Rumipamba","La Concordia"]},
-    "SAN_MIGUEL_DE_LOS_BANCOS": {"nombre":"San Miguel de los Bancos","parroquias":["San Miguel de los Bancos","Mindo","Pedro Vicente Maldonado"]},
-    "PEDRO_VICENTE_MALDONADO": {"nombre":"Pedro Vicente Maldonado","parroquias":["Pedro Vicente Maldonado"]},
-    "PUERTO_QUITO": {"nombre":"Puerto Quito","parroquias":["Puerto Quito"]}
-  }},
-  "SANTA_ELENA": {"nombre":"Santa Elena","cantones":{
-    "SANTA_ELENA": {"nombre":"Santa Elena","parroquias":["Santa Elena","Ancón","Atahualpa","Bambayán","Chanduy","Colonche","Jose Luis Tamayo","La Libertad","Salinas","San Pablo","Simón Bolívar","Tabuga"]},
-    "LA_LIBERTAD": {"nombre":"La Libertad","parroquias":["La Libertad"]},
-    "SALINAS": {"nombre":"Salinas","parroquias":["Salinas","Anconcito","José Luis Tamayo","Vicente Rocafuerte"]}
-  }},
-  "SANTO_DOMINGO_TSACHILAS": {"nombre":"Santo Domingo de los Tsáchilas","cantones":{
-    "SANTO_DOMINGO": {"nombre":"Santo Domingo","parroquias":["Santo Domingo","Abraham Calazacón","Bombolí","Chigüilpe","Río Toachi","Río Verde","San Jacinto del Búa","San José de Alluriquín","San Luis de Bamba","Valle Hermoso","Zaracay","Puerto Quito"]},
-    "LA_CONCORDIA": {"nombre":"La Concordia","parroquias":["La Concordia","Monterrey","Las Villegas"]}
-  }},
-  "SUCUMBIOS": {"nombre":"Sucumbíos","cantones":{
-    "LAGO_AGRIO": {"nombre":"Lago Agrio","parroquias":["Lago Agrio","El Eno","General Farfán","Gonzalo Pizarro","Jambelí","Nueva Loja","Pacayacu","Santa Cecilia","Santa Elena","Santo Domingo de los Colorados","Tetuete","Dureno"]},
-    "CASCALES": {"nombre":"Cascales","parroquias":["Cascales","Santa Rosa de Sucumbíos","Sevilla"]},
-    "CUYABENO": {"nombre":"Cuyabeno","parroquias":["Cuyabeno","Tarapoa","Aguarico","Capitán Augusto Rivadeneyra","Puerto Bolívar"]},
-    "GONZALO_PIZARRO": {"nombre":"Gonzalo Pizarro","parroquias":["Gonzalo Pizarro","El Dorado de Cascales","Lumbaqui","Puerto Libre","Santa Rosa de Sucumbíos"]},
-    "PUTUMAYO": {"nombre":"Putumayo","parroquias":["Putumayo","Palma Roja","Puerto El Carmen de Putumayo","San Roque","Santa Elena"]},
-    "SHUSHUFINDI": {"nombre":"Shushufindi","parroquias":["Shushufindi","Enokanqui","Limóncocha","Pañacocha","San Pedro de los Cofanes","San Roque","Siete de Julio"]},
-    "SUCUMBIOS": {"nombre":"Sucumbíos","parroquias":["Sucumbíos","La Bonita","Playas de Cuyabeno","Santa Bárbara"]}
-  }},
-  "TUNGURAHUA": {"nombre":"Tungurahua","cantones":{
-    "AMBATO": {"nombre":"Ambato","parroquias":["Ambato","Ambato (La Matriz)","Atocha-Ficoa","Celiano Monge","Huachi Chico","Huachi Loreto","Ingahurco","Izamba","La Merced","La Península","Martínez","Pasa","Picaihua","Pilotaje","Quisapincha","San Bartolomé de Pinllo","San Fernando","Santa Rosa","Totoras","Unión"]},
-    "BAÑOS": {"nombre":"Baños de Agua Santa","parroquias":["Baños de Agua Santa","Lligua","Río Negro","Río Verde","Ulba"]},
-    "CEVALLOS": {"nombre":"Cevallos","parroquias":["Cevallos"]},
-    "MOCHA": {"nombre":"Mocha","parroquias":["Mocha","Pinguilí"]},
-    "PATATE": {"nombre":"Patate","parroquias":["Patate","El Triunfo","Los Andes","Sucre"]},
-    "QUERO": {"nombre":"Quero","parroquias":["Quero"]},
-    "SAN_PEDRO_DE_PELILEO": {"nombre":"San Pedro de Pelileo","parroquias":["San Pedro de Pelileo","Benza","Chiquicha","El Rosario","Huambaló","Salasaca"]},
-    "SANTIAGO_DE_PILLARO": {"nombre":"Santiago de Píllaro","parroquias":["Santiago de Píllaro","Baquerizo Moreno","Emilio María Terán","Marcos Espinel","Presidente Urbina","San Miguelito","San Andrés"]},
-    "TISALEO": {"nombre":"Tisaleo","parroquias":["Tisaleo"]}
-  }},
-  "ZAMORA_CHINCHIPE": {"nombre":"Zamora Chinchipe","cantones":{
-    "ZAMORA": {"nombre":"Zamora","parroquias":["Zamora","Cumbaratza","Guadalupe","Imbana","Paquishapa","Sabanilla","San Antonio","San Carlos de las Minas","Timbara","Zumbi"]},
-    "CHINCHIPE": {"nombre":"Chinchipe","parroquias":["Chinchipe","Chito","El Chorro","La Unión","Palanda","Pucapamba","San Andrés","Zumba"]},
-    "NANGARITZA": {"nombre":"Nangaritza","parroquias":["Nangaritza","Gualaquiza","Zurmi"]},
-    "YACUAMBI": {"nombre":"Yacuambi","parroquias":["Yacuambi","La Paz","Tutupali"]},
-    "YANTZAZA": {"nombre":"Yantzaza","parroquias":["Yantzaza","Chicaña","El Pangui","Los Encuentros","Zumbi"]},
-    "EL_PANGUI": {"nombre":"El Pangui","parroquias":["El Pangui","El Guismi","Tundayme"]},
-    "ZUMBI": {"nombre":"Zumbi","parroquias":["Zumbi"]},
-    "CENTINELA_DEL_CONDOR": {"nombre":"Centinela del Cóndor","parroquias":["Centinela del Cóndor","Zumbi"]},
-    "PALANDA": {"nombre":"Palanda","parroquias":["Palanda","El Porvenir del Carmen","San Francisco del Vergel","Valladolid"]},
-    "PAQUISHA": {"nombre":"Paquisha","parroquias":["Paquisha","Bellavista","Nuevo Quito"]}
-  }}
-};
+// ECUADOR ADMINISTRATIVE DIVISIONS DATA (lazy loaded from data/ecuador.json)
+var ECUADOR = null;
+var ECUADOR_PROMISE = null;
+function ensureEcuadorData() {
+  if (ECUADOR) return Promise.resolve(ECUADOR);
+  if (!ECUADOR_PROMISE) {
+    ECUADOR_PROMISE = fetch('data/ecuador.json')
+      .then(function(r) { if (!r.ok) throw new Error('Failed to load Ecuador data'); return r.json(); })
+      .then(function(data) { ECUADOR = data; return data; })
+      .catch(function(err) { ECUADOR_PROMISE = null; throw err; });
+  }
+  return ECUADOR_PROMISE;
+}
 
 
-function cargarCantones(prefix, provinciaKey) {
+async function cargarCantones(prefix, provinciaKey) {
+  await ensureEcuadorData();
   const cantonSel = $(prefix + 'Canton');
   const parrSel = $(prefix + 'Parroquia');
   cantonSel.innerHTML = '<option value="">Seleccione...</option>';
@@ -1681,7 +1415,8 @@ function cargarCantones(prefix, provinciaKey) {
   });
 }
 
-function cargarParroquias(prefix, cantonKey) {
+async function cargarParroquias(prefix, cantonKey) {
+  await ensureEcuadorData();
   const parrSel = $(prefix + 'Parroquia');
   parrSel.innerHTML = '<option value="">Seleccione...</option>';
   const provSel = $(prefix + 'Provincia');
@@ -1693,7 +1428,8 @@ function cargarParroquias(prefix, cantonKey) {
 }
 
 
-function cargarCantonesEdit(provinciaKey) {
+async function cargarCantonesEdit(provinciaKey) {
+  await ensureEcuadorData();
   var cantonSel = $('epCanton');
   var parrSel = $('epParroquia');
   cantonSel.innerHTML = '<option value="">Seleccione...</option>';
@@ -1704,7 +1440,8 @@ function cargarCantonesEdit(provinciaKey) {
     cantonSel.innerHTML += '<option value="' + k + '">' + cantones[k].nombre + '</option>';
   });
 }
-function cargarParroquiasEdit(cantonKey) {
+async function cargarParroquiasEdit(cantonKey) {
+  await ensureEcuadorData();
   var parrSel = $('epParroquia');
   parrSel.innerHTML = '<option value="">Seleccione...</option>';
   var provSel = $('epProvincia');
@@ -1714,7 +1451,8 @@ function cargarParroquiasEdit(cantonKey) {
   });
 }
 
-function openPatientModal() {
+async function openPatientModal() {
+  await ensureEcuadorData();
   const html =
     '<div class="modal fade" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header" style="background:var(--primary-gradient);color:#fff"><h5 class="modal-title"><i class="bi bi-person-badge"></i> Registro de Paciente</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body">' +
     '<div class="form-section-title"><i class="bi bi-info-circle"></i> Informacion Personal</div>' +
@@ -1763,6 +1501,7 @@ function openPatientModal() {
 }
 
 async function savePatient() {
+  await ensureEcuadorData();
   const n=$('pNombres').value.trim(), a=$('pApellidos').value.trim(), c=$('pCedula').value.trim(), f=$('pFechaNac').value, g=$('pGenero').value;
   if (!n||!a||!c||!f) { showToast('Complete los campos obligatorios (*)','warning'); return; }
   if (!/^\d{10}$/.test(c)) { showToast('Cedula debe tener 10 digitos validos','warning'); return; }
@@ -2777,7 +2516,8 @@ function viewPatientHistory(rid) {
   if (p) { selectHistoryPatient(p); switchTab('history'); } else { showToast('Paciente no encontrado', 'error'); }
 }
 
-function editPatient(rid) {
+async function editPatient(rid) {
+  await ensureEcuadorData();
   const p = pacientesList.find(x => x.idPacienteRegional === rid);
   if (!p) { showToast('Paciente no encontrado', 'error'); return; }
   const ap = p.antecedentesPersonales || {};
@@ -2823,6 +2563,7 @@ function editPatient(rid) {
 function escHtml(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 async function saveEditPatient() {
+  await ensureEcuadorData();
   const rid = $('epRegionalId').value;
   if (!confirm('Seguro que quiere hacer cambios al paciente ' + rid + '?')) return;
   const n=$('epNombres').value.trim(), a=$('epApellidos').value.trim(), c=$('epCedula').value.trim(), f=$('epFechaNac').value, g=$('epGenero').value;
