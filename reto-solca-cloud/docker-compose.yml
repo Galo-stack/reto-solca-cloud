@@ -149,7 +149,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
-      JAVA_TOOL_OPTIONS: "-Xmx192m -Xms96m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx512m -Xms256m -XX:+UseParallelGC"
     ports:
       - "8081:8081"
     networks:
@@ -168,7 +168,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-consultas:3306/db_consultas?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
-      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms192m -XX:+UseParallelGC"
     ports:
       - "8082:8082"
     networks:
@@ -188,7 +188,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
-      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms192m -XX:+UseParallelGC"
     ports:
       - "8083:8083"
     networks:
@@ -208,7 +208,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
-      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms192m -XX:+UseParallelGC"
     ports:
       - "8084:8084"
     networks:
@@ -232,7 +232,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
-      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms192m -XX:+UseParallelGC"
     ports:
       - "8085:8085"
     networks:
@@ -259,7 +259,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-seguridad:3306/db_seguridad?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
-      JAVA_TOOL_OPTIONS: "-Xmx192m -Xms96m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx512m -Xms256m -XX:+UseParallelGC"
     ports:
       - "8086:8086"
     networks:
@@ -278,7 +278,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-auditoria:3306/db_auditoria?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root123
-      JAVA_TOOL_OPTIONS: "-Xmx128m -Xms64m -XX:+UseParallelGC"
+      JAVA_TOOL_OPTIONS: "-Xmx384m -Xms192m -XX:+UseParallelGC"
     ports:
       - "8087:8087"
     networks:
