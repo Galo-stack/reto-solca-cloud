@@ -1,0 +1,8 @@
+ALTER TABLE pacientes
+    ADD COLUMN seguro_salud VARCHAR(30) DEFAULT NULL,
+    ADD COLUMN provincia VARCHAR(100) DEFAULT NULL,
+    ADD COLUMN canton VARCHAR(100) DEFAULT NULL,
+    ADD COLUMN parroquia VARCHAR(100) DEFAULT NULL,
+    ADD COLUMN nacionalidad VARCHAR(50) DEFAULT 'Ecuatoriana',
+    ADD COLUMN usuario_creacion VARCHAR(50) DEFAULT NULL,
+    ADD COLUMN usuario_modificacion VARCHAR(50) DEFAULT NULL;

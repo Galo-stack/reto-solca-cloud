@@ -72,6 +72,28 @@ public class Paciente {
     @Column(name = "contacto_emergencia", columnDefinition = "TEXT")
     private String contactoEmergencia;
 
+    @Column(name = "seguro_salud", length = 30)
+    private String seguroSalud;
+
+    @Column(name = "provincia", length = 100)
+    private String provincia;
+
+    @Column(name = "canton", length = 100)
+    private String canton;
+
+    @Column(name = "parroquia", length = 100)
+    private String parroquia;
+
+    @Column(name = "nacionalidad", length = 50)
+    @Builder.Default
+    private String nacionalidad = "Ecuatoriana";
+
+    @Column(name = "usuario_creacion", length = 50)
+    private String usuarioCreacion;
+
+    @Column(name = "usuario_modificacion", length = 50)
+    private String usuarioModificacion;
+
     @Column(name = "fecha_registro")
     @CreationTimestamp
     private LocalDateTime fechaRegistro;

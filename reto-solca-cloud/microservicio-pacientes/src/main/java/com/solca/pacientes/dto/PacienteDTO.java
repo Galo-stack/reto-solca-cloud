@@ -42,5 +42,12 @@ public class PacienteDTO {
     private Object antecedentesPersonales;
     private Object antecedentesFamiliares;
     private Object contactoEmergencia;
+    private String seguroSalud;
+    private String provincia;
+    private String canton;
+    private String parroquia;
+    private String nacionalidad;
+    private String usuarioCreacion;
+    private String usuarioModificacion;
     private List<HistoriaLocalDTO> historiasLocales;
 }

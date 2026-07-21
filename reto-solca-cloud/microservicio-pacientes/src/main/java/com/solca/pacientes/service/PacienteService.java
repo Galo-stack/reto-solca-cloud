@@ -53,6 +53,12 @@ public class PacienteService {
                 .antecedentesPersonales(toJsonString(dto.getAntecedentesPersonales()))
                 .antecedentesFamiliares(toJsonString(dto.getAntecedentesFamiliares()))
                 .contactoEmergencia(toJsonString(dto.getContactoEmergencia()))
+                .seguroSalud(dto.getSeguroSalud())
+                .provincia(dto.getProvincia())
+                .canton(dto.getCanton())
+                .parroquia(dto.getParroquia())
+                .nacionalidad(dto.getNacionalidad() != null ? dto.getNacionalidad() : "Ecuatoriana")
+                .usuarioCreacion(dto.getUsuarioCreacion())
                 .activo(true)
                 .build();
 
@@ -101,6 +107,12 @@ public class PacienteService {
         paciente.setAntecedentesPersonales(toJsonString(dto.getAntecedentesPersonales()));
         paciente.setAntecedentesFamiliares(toJsonString(dto.getAntecedentesFamiliares()));
         paciente.setContactoEmergencia(toJsonString(dto.getContactoEmergencia()));
+        paciente.setSeguroSalud(dto.getSeguroSalud());
+        paciente.setProvincia(dto.getProvincia());
+        paciente.setCanton(dto.getCanton());
+        paciente.setParroquia(dto.getParroquia());
+        paciente.setNacionalidad(dto.getNacionalidad());
+        paciente.setUsuarioModificacion(dto.getUsuarioModificacion());
 
         Paciente saved = pacienteRepository.save(paciente);
         log.info("Paciente actualizado: {}", saved.getIdPacienteRegional());
@@ -126,6 +138,13 @@ public class PacienteService {
                 .antecedentesPersonales(fromJsonString(p.getAntecedentesPersonales()))
                 .antecedentesFamiliares(fromJsonString(p.getAntecedentesFamiliares()))
                 .contactoEmergencia(fromJsonString(p.getContactoEmergencia()))
+                .seguroSalud(p.getSeguroSalud())
+                .provincia(p.getProvincia())
+                .canton(p.getCanton())
+                .parroquia(p.getParroquia())
+                .nacionalidad(p.getNacionalidad())
+                .usuarioCreacion(p.getUsuarioCreacion())
+                .usuarioModificacion(p.getUsuarioModificacion())
                 .build();
     }
 
